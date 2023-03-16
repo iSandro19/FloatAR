@@ -1,0 +1,199 @@
+\documentclass[a4paper,openright,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage[mathscr]{eucal}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{afterpage}
+\usepackage{vmargin}
+\usepackage[spanish]{babel}
+\usepackage{eurosym} 
+\usepackage{multirow} 
+\usepackage{cite}
+\usepackage{url}
+
+\setpapersize{A4} %  DIN A4
+\setmargins{3cm}  % margen izquierdo
+{3.5cm}           % margen superior
+{15cm}            % anchura del texto
+{22.5cm}          % altura del texto
+{10pt}            % altura de los encabezados
+{1cm}             % espacio entre el texto y los encabezados
+{0pt}             % altura del pie de página
+{2cm}             % espacio entre el texto y el pie de página
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+\vspace*{-1in}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=8cm]{udc.eps}
+\end{center}
+\end{figure}
+
+\vspace*{1in}
+PROGRAMACIÓN DE SISTEMAS 22/23 Q2\\
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=8cm]{icono.png}
+\end{center}
+\end{figure}
+\begin{Large}
+\textbf{FloatAR} \\
+\end{Large}
+
+\vspace*{1.5in}
+
+\begin{large}
+\raggedleft
+\textbf{Autores:}
+{Antonio Vila Leis - antonio.vila@udc.es\\Hugo Sanjiao Varela - h.sanjiao@udc.es\\Breogán Fernández Moreira - breogan.fernandez@udc.es\\Óscar Alejandro Manteiga Seoane - oscar.manteiga@udc.es\\}
+
+\vspace{1in}
+
+\textbf{Fecha:}\textit{ A Coruña, 16 Marzo 2023}\\
+\end{large}
+
+\end{center}
+\end{titlepage} 
+
+\newpage
+
+\addtocontents{toc}{\hspace{-7.5mm} \textbf{Capítulos}}
+\addtocontents{toc}{\hfill \textbf{Página} \par}
+\addtocontents{toc}{\vspace{-2mm} \hspace{-7.5mm} \hrule \par}
+
+\pagenumbering{empty}
+
+\tableofcontents
+
+\vspace{5cm}
+
+\begin{flushright}
+\begin{table}[hbtp]
+\begin{center}
+
+\caption{Tabla de versiones.}
+\label{tabla:versiones}
+\small
+\vspace{1ex}
+
+\begin{tabular}{|c|c|l|}
+\hline
+Versión & Fecha & Autor \\
+\hline \hline
+1 & 16 de marzo de 2023 & Antonio | Hugo | Breogán | Óscar\\ \hline
+\end{tabular}
+
+\end{center}
+\end{table}
+\end{flushright}
+
+
+\newpage
+\pagenumbering{arabic}
+
+
+%%%%%%%
+%%%%%%%
+\section{Introducción}\label{cap.introduccion}
+La aplicación FloatAR es una aplicación de realidad aumentada para el juego hundir la flota en dispositivos Android. Esta aplicación utiliza la API ARCore y se desarrollará para un trabajo de clase de la asignatura Programación de Sistemas en un grupo de 4 personas.
+%%
+\subsection{Objetivos}
+El objetivo principal de FloatAR es proporcionar una experiencia de juego más inmersiva para los usuarios utilizando la tecnología de realidad aumentada. Los objetivos secundarios incluyen:
+\begin{itemize}
+\item Crear una interfaz de usuario intuitiva para que los usuarios puedan jugar hundir la flota en realidad aumentada.
+\item Implementar una detección precisa de la ubicación de los barcos en el mundo real utilizando la API ARCore.
+\item Integrar un sistema de puntuación y registro de puntuación para los usuarios.
+\item Proporcionar opciones de personalización para la apariencia de los barcos y los efectos visuales en la aplicación.
+\end{itemize}
+%%
+\subsection{Motivación}
+La tecnología de realidad aumentada ha ganado popularidad en los últimos años y se está utilizando cada vez más en juegos y aplicaciones. El uso de la realidad aumentada en juegos como hundir la flota puede proporcionar una experiencia de juego más inmersiva y emocionante para los usuarios. La aplicación FloatAR también puede ser aplicable en otros juegos que requieren ubicación precisa en el mundo real.
+
+%%
+\subsection{Trabajo relacionado}
+Hay otras aplicaciones de realidad aumentada para juegos, como Pokémon Go y Ingress, que utilizan la tecnología de realidad aumentada para crear una experiencia de juego más inmersiva. Sin embargo, FloatAR se centrará específicamente en el juego hundir la flota y proporcionará una detección más precisa de los barcos utilizando la API ARCore.
+
+%%%%%%%
+%%%%%%%
+\section{Análisis de requisitos}
+Antes de comenzar el desarrollo de la aplicación FloatAR, se debe realizar un análisis preliminar de los requisitos. Esto ayudará a definir las funcionalidades clave de la aplicación y establecer prioridades.
+\begin{itemize}
+\item La aplicación debe detectar con precisión la ubicación de los barcos en el mundo real utilizando la API ARCore.
+\item La aplicación debe permitir a los usuarios personalizar la apariencia de los barcos y los efectos visuales en la aplicación.
+\item La aplicación debe proporcionar una interfaz de usuario intuitiva para que los usuarios puedan jugar hundir la flota en realidad aumentada.
+\item La aplicación debe implementar un sistema de puntuación y registro de puntuación para los usuarios.
+\end{itemize}
+%%
+\subsection{Funcionalidades}
+\begin{itemize}
+\item Crear un tablero en realidad aumentada que simule el juego Hundir la Flota.
+\item Permitir al usuario colocar sus barcos en el tablero virtual mediante gestos en pantalla.
+\item Implementar un sistema de detección de colisiones para asegurar que los barcos no se superpongan en el tablero virtual.
+\item Implementar un sistema de juego en el que el usuario pueda disparar a los barcos del adversario y viceversa.
+\item Mostrar la puntuación y el estado del juego en tiempo real.
+\item Implementar un sistema de animación para mostrar la explosión de los barcos.
+\item Permitir al usuario personalizar el aspecto de los barcos.
+\end{itemize}
+%%
+\subsection{Prioridades}
+\begin{itemize}
+\item Crear un tablero en realidad aumentada que simule el juego Hundir la Flota. (Core).
+\item Permitir al usuario colocar sus barcos en el tablero virtual mediante gestos en pantalla. (Core).
+\item Implementar un sistema de detección de colisiones para asegurar que los barcos no se superpongan en el tablero virtual. (Core).
+\item Implementar un sistema de juego en el que el usuario pueda disparar a los barcos del adversario y viceversa. (Core).
+\item Mostrar la puntuación y el estado del juego en tiempo real. (Accesorio).
+\item Implementar un sistema de animación para mostrar la explosión de los barcos. (Accesorio).
+\item Permitir al usuario personalizar el aspecto de los barcos. (Accesorio).
+\end{itemize}
+
+%%%%%%%
+%%%%%%%
+\section{Planificación inicial}
+En esta sección se establecerá una planificación muy simple y básica del proyecto, definiendo las iteraciones, responsabilidades, hitos y entregables.
+%%
+\subsection{Iteraciones}
+\begin{itemize}
+\item Implementación del tablero virtual y del sistema de colocación de barcos (2 semanas).
+\item Implementación del sistema de detección de colisiones y del sistema de juego (4 semanas).
+\item Implementación de las funcionalidades accesorias (2 semanas).
+\end{itemize}
+%%
+\subsection{Responsabilidades}
+\begin{itemize}
+\item Desarrollo del tablero virtual y del sistema de colocación de barcos: Persona 1.
+\item Desarrollo del sistema de detección de colisiones y del sistema de juego: Persona 2 y Persona 3.
+\item Desarrollo de las funcionalidades accesorias: Persona 4.
+\end{itemize}
+%%
+\subsection{Hitos}
+\begin{itemize}
+\item Entrega de la primera versión funcional del tablero virtual y del sistema de colocación de barcos
+\item Entrega de la segunda versión funcional del sistema de detección de colisiones y del sistema de juego
+\item Entrega de la versión final de la aplicación, incluyendo todas las funcionalidades accesorias
+\end{itemize}
+%%
+\subsection{Incidencias}
+Posibles incidencias y planes de contingencia:
+En caso de problemas durante el desarrollo, se realizarán pruebas de validación antes de cada iteración para asegurar el correcto funcionamiento de la aplicación. En caso de encontrar problemas, se buscarán alternativas y soluciones en conjunto con todo el equipo.
+
+%%%%%%%
+%%%%%%%
+\section{Diseño}
+Para el diseño de la aplicación FloatAR, se propone una arquitectura basada en actividades, fragmentos y servicios, utilizando la API ARCore para la implementación de la realidad aumentada. La aplicación constará de varias pantallas y funcionalidades, incluyendo la selección del modo de juego (un jugador o multijugador), la colocación de los barcos en la cuadrícula mediante la cámara del dispositivo, el juego en sí, la detección y visualización de los resultados y la gestión de los datos de los jugadores.
+
+La persistencia se gestionará mediante el almacenamiento en una base de datos local, en la que se guardarán los datos de los jugadores, sus puntuaciones y los detalles de los barcos colocados. Para la vista se utilizarán fragmentos para representar las diferentes pantallas, y se implementará un sistema de navegación para permitir a los usuarios moverse entre ellas de forma intuitiva.
+
+Para la comunicación con otros dispositivos y servidores, se utilizarán servicios y sockets, lo que permitirá la implementación del modo multijugador. Además, se utilizarán sensores como la cámara del dispositivo para la detección y colocación de los barcos, y se implementará un servicio en segundo plano para gestionar la lógica del juego y los eventos en tiempo real.
+
+\bibliographystyle{pfc-fic}
+\bibliography{biblio}
+\addcontentsline{toc}{section}{Bibliografía}
+
+\end{document}
