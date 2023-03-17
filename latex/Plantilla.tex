@@ -1,0 +1,253 @@
+\documentclass[a4paper, openright, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage[mathscr]{eucal}
+\usepackage{titling}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{afterpage}
+\usepackage{vmargin}
+\usepackage[spanish]{babel}
+\usepackage{eurosym} 
+\usepackage{multirow} 
+\usepackage{cite}
+\usepackage{url}
+
+\setpapersize{A4} %  DIN A4
+\setmargins{3cm}  % margen izquierdo
+{3.5cm}           % margen superior
+{15cm}            % anchura del texto
+{22.5cm}          % altura del texto
+{10pt}            % altura de los encabezados
+{1cm}             % espacio entre el texto y los encabezados
+{0pt}             % altura del pie de página
+{2cm}             % espacio entre el texto y el pie de página
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+\vspace*{-1in}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=8cm]{udc.eps}
+\end{center}
+\end{figure}
+
+\vspace*{1in}
+PROGRAMACIÓN DE SISTEMAS 22/23 Q2\\
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=8cm]{icono.png}
+\end{center}
+\end{figure}
+\begin{Large}
+\textbf{FloatAR} \\
+\end{Large}
+
+\vspace*{1.5in}
+
+\begin{large}
+\raggedleft
+\textbf{Autores:}
+{Antonio Vila Leis - antonio.vila@udc.es\\Hugo Sanjiao Varela - h.sanjiao@udc.es\\Breogán Fernández Moreira - breogan.fernandez@udc.es\\Óscar Alejandro Manteiga Seoane - oscar.manteiga@udc.es\\}
+
+\vspace{1in}
+
+\textbf{Fecha:}\textit{ A Coruña, 16 Marzo 2023}\\
+\end{large}
+
+\end{center}
+\end{titlepage} 
+
+\newpage
+
+\addtocontents{toc}{\hspace{-7.5mm} \textbf{Capítulos}}
+\addtocontents{toc}{\hfill \textbf{Página} \par}
+\addtocontents{toc}{\vspace{-2mm} \hspace{-7.5mm} \hrule \par}
+
+\pagenumbering{empty}
+
+\tableofcontents
+
+\vspace{5cm}
+
+\begin{flushright}
+\begin{table}[hbtp]
+\begin{center}
+
+\caption{Tabla de versiones.}
+\label{tabla:versiones}
+\small
+\vspace{1ex}
+
+\begin{tabular}{|c|c|l|}
+\hline
+Versión & Fecha & Autor \\
+\hline \hline
+1 & 16 de marzo de 2023 & Antonio | Hugo | Breogán | Óscar\\ \hline
+\end{tabular}
+
+\end{center}
+\end{table}
+\end{flushright}
+
+\pagenumbering{arabic}
+\newpage
+
+%%%%%%%
+%%%%%%%
+\section{Introducción}\label{cap.introduccion}
+La aplicación FloatAR es una aplicación de realidad aumentada para el juego hundir la flota en dispositivos Android. Esta aplicación utiliza la API ARCore y se desarrollará para un trabajo de clase de la asignatura Programación de Sistemas en un grupo de 4 personas. El juego podrá ser utilizado de forma estándar o con el uso del modo de realidad aumentada.
+%%
+\subsection{Objetivos}
+El objetivo principal de FloatAR es proporcionar una experiencia de juego más inmersiva para los usuarios utilizando la tecnología de realidad aumentada. Esta tecnología no está muy expandida en las aplicaciones de Android, pero aun menos en los videojuegos, por lo que otro objetivo implícito podría ser la investigación de esta tecnología. Los objetivos secundarios incluyen:
+\begin{itemize}
+    \item Crear una interfaz de usuario intuitiva para que los usuarios puedan jugar hundir la flota en realidad aumentada.
+    \item Implementar una detección precisa de la ubicación de los objetos en donde poder utilizar el juego utilizando la API ARCore \cite{ARCore}.
+    \item Integrar un sistema de puntuación y registro de puntuación para los usuarios.
+    \item Proporcionar personalización de la flota y el tablero de juego (por confirmar).
+\end{itemize}
+%%
+\subsection{Motivación}
+La tecnología de realidad aumentada ha ganado popularidad en los últimos años y se está utilizando cada vez más en juegos y aplicaciones. El uso de la realidad aumentada en juegos como hundir la flota puede proporcionar una experiencia de juego más inmersiva y emocionante para los usuarios. A mayores, la investigación e implementación de esta tecnología en juegos es un apartado que nos produce gran interés, ya que no está muy extendida y creemos que será muy usada en el futuro. La aplicación FloatAR también puede ser aplicable en otros juegos que requieren que ambos jugadores (o más de 2) no puedan ver lo que ven los demás. Esto hace que en un futuro próximo podamos expandir el juego si es necesario.
+
+%%
+\subsection{Trabajo relacionado}
+Hay otras aplicaciones de realidad aumentada para juegos, como Pokémon Go (Niantic) \cite{PokemonGO}, la aplicación más exitosa que implementa realidad aumentada (y una de las más exitosas a nivel de aplicación general) que utilizan esta tecnología para crear una experiencia de juego más inmersiva. Otros ejemplos son Angry Birds AR: Isle of Pigs (Rovio Enterteinment) \cite{AngryBirds}, Jurassic World Alive (Ludia Inc.) \cite{JurassicWorld}, Harry Potter: Wizards Unite (Niantic) \cite{HarryPotter}, Minecraft Earth (Mojang) \cite{MinecraftEarth}... Todas ellas implementan la RA, pero de formas muy distintas:
+\begin{itemize}
+    \item Pokemon GO, Jurassic World Alive y Harry Potter: Wizards Unite la usan para mostrar sus Pokemons, dinosaurios o entidades fantásticas.
+    \item Minecraft Earth la usa para mostrar su mundo en nuestra habitaciones o espacios de la vida real a través de la cámara.
+    \item Angry Birds AR: Isle of Pigs y nuestra aplicación FloatAR la usan para mostrar el espacio de juego en la vida real para ver como se desarrolla el evento.
+\end{itemize}
+
+%%%%%%%
+%%%%%%%
+\section{Análisis de requisitos}
+Antes de comenzar el desarrollo de la aplicación FloatAR, se debe realizar un análisis preliminar de los requisitos. Esto ayudará a definir las funcionalidades clave de la aplicación y establecer prioridades.
+\begin{itemize}
+    \item La aplicación debe detectar con precisión la ubicación de los objetos en el mundo real para usar de tablero utilizando la API ARCore \cite{ARCore}.
+    \item La aplicación debe permitir a los usuarios comunicarse por internet para poder jugar juntos.
+    \item La aplicación debe proporcionar una interfaz de usuario intuitiva para que los usuarios puedan jugar hundir la flota en realidad aumentada.
+    \item La aplicación debe implementar un sistema de puntuación y registro de puntuación para los usuarios.
+\end{itemize}
+%%
+\subsection{Funcionalidades}
+\begin{itemize}
+    \item Tablero en realidad aumentada que simule el juego Hundir la Flota.
+    \item Colocar barcos en el tablero virtual mediante gestos en pantalla.
+    \item Sistema de detección de colisiones para asegurar que los barcos no se superpongan en el tablero virtual.
+    \item Sistema de juego en el que el usuario pueda disparar a los barcos del adversario y viceversa.
+    \item Sistema para detectar victorias y derrotas.
+    \item Puntuación y el estado del juego en tiempo real para ambos jugadores.
+    \item Animación para mostrar la explosión de los barcos.
+    \item Animación para mostrar el lanzamiento de misiles de un lado a otro.
+    \item Personalización del aspecto de los barcos.
+\end{itemize}
+%%
+\subsection{Prioridades}
+\begin{itemize}
+    \item Crear un tablero básico sin ser en realidad aumentada del juego Hundir al Flota. (Core).
+    \item Crear un tablero en realidad aumentada que simule el juego Hundir la Flota. (Core).
+    \item Permitir al usuario colocar sus barcos en el tablero virtual mediante gestos en pantalla. (Core).
+    \item Implementar un sistema de detección de colisiones para asegurar que los barcos no se superpongan en el tablero virtual. (Core).
+    \item Implementar un sistema de juego en el que el usuario pueda disparar a los barcos del adversario y viceversa. (Core).
+    \item Implementar un sistema de detección de victoria y derrotas. (Core).
+    \item Implementar el sistema de comunicación online entre jugadores para sincronizar el juego y las puntuaciones/eventos. (Core).
+    \item Mostrar la puntuación y el estado del juego en tiempo real. (Accesorio).
+    \item Implementar un sistema de animación para mostrar la explosión de los barcos. (Accesorio).
+    \item Implementar un sistema de animación para mostrar el lanzamiento de misiles de un lado a otro. (Accesorio).
+    \item Permitir al usuario personalizar el aspecto de los barcos. (Accesorio).
+\end{itemize}
+
+%%%%%%%
+%%%%%%%
+\section{Planificación inicial}
+En esta sección se establecerá una planificación muy simple y básica del proyecto, definiendo las iteraciones, responsabilidades, hitos y entregables.
+%%
+\subsection{Iteraciones}
+Consideramos 12 semanas para la implementación de las funcionalidades del juego:
+\begin{itemize}
+    \item Crear un tablero básico sin ser en realidad aumentada del juego Hundir al Flota y colocación de barcos. (1 semanas).
+    \item Desarrollo completo de las mecánicas completas del juego (victoria/derrota, daño de barcos, hundimiento, apuntado...). (1 semana).
+    \item Crear un tablero en realidad aumentada que simule el juego Hundir la Flota. (3 semanas).
+    \item Permitir al usuario colocar sus barcos en el tablero virtual de realidad aumentada mediante gestos en pantalla. (1 semana).
+    \item Implementar el sistema de comunicación online entre jugadores para sincronizar el juego y las puntuaciones/eventos. (3 semanas).
+    \item Implementar un sistema de animaciones para mostrar la explosión de los barcos, movimiento del agua y lanzamiento de misiles. (2 semanas).
+    \item Permitir al usuario personalizar el aspecto de los barcos y ajustes/refinamientos pequeños (1 semana)
+\end{itemize}
+%%
+\subsection{Responsabilidades}
+La asignación de cada persona está aun sin asignar, ya que dependerá de la experiencia que tenga cada uno en cada funcionalidad.
+\begin{itemize}
+    \item Desarrollo del tablero básico y virtual, del sistema de colocación de barcos y animaciones: Persona 1 y 2.
+    \item Desarrollo de las mecánicas de juego (victoria/derrota, colisiones, disparos...): Persona 3
+    \item Desarrollo de las funcionalidades accesorias, tests e interfaces de usuario necesarias: Persona 4.
+\end{itemize}
+%%
+\subsection{Hitos}
+\begin{enumerate}
+    \item Entrega de la primera versión de la memoria, con la planificación inicial y requisitos/funcionalidades.
+    \item Entrega de la versión funcional del juego básico (sin RA) y de la primera versión del tablero virtual.
+    \item Entrega de la segunda versión funcional del sistema de detección de colisiones, del sistema de colocación de barcos en RA y del sistema de juego online.
+    \item Entrega de la versión final de la aplicación, incluyendo todas las funcionalidades accesorias.
+\end{enumerate}
+%%
+\subsection{Incidencias}
+Posibles incidencias y planes de contingencia:
+En caso de problemas genéricos durante el desarrollo, se realizarán pruebas (tests) durante la implementación para intentar corregirlos antes de cada entrega. En caso de encontrarlos, se buscarán alternativas y soluciones en conjunto con todo el equipo. El desarrollo del juego básico lo sabemos hacer, por los que los principales inconvenientes se pueden generar con la implementación de la realidad aumentada, la sincronización online de jugadores y la sincronización de la realidad aumentada.
+
+En el caso de la implementación de la realidad aumentada en el proyecto, si no conseguimos un correcto funcionamiento de esta tecnología, se pasará a desarrollar una aplicación de juegos de mesa online. Los juegos que incorporemos serán varios y distintos entre si para incrementar la complejidad del proyecto.
+
+En caso de poder implementar la realidad aumentada pero sin que sea de forma sincronizada por internet, se creará el juego de hundir la flota de forma local para visualizar tu parte del tablero en esta tecnología mientras que de fondo y para sincronizar el online se juega con el modo básico sin RA.
+
+%%%%%%%
+%%%%%%%
+\section{Diseño}
+El diseño del proyecto es la propuesta inicial y aún está sujeto a cambios y mejoras en función de los conocimientos adquiridos a lo largo del desarrollo. Para el diseño de la aplicación se han utilizado varios bloques funcionales básicos, y se ha tratado de hacer uso de elementos no explicados en el temario para demostrar la capacidad de investigación y ampliación de conocimientos, siendo la realidad aumentada el buque insignia del desarrollo.
+
+\subsection{Arquitectura}
+La arquitectura de la aplicación se basará en la utilización de diferentes componentes que trabajarán en conjunto para ofrecer una experiencia completa al usuario. Estos componentes serán los siguientes:
+\begin{itemize}
+    \item Actividades: la aplicación contará con varias actividades que permitirán al usuario acceder a diferentes secciones de la aplicación. Por ahora tenemos las siguientes:
+        \begin{enumerate}
+            \item Activity de inicio: se ejecutará cuando se inicie la aplicación y mostrará la pantalla de inicio con opciones para iniciar un nuevo juego, cargar un juego guardado (sin confirmar esta funcionalidad) o ver las opciones de configuración.
+            \item Activity de juego: mostrará la pantalla principal del juego, donde los usuarios podrán colocar sus barcos y jugar contra la computadora (sin confirmar esta funcionalidad) o contra otros usuarios.
+            \item Activity de puntuaciones: mostrará una lista de las puntuaciones más altas de los jugadores.
+            \item Activity de configuración: permitirá a los usuarios personalizar la configuración de la aplicación, como cambiar el idioma, el nivel de dificultad (sin confirmar esta funcionalidad), la configuración de sonido, etc.
+            \item Activity de ayuda: mostrará información de ayuda y tutorial para los nuevos usuarios.
+            \item Activity de información: proporcionará información de la aplicación y de los autores de la misma.
+            \item Activity de inicio de sesión (sin confirmar esta funcionalidad).
+        \end{enumerate}
+    \item Servicios: se utilizarán servicios para realizar tareas en segundo plano, como la sincronización online.
+    \item Broadcast receivers: se utilizarán broadcast receivers para gestionar las notificaciones push que se envíen al usuario.
+    \item Threads: se utilizarán threads para evitar que la aplicación se bloquee durante tareas que requieran mucho tiempo de procesamiento.
+\end{itemize}
+
+\subsection{Persistencia}
+La aplicación necesita almacenar y gestionar distintos tipos de datos. En concreto, se van a almacenar los datos de usuario (nombre, apellidos, correo electrónico y contraseña), así como información de las actividades realizadas por el usuario. Para ello, se va a utilizar una base de datos gestionada con Firebase y si es posible el servicio de Google Play Juegos.
+
+\subsection{Vista}
+La aplicación contará con varias actividades y fragmentos que permitirán al usuario acceder a diferentes secciones de la aplicación. Todas ellas están sujetas a cambio importante durante el desarrollo. Además, se incluirán notificaciones para mantener al usuario actualizado sobre las últimas novedades. A continuación, se describen los elementos visuales que se incluirán en la aplicación:
+\begin{itemize}
+    \item Actividades: la aplicación contará con varias actividades, como la lista de recetas, el perfil de usuario, la pantalla de búsqueda y la pantalla de detalles de receta.
+    \item Fragmentos: se utilizarán fragmentos para mostrar información adicional en la pantalla de detalles de receta, como comentarios y valoraciones de otros usuarios.
+    \item Notificaciones push: se enviarán notificaciones push al usuario para informarle sobre las últimas novedades, como la publicación de una nueva receta o la valoración de una receta que haya publicado.
+\end{itemize}
+
+\subsection{Comunicaciones}
+Para la comunicación con el servidor, se utilizarán servicios web RESTful para acceder a los datos almacenados en la base de datos local y en la nube. Además, se explorará la posibilidad de utilizar un sistema de autenticación para garantizar la seguridad de los datos del usuario. ES importante que este apartado también es posible que sufra muchos cambios durante la implementación.
+
+\subsection{Sensores}
+Los sensores utilizados serán gestionados con la API ARCore \cite{ARCore}, aunque no sabemos por ahora cuales son.
+
+\subsection{Trabajo en background}
+La aplicación utilizará servicios para realizar tareas en segundo plano, como la sincronización con el servidor o la descarga de modelos 3D usados en la realidad aumentada (si es necesario, aun por confirmar). Además, se utilizarán threads para evitar que la aplicación se bloquee durante tareas que requieran mucho.
+
+\bibliographystyle{pfc-fic}
+\bibliography{biblio}
+\addcontentsline{toc}{section}{Bibliografía}
+
+\end{document}
