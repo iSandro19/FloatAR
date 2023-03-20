@@ -3,4 +3,11 @@
     <string name="player_turn">1</string>
     <string name="computer_turn">2</string>
     <string name="score_format">Score</string>
+    <string name="single_player">Single Player</string>
+    <string name="exit_game">Exit Game</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="todo">TODO</string>
+    <string name="multi_player">Multi Player</string>
+    <string name="settings">Settings</string>
 </resources>

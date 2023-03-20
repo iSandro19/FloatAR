@@ -1,82 +1,44 @@
 package com.floatar;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private Board playerBoard;
-    private Board computerBoard;
-    private Game game;
-    private boolean isPlayerTurn;
-
-    private Button[][] playerButtons;
-    private Button[][] computerButtons;
-    private TextView turnTextView;
-    private TextView scoreTextView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        // Obtener referencias a los elementos de la interfaz de usuario
-        turnTextView = findViewById(R.id.turnTextView);
-        scoreTextView = findViewById(R.id.scoreTextView);
+        Button buttonSinglePlayer = findViewById(R.id.layout_main_button_singleplayer);
+        buttonSinglePlayer.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SinglePlayerActivity.class);
+            startActivity(intent);
+        });
 
-        // Crear los tableros y el juego
-        playerBoard = new Board();
-        computerBoard = new Board();
-        game = new Game(playerBoard, computerBoard);
+        Button buttonMultiplayer = findViewById(R.id.layout_main_button_multiplayer);
+        buttonMultiplayer.setOnClickListener(v -> {
+            Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
+        });
 
-        // Inicializar las variables de los botones y los indicadores de turno y puntaje
-        playerButtons = new Button[10][10];
-        computerButtons = new Button[10][10];
-        isPlayerTurn = true;
-        updateTurnTextView();
-
-        // Configurar los botones del jugador
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                int buttonId = getResources().getIdentifier("playerButton" + i + j, "id", getPackageName());
-                playerButtons[i][j] = findViewById(buttonId);
-                playerButtons[i][j].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Lógica para el jugador hace clic en un botón
-                    }
-                });
-            }
-        }
-
-        // Configurar los botones de la computadora
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                int buttonId = getResources().getIdentifier("computerButton" + i + j, "id", getPackageName());
-                computerButtons[i][j] = findViewById(buttonId);
-                computerButtons[i][j].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Lógica para el jugador hace clic en un botón de la computadora
-                    }
-                });
-            }
-        }
+        Button buttonExit = findViewById(R.id.layout_main_button_exit);
+        buttonExit.setOnClickListener(v -> {
+            finish();
+            System.exit(0);
+        });
     }
 
-    // Método para actualizar el indicador de turno
-    private void updateTurnTextView() {
-        if (isPlayerTurn) {
-            turnTextView.setText(R.string.player_turn);
-        } else {
-            turnTextView.setText(R.string.computer_turn);
-        }
-    }
-
-    // Método para actualizar el indicador de puntaje
-    private void updateScoreTextView() {
-        scoreTextView.setText(getString(Integer.parseInt("Score"), game.getPlayerScore(), game.getComputerScore()));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 }
