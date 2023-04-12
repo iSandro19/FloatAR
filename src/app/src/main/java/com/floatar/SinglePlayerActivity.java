@@ -28,7 +28,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_player);
 
         numBoats = 0;
-        sizeBoat = 2;
+        sizeBoat = 4;
         orientation = 1;
 
         GridLayout gridLayout = findViewById(R.id.gridLayout);
@@ -128,56 +128,132 @@ public class SinglePlayerActivity extends AppCompatActivity {
         if (numBoats < 10){
             if (orientation == 0){
                 if (checkHorizontalBoat(row, col)){
-                    for (int j = col; j < col+sizeBoat; j++) {
-                        myBoard[row][j] = 1;
-                        View button = gridLayout.getChildAt(row * 10 + j);
-                        adjacentButtons.add(button);
+                    try {
+                        for (int j = col; j < col+sizeBoat; j++) {
+                            myBoard[row][j] = 1;
+                            View button = gridLayout.getChildAt(row * 10 + j);
+                            adjacentButtons.add(button);
+                        }
+                        // Cambiar el color de los botones adyacentes
+                        for (View button : adjacentButtons) {
+                            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+                        }
+                        // Cambiar el color del botón pulsado
+                        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+                        numBoats++;
+                    } catch (Exception e){
+                        Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                     }
-                    // Cambiar el color de los botones adyacentes
-                    for (View button : adjacentButtons) {
-                        button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                    }
-
-                    // Cambiar el color del botón pulsado
-                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                    numBoats++;
                 } else {
                     Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
-                    return;
                 }
 
             } else {
                 if (checkVerticalBoat(row, col)){
-                    for (int i = row; i < row+sizeBoat; i++) {
-                        myBoard[i][col] = 1;
-                        View button = gridLayout.getChildAt(i * 10 + col);
-                        adjacentButtons.add(button);
-                    }
-                    // Cambiar el color de los botones adyacentes
-                    for (View button : adjacentButtons) {
-                        button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                    }
+                    try {
+                        for (int i = row; i < row+sizeBoat; i++) {
+                            myBoard[i][col] = 1;
+                            View button = gridLayout.getChildAt(i * 10 + col);
+                            adjacentButtons.add(button);
+                        }
+                        // Cambiar el color de los botones adyacentes
+                        for (View button : adjacentButtons) {
+                            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+                        }
 
-                    // Cambiar el color del botón pulsado
-                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                    numBoats++;
+                        // Cambiar el color del botón pulsado
+                        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+                        numBoats++;
+                    } catch (Exception e){
+                        Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
-                    return;
                 }
             }
         } else {
             Toast.makeText(SinglePlayerActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
-            return;
         }
-
-        myBoard[row][col] = 1;
-        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
     }
 
-    private void deleteBoat(View v ,int row, int col){ ///////////Propagar la eliminación/////////7
+    private List<View> getAdjacentButtons(int row, int col) {
+        List<View> adjacentButtons = new ArrayList<>();
+
+        // Obtener el GridLayout del layout XML
+        GridLayout gridLayout = findViewById(R.id.gridLayout);
+
+        // Obtener las casillas adyacentes
+        if (row > 0) {
+            View topButton = gridLayout.getChildAt((row - 1) * 10 + col);
+            if (getValueFromButton(topButton) == 1) {
+                adjacentButtons.add(topButton);
+                int i = 2;
+                while ((row - i) >= 0 && getValueFromButton(gridLayout.getChildAt((row - i) * 10 + col)) == 1){
+                    adjacentButtons.add(gridLayout.getChildAt((row - i) * 10 + col));
+                    i++;
+                }
+            }
+        }
+        if (row < 9) {
+            View bottomButton = gridLayout.getChildAt((row + 1) * 10 + col);
+            if (getValueFromButton(bottomButton) == 1) {
+                adjacentButtons.add(bottomButton);
+                int i = 2;
+                while ((row + i) <= 9 && getValueFromButton(gridLayout.getChildAt((row + i) * 10 + col)) == 1){
+                    adjacentButtons.add(gridLayout.getChildAt((row + i) * 10 + col));
+                    i++;
+                }
+            }
+        }
+        if (col > 0) {
+            View leftButton = gridLayout.getChildAt(row * 10 + col - 1);
+            if (getValueFromButton(leftButton) == 1) {
+                adjacentButtons.add(leftButton);
+                int i = 2;
+                while ((col - i) >= 0 && getValueFromButton(gridLayout.getChildAt(row * 10 + col - i)) == 1){
+                    adjacentButtons.add(gridLayout.getChildAt(row * 10 + col - i));
+                    i++;
+                }
+            }
+        }
+        if (col < 9) {
+            View rightButton = gridLayout.getChildAt(row * 10 + col + 1);
+            if (getValueFromButton(rightButton) == 1) {
+                adjacentButtons.add(rightButton);
+                int i = 2;
+                while ((col + i) <= 9 && getValueFromButton(gridLayout.getChildAt(row * 10 + col + i)) == 1){
+                    adjacentButtons.add(gridLayout.getChildAt(row * 10 + col + i));
+                    i++;
+                }
+            }
+        }
+
+        return adjacentButtons;
+    }
+
+    private int getValueFromButton(View button){
+        String tag = (String) button.getTag();
+
+        // Obtener la posición del botón a partir de su etiqueta
+        int row = Integer.parseInt(tag.split("_")[1]);
+        int col = Integer.parseInt(tag.split("_")[2]);
+
+        return myBoard[row][col];
+    }
+
+    private void deleteBoat(View v ,int row, int col){ ///////////Propagar la eliminación/////////
+        // Cambiar los valores de myBoard a 0 y cambiar los colores de los botones correspondientes
         myBoard[row][col] = 0;
         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
+
+        List<View> adjacentButtons = getAdjacentButtons(row, col);
+        for (View button : adjacentButtons) {
+            String tag = (String) button.getTag();
+            int adjRow = Integer.parseInt(tag.split("_")[1]);
+            int adjCol = Integer.parseInt(tag.split("_")[2]);
+            myBoard[adjRow][adjCol] = 0;
+            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
+        }
         numBoats--;
     }
 
