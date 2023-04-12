@@ -1,5 +1,6 @@
 package com.floatar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -60,6 +61,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
             child.setOnClickListener(buttonClickListener);
         }
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
@@ -84,6 +89,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
             case R.id.layout_menu_main_about:
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
+                return true;
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
