@@ -76,7 +76,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
         return getResources().getDisplayMetrics().widthPixels;
     }
 
-
     private void createBoard(){
         // Obtener el GridLayout del layout XML
         GridLayout gridLayout = findViewById(R.id.gridLayout);
@@ -104,7 +103,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void createBoat(View v, int row, int col){
         GridLayout gridLayout = findViewById(R.id.gridLayout);
