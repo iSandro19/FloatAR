@@ -14,4 +14,24 @@
     <string name="but_boat_s2">Barco 2</string>
     <string name="but_boat_s3">Barco 3</string>
     <string name="but_boat_s4">Barco 4</string>
+    <string name="settings_title">Configuración</string>
+    <string name="notifications_title">Notificaciones</string>
+    <string name="volume_title">Volumen</string>
+    <string name="sava_changes_title">Guardar cambios</string>
+    <string name="help_title">Uso de FloatAR</string>
+    <string name="help_text">
+        Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit. Ut rhoncus aliquam
+        felis, sit amet elementum odio viverra a. Nullam
+        turpis lacus, mattis ac orci ut, mollis tincidunt arcu.
+        Praesent sit amet placerat lacus, luctus venenatis massa.
+        Nunc in aliquam risus, nec vulputate nibh. Nam ac pretium nisl.
+        Etiam mattis porttitor sodales. Morbi sed felis vel
+        ligula cursus et quis ante. Nam iaculis bibendum
+        nisl ac commodo. Nullam faucibus, ipsum et feugiat efficitur,
+        purus est vulputate nulla, ac vehicula lorem nibh porttitor libero.
+    </string>
+    <string name="version_number">0.1</string>
+    <string name="developer_name">Developers</string>
+    <string name="developer_email">developers@email.com</string>
 </resources>
