@@ -4,15 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SinglePlayerActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
@@ -22,15 +21,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-        );
         setContentView(R.layout.activity_single_player);
+
+        numBoats = 0;
+        sizeBoat = 2;
+        orientation = 1;
 
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         mContext = this;
-        numBoats = 0;
         createBoard();
 
         // Meter botones de selección de barcos y de orientación
@@ -60,12 +58,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     private void createBoard(){
         // Obtener el GridLayout del layout XML
@@ -81,31 +73,39 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 //button.setBackgroundResource(R.drawable.casilla);
 
                 // Agregar el botón al GridLayout
-                int size = (getScreenWidth() - 100) / 10;
+                int width = 100; // modificar el ancho deseado
+                int height = 100; // modificar la altura deseada
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                params.width = size;
-                params.height = size;
-                params.setMargins(2, 2, 2, 2);
+                params.width = width;
+                params.height = height;
+                params.setMargins(2, 1, 2, 1);
                 params.rowSpec = GridLayout.spec(row);
                 params.columnSpec = GridLayout.spec(col);
-                button.setLayoutParams(params);
-                gridLayout.addView(button);
+                gridLayout.addView(button, params);
                 button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
             }
         }
     }
 
-    private static int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
 
     private void createBoat(View v, int row, int col){
+        GridLayout gridLayout = findViewById(R.id.gridLayout);
+        List<View> adjacentButtons = new ArrayList<>();
         if (numBoats < 10){
             if (orientation == 0){
                 if (checkHorizontalBoat(row, col)){
-                    for (int i = 0; i < sizeBoat; i++) {
-                        System.out.println("Check horizontal");
+                    for (int j = col; j < col+sizeBoat; j++) {
+                        myBoard[row][j] = 1;
+                        View button = gridLayout.getChildAt(row * 10 + j);
+                        adjacentButtons.add(button);
                     }
+                    // Cambiar el color de los botones adyacentes
+                    for (View button : adjacentButtons) {
+                        button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+                    }
+
+                    // Cambiar el color del botón pulsado
+                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
                     numBoats++;
                 } else {
                     Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
@@ -114,9 +114,18 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
             } else {
                 if (checkVerticalBoat(row, col)){
-                    for (int j = 0; j < sizeBoat; j++) {
-                        System.out.println("Check vertical");
+                    for (int i = row; i < row+sizeBoat; i++) {
+                        myBoard[i][col] = 1;
+                        View button = gridLayout.getChildAt(i * 10 + col);
+                        adjacentButtons.add(button);
                     }
+                    // Cambiar el color de los botones adyacentes
+                    for (View button : adjacentButtons) {
+                        button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+                    }
+
+                    // Cambiar el color del botón pulsado
+                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
                     numBoats++;
                 } else {
                     Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
