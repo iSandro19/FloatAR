@@ -5,20 +5,15 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
 public class SinglePlayerActivity extends AppCompatActivity {
-
-
-    private int[][] myBoard = new int[10][10];
-
-    int numBoats, sizeBoat, orientation;
-
+    private final int[][] myBoard = new int[10][10];
     private Context mContext;
+    int numBoats, sizeBoat, orientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,25 +26,22 @@ public class SinglePlayerActivity extends AppCompatActivity {
         mContext = this;
         createBoard();
 
-        //Meter botones de selección de barcos y de orientación/////////
+        // Meter botones de selección de barcos y de orientación
 
         // OnClickListener para los botones del tablero
-        View.OnClickListener buttonClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Obtener la etiqueta del botón
-                String tag = (String) v.getTag();
+        View.OnClickListener buttonClickListener = v -> {
+            // Obtener la etiqueta del botón
+            String tag = (String) v.getTag();
 
-                // Obtener la posición del botón a partir de su etiqueta
-                int row = Integer.parseInt(tag.split("_")[1]);
-                int col = Integer.parseInt(tag.split("_")[2]);
+            // Obtener la posición del botón a partir de su etiqueta
+            int row = Integer.parseInt(tag.split("_")[1]);
+            int col = Integer.parseInt(tag.split("_")[2]);
 
-                // Ejecutar la lógica del juego correspondiente
-                if (myBoard[row][col] == 0) {
-                    createBoat(v, row, col);
-                } else if (myBoard[row][col] == 1) {
-                    deleteBoat(v, row, col);
-                }
+            // Ejecutar la lógica del juego correspondiente
+            if (myBoard[row][col] == 0) {
+                createBoat(v, row, col);
+            } else if (myBoard[row][col] == 1) {
+                deleteBoat(v, row, col);
             }
         };
 
@@ -91,38 +83,37 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
 
-    private boolean createBoat(View v, int row, int col){
+    private void createBoat(View v, int row, int col){
         if (numBoats < 10){
             if (orientation == 0){
                 if (checkHorizontalBoat(row, col)){
                     for (int i = 0; i < sizeBoat; i++) {
-
+                        System.out.println("Check horizontal");
                     }
                     numBoats++;
                 } else {
                     Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
-                    return false;
+                    return;
                 }
 
             } else {
                 if (checkVerticalBoat(row, col)){
                     for (int j = 0; j < sizeBoat; j++) {
-
+                        System.out.println("Check vertical");
                     }
                     numBoats++;
                 } else {
                     Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
-                    return false;
+                    return;
                 }
             }
         } else {
             Toast.makeText(SinglePlayerActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
-            return false;
+            return;
         }
 
         myBoard[row][col] = 1;
         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-        return true;
     }
 
     private void deleteBoat(View v ,int row, int col){ ///////////Propagar la eliminación/////////7
@@ -138,7 +129,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private Boolean checkVerticalBoat(int row, int col){
         return true;
     }
-
 
     /*
     private Boolean checkPositions(int row, int col){
@@ -173,4 +163,3 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }*/
 }
-
