@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
     private Context mContext;
     int numBoats, sizeBoat, orientation;
+
+    private static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     }
 
-
     private void createBoard(){
         // Obtener el GridLayout del layout XML
         GridLayout gridLayout = findViewById(R.id.gridLayout);
@@ -68,15 +72,15 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 //button.setBackgroundResource(R.drawable.casilla);
 
                 // Agregar el botón al GridLayout
-                int width = 100; // modificar el ancho deseado
-                int height = 100; // modificar la altura deseada
+                int size = (getScreenWidth() - 100) / 10;
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                params.width = width;
-                params.height = height;
-                params.setMargins(2, 1, 2, 1);
+                params.width = size;
+                params.height = size;
+                params.setMargins(2, 2, 2, 2);
                 params.rowSpec = GridLayout.spec(row);
                 params.columnSpec = GridLayout.spec(col);
-                gridLayout.addView(button, params);
+                button.setLayoutParams(params);
+                gridLayout.addView(button);
                 button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
             }
         }
