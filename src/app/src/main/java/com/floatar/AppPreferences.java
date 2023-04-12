@@ -3,6 +3,8 @@ package com.floatar;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 public class AppPreferences {
     private static final String PREFS_NAME = "my_app_prefs";
     private static final String KEY_VOLUME = "volume";
@@ -37,5 +39,9 @@ public class AppPreferences {
 
     public void setDarkThemeEnabled(boolean enabled) {
         prefs.edit().putBoolean(KEY_DARK_THEME_ENABLED, enabled).apply();
+    }
+
+    public void applyAppPreferences(){
+        if(areDarkThemeEnabled()) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 }

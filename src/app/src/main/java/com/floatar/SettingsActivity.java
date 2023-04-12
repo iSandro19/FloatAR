@@ -104,12 +104,12 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         switchDarkMode = findViewById(R.id.switch_dark_mode);
-        switchDarkMode.setChecked(appPrefs.areDarkThemeEnabled());
         switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             appPrefs.setDarkThemeEnabled(isChecked);
             int mode = isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
             AppCompatDelegate.setDefaultNightMode(mode);
         });
+        switchDarkMode.setChecked(appPrefs.areDarkThemeEnabled());
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

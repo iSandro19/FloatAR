@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
             finish();
             System.exit(0);
         });
+
+        // Aplicar el modo oscuro al reiniciar la actividad
+        applyAppPreferences();
     }
 
     @Override
@@ -60,5 +63,10 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void applyAppPreferences(){
+        AppPreferences ap = new AppPreferences(this);
+        ap.applyAppPreferences();
     }
 }
