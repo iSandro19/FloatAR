@@ -33,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
             System.exit(0);
         });
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     @Override
