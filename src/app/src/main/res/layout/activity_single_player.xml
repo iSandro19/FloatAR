@@ -19,39 +19,59 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center|top"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/but_boat_s1"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/but_boat_s1"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/but_boat_s1" />
 
         <Button
             android:id="@+id/but_boat_s2"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/but_boat_s2"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/but_boat_s2" />
 
         <Button
             android:id="@+id/but_boat_s3"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/but_boat_s3"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/but_boat_s3" />
 
         <Button
             android:id="@+id/but_boat_s4"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/but_boat_s4"
+            android:text="@string/but_boat_s4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center|top"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/but_horizontal_boat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/but_horizontal_boat"
             style="?android:attr/buttonBarButtonStyle" />
 
+        <Button
+            android:id="@+id/but_vertical_boat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/but_vertical_boat"
+            style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 
 </LinearLayout>

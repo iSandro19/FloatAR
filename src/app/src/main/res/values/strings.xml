@@ -24,6 +24,8 @@
     <string name="but_boat_s2">Barco 2</string>
     <string name="but_boat_s3">Barco 3</string>
     <string name="but_boat_s4">Barco 4</string>
+    <string name="but_horizontal_boat">Horizontal</string>
+    <string name="but_vertical_boat">Vertical</string>
 
     <!-- Strings related to the settings activity -->
     <string name="settings_title">Configuración</string>

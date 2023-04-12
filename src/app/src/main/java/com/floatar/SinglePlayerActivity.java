@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -21,22 +22,57 @@ import java.util.List;
 public class SinglePlayerActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
     private Context mContext;
-    int numBoats, sizeBoat, orientation;
+
+    private Button boat1, boat2, boat3, boat4, horizontal, vertical;
+    int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
 
-        numBoats = 0;
-        sizeBoat = 4;
-        orientation = 1;
+        numBoats1 = 0;
+        numBoats2 = 0;
+        numBoats3 = 0;
+        numBoats4 = 0;
+        sizeBoat = 1;
+        orientation = 0;
 
         GridLayout gridLayout = findViewById(R.id.gridLayout);
         mContext = this;
         createBoard();
 
-        // Meter botones de selección de barcos y de orientación
+
+        boat1 = findViewById(R.id.but_boat_s1);
+        boat2 = findViewById(R.id.but_boat_s2);
+        boat3 = findViewById(R.id.but_boat_s3);
+        boat4 = findViewById(R.id.but_boat_s4);
+        horizontal = findViewById(R.id.but_horizontal_boat);
+        vertical = findViewById(R.id.but_vertical_boat);
+
+        View.OnClickListener sizeClickListener = v -> {
+            if (v == boat1){
+                sizeBoat = 1;
+            } else if (v == boat2) {
+                sizeBoat = 2;
+            } else if (v == boat3) {
+                sizeBoat = 3;
+            } else if (v == boat4) {
+                Log.d("dfsfdsfds", "entro en 4");
+                sizeBoat = 4;
+            } else if (v == horizontal) {
+                orientation = 0;
+            } else if (v == vertical) {
+                orientation = 1;
+            }
+        };
+
+        boat1.setOnClickListener(sizeClickListener);
+        boat2.setOnClickListener(sizeClickListener);
+        boat3.setOnClickListener(sizeClickListener);
+        boat4.setOnClickListener(sizeClickListener);
+        horizontal.setOnClickListener(sizeClickListener);
+        vertical.setOnClickListener(sizeClickListener);
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -132,24 +168,40 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private void createBoat(View v, int row, int col){
         GridLayout gridLayout = findViewById(R.id.gridLayout);
-        List<View> adjacentButtons = new ArrayList<>();
-        if (numBoats < 10){
+
+        Log.d("Barcos1: ", String.valueOf(numBoats1));
+        Log.d("Barcos2: ", String.valueOf(numBoats2));
+        Log.d("Barcos3: ", String.valueOf(numBoats3));
+        Log.d("Barcos4: ", String.valueOf(numBoats4));
+
+        if (numBoats1 < 3 && numBoats2 < 2 && numBoats3 < 3 && numBoats4 < 2){
             if (orientation == 0){
                 if (checkHorizontalBoat(row, col)){
-                    try {
+                    if(col+sizeBoat <= 10){
                         for (int j = col; j < col+sizeBoat; j++) {
                             myBoard[row][j] = 1;
                             View button = gridLayout.getChildAt(row * 10 + j);
-                            adjacentButtons.add(button);
-                        }
-                        // Cambiar el color de los botones adyacentes
-                        for (View button : adjacentButtons) {
                             button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
                         }
                         // Cambiar el color del botón pulsado
                         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                        numBoats++;
-                    } catch (Exception e){
+                        switch (sizeBoat) {
+                            case 1:
+                                numBoats1++;
+                                break;
+                            case 2:
+                                numBoats2++;
+                                break;
+                            case 3:
+                                numBoats3++;
+                                break;
+                            case 4:
+                                numBoats4++;
+                                break;
+                            default:
+                                Log.d("Error", "Tamaño imposible");
+                        }
+                    } else {
                         Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -158,21 +210,32 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
             } else {
                 if (checkVerticalBoat(row, col)){
-                    try {
+                    if(row+sizeBoat <= 10){
                         for (int i = row; i < row+sizeBoat; i++) {
                             myBoard[i][col] = 1;
                             View button = gridLayout.getChildAt(i * 10 + col);
-                            adjacentButtons.add(button);
-                        }
-                        // Cambiar el color de los botones adyacentes
-                        for (View button : adjacentButtons) {
                             button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
                         }
 
                         // Cambiar el color del botón pulsado
                         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                        numBoats++;
-                    } catch (Exception e){
+                        switch (sizeBoat) {
+                            case 1:
+                                numBoats1++;
+                                break;
+                            case 2:
+                                numBoats2++;
+                                break;
+                            case 3:
+                                numBoats3++;
+                                break;
+                            case 4:
+                                numBoats4++;
+                                break;
+                            default:
+                                Log.d("Error", "Tamaño imposible");
+                        }
+                    } else {
                         Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -182,6 +245,52 @@ public class SinglePlayerActivity extends AppCompatActivity {
         } else {
             Toast.makeText(SinglePlayerActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private Boolean checkHorizontalBoat(int row, int col){
+        GridLayout gridLayout = findViewById(R.id.gridLayout);
+
+        if(col > 0 && getValueFromButton(gridLayout.getChildAt(row * 10 + col - 1)) == 1) {
+            return false;
+        }
+
+        int j = col;
+
+        for (; j < Math.min(col+sizeBoat, 9); j++) {
+            if (row > 0 && row < 9 && (getValueFromButton(gridLayout.getChildAt(row * 10 + j)) == 1 || getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + j)) == 1 || getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + j)) == 1)) {
+                return false;
+            }
+        }
+
+        if(j < 9 && getValueFromButton(gridLayout.getChildAt(row * 10 + j)) == 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private Boolean checkVerticalBoat(int row, int col){
+        GridLayout gridLayout = findViewById(R.id.gridLayout);
+
+        if (row > 0 && getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + col)) == 1){
+            return false;
+        }
+
+        int i = row;
+
+        for (; i < Math.min(row+sizeBoat, 9); i++) {
+            if (col > 0 && col < 9 && (getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col - 1)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col + 1)) == 1)) {
+                return false;
+            }
+        }
+
+
+        if (i < 9 && getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1){
+            Log.d("choco", String.valueOf((i+1)));
+            return false;
+        }
+
+        return true;
     }
 
     private List<View> getAdjacentButtons(int row, int col) {
@@ -249,60 +358,38 @@ public class SinglePlayerActivity extends AppCompatActivity {
         return myBoard[row][col];
     }
 
-    private void deleteBoat(View v ,int row, int col){ ///////////Propagar la eliminación/////////
-        // Cambiar los valores de myBoard a 0 y cambiar los colores de los botones correspondientes
+    private void deleteBoat(View v ,int row, int col){
         myBoard[row][col] = 0;
         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
 
         List<View> adjacentButtons = getAdjacentButtons(row, col);
+        int i = 1;
         for (View button : adjacentButtons) {
             String tag = (String) button.getTag();
             int adjRow = Integer.parseInt(tag.split("_")[1]);
             int adjCol = Integer.parseInt(tag.split("_")[2]);
             myBoard[adjRow][adjCol] = 0;
             button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
+            i++;
         }
-        numBoats--;
-    }
 
-    private Boolean checkHorizontalBoat(int row, int col){
-        return true;
-    }
+        Log.d("Tamaño: ", String.valueOf(i));
 
-    private Boolean checkVerticalBoat(int row, int col){
-        return true;
-    }
-
-    /*
-    private Boolean checkPositions(int row, int col){
-
-        // Comprobar si ya se han seleccionado los 10 barcos
-        if (numBoats < 10) {
-            // Comprobar si la casilla seleccionada es adyacente a otra casilla previamente seleccionada
-            checkAdjacency(row, col);
-
-            if (checkValidBoat(row, col)){
-                return true;
-            } else {
-                Toast.makeText(SinglePlayerActivity.this, "Barco no válido", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        } else {
-
+        switch (sizeBoat) {
+            case 1:
+                numBoats1--;
+                break;
+            case 2:
+                numBoats2--;
+                break;
+            case 3:
+                numBoats3--;
+                break;
+            case 4:
+                numBoats4--;
+                break;
+            default:
+                Log.d("Error", "Tamaño imposible");
         }
     }
-
-    private void checkMarkedBoats(int row, int col){
-
-        for (int i = 0; i < myBoard.length; i++) {
-            for (int j = 0; j < myBoard[i].length; j++) {
-                if (myBoard[i][j] == 1) {
-                    if ((row == i && Math.abs(col - j) == 1) || (col == j && Math.abs(row - i) == 1)) {
-                        Log.d("Adyaciencia", "Adyacente");
-                        numBoats++;
-                    }
-                }
-            }
-        }
-    }*/
 }
