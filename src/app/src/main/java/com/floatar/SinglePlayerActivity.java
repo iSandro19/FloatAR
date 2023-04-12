@@ -174,7 +174,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         Log.d("Barcos3: ", String.valueOf(numBoats3));
         Log.d("Barcos4: ", String.valueOf(numBoats4));
 
-        if (numBoats1 < 3 && numBoats2 < 2 && numBoats3 < 3 && numBoats4 < 2){
+        sumBoat();  //Sumamos el tipo de barco
+
+        if (numBoats1 <= 3 && numBoats2 <= 2 && numBoats3 <= 3 && numBoats4 <= 2){  //Si se cumple lo creamos, sinó lo restamos
             if (orientation == 0){
                 if (checkHorizontalBoat(row, col)){
                     if(col+sizeBoat <= 10){
@@ -185,22 +187,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                         }
                         // Cambiar el color del botón pulsado
                         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                        switch (sizeBoat) {
-                            case 1:
-                                numBoats1++;
-                                break;
-                            case 2:
-                                numBoats2++;
-                                break;
-                            case 3:
-                                numBoats3++;
-                                break;
-                            case 4:
-                                numBoats4++;
-                                break;
-                            default:
-                                Log.d("Error", "Tamaño imposible");
-                        }
+
                     } else {
                         Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                     }
@@ -219,22 +206,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
                         // Cambiar el color del botón pulsado
                         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                        switch (sizeBoat) {
-                            case 1:
-                                numBoats1++;
-                                break;
-                            case 2:
-                                numBoats2++;
-                                break;
-                            case 3:
-                                numBoats3++;
-                                break;
-                            case 4:
-                                numBoats4++;
-                                break;
-                            default:
-                                Log.d("Error", "Tamaño imposible");
-                        }
                     } else {
                         Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                     }
@@ -244,8 +215,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(SinglePlayerActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
+            subBoat();
         }
     }
+
+
 
     private Boolean checkHorizontalBoat(int row, int col){
         GridLayout gridLayout = findViewById(R.id.gridLayout);
@@ -286,7 +260,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
 
         if (i < 9 && getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1){
-            Log.d("choco", String.valueOf((i+1)));
             return false;
         }
 
@@ -375,6 +348,29 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
         Log.d("Tamaño: ", String.valueOf(i));
 
+        subBoat();
+    }
+
+    private void sumBoat(){
+        switch (sizeBoat) {
+            case 1:
+                numBoats1++;
+                break;
+            case 2:
+                numBoats2++;
+                break;
+            case 3:
+                numBoats3++;
+                break;
+            case 4:
+                numBoats4++;
+                break;
+            default:
+                Log.d("Error", "Tamaño imposible");
+        }
+    }
+
+    private void subBoat(){
         switch (sizeBoat) {
             case 1:
                 numBoats1--;
