@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
@@ -22,6 +23,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
 
         numBoats = 0;
         sizeBoat = 2;
@@ -58,6 +63,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     }
 
+    private int getScreenWidth() {
+        return getResources().getDisplayMetrics().widthPixels;
+    }
+
 
     private void createBoard(){
         // Obtener el GridLayout del layout XML
@@ -73,15 +82,15 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 //button.setBackgroundResource(R.drawable.casilla);
 
                 // Agregar el botón al GridLayout
-                int width = 100; // modificar el ancho deseado
-                int height = 100; // modificar la altura deseada
+                int size = (getScreenWidth() - 100)/10;
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-                params.width = width;
-                params.height = height;
-                params.setMargins(2, 1, 2, 1);
+                params.width = size;
+                params.height = size;
+                params.setMargins(3, 3, 3, 3);
                 params.rowSpec = GridLayout.spec(row);
                 params.columnSpec = GridLayout.spec(col);
-                gridLayout.addView(button, params);
+                button.setLayoutParams(params);
+                gridLayout.addView(button);
                 button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
             }
         }
