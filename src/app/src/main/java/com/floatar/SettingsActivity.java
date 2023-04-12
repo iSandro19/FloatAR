@@ -30,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //setAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -105,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         switchDarkMode = findViewById(R.id.switch_dark_mode);
-        switchDarkMode.setChecked(appPrefs.areDarkThemeEnabled());
+        //switchDarkMode.setChecked(appPrefs.areDarkThemeEnabled());
         switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             appPrefs.setDarkThemeEnabled(isChecked);
             int mode = isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
@@ -139,16 +138,6 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             // Deshabilitar notificaciones
             NotificationManagerCompat.from(this).cancelAll();
-        }
-    }
-
-    private void setAppTheme() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
-        if (isDarkModeEnabled) {
-            setTheme(R.style.AppThemeDark);
-        } else {
-            setTheme(R.style.AppThemeLight);
         }
     }
 }
