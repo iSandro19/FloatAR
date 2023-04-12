@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button buttonMultiplayer = findViewById(R.id.layout_main_button_multiplayer);
-        buttonMultiplayer.setOnClickListener(v -> {
-            Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show();
-        });
+        buttonMultiplayer.setOnClickListener(v ->
+                Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show()
+        );
 
         Button buttonExit = findViewById(R.id.layout_main_button_exit);
         buttonExit.setOnClickListener(v -> {
