@@ -4,7 +4,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,16 +23,27 @@ public class SettingsActivity extends AppCompatActivity {
     private SwitchCompat switchDarkMode;
     private Spinner languageSpinner;
     private SeekBar volumeSeekBar;
+    private AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // Obtener el AudioManager del sistema
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
         // Inicializar vistas
         notificationsSwitch = findViewById(R.id.notificationsSwitch);
         languageSpinner = findViewById(R.id.languageSpinner);
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
+
+        notificationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                toggleNotifications(isChecked);
+            }
+        });
 
         // Configurar opciones del spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -46,6 +60,20 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(SettingsActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
                 finish(); // Regresar a la actividad anterior
             }
+        });
+
+        // Agregar listener para actualizar el volumen
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
         switchDarkMode = findViewById(R.id.switch_dark_mode);
@@ -69,5 +97,20 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void toggleNotifications(boolean enabled) {
+        SharedPreferences.Editor editor = getSharedPreferences("settings", MODE_PRIVATE).edit();
+        editor.putBoolean("notifications_enabled", enabled);
+        editor.apply();
+
+        if (enabled) {
+            // Habilitar notificaciones
+            NotificationManagerCompat.from(this).cancelAll();
+        } else {
+            // Deshabilitar notificaciones
+            NotificationManagerCompat.from(this).cancelAll();
+        }
+    }
+
 }
 
