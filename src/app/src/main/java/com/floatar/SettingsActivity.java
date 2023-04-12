@@ -9,40 +9,45 @@ import androidx.core.app.NotificationManagerCompat;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
+    private AppPreferences appPrefs;
     private SwitchCompat notificationsSwitch;
     private SwitchCompat switchDarkMode;
     private Spinner languageSpinner;
     private SeekBar volumeSeekBar;
     private AudioManager audioManager;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //setAppTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Obtener el AudioManager del sistema
-        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-
-        // Inicializar vistas
+        // Inicializar
         notificationsSwitch = findViewById(R.id.notificationsSwitch);
         languageSpinner = findViewById(R.id.languageSpinner);
         volumeSeekBar = findViewById(R.id.volumeSeekBar);
 
-        notificationsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                toggleNotifications(isChecked);
-            }
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        appPrefs = new AppPreferences(this);
+
+        // Notificaciones
+        notificationsSwitch.setChecked(appPrefs.areNotificationsEnabled());
+        notificationsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            appPrefs.setNotificationsEnabled(isChecked);
+            toggleNotifications(isChecked);
         });
 
         // Configurar opciones del spinner
@@ -51,21 +56,44 @@ public class SettingsActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(adapter);
 
-        // Configurar botón de guardar cambios
-        Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        // Obtener el objeto SharedPreferences
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Establecer el valor del Spinner según las preferencias guardadas
+        String selectedLanguage = sharedPreferences.getString("language", "default");
+        int position = adapter.getPosition(selectedLanguage);
+        languageSpinner.setSelection(position);
+
+        // Listener del Spinner para guardar el valor seleccionado en las preferencias
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                // Guardar cambios en SharedPreferences o en una base de datos
-                Toast.makeText(SettingsActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
-                finish(); // Regresar a la actividad anterior
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedLanguage = parent.getItemAtPosition(position).toString();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("language", selectedLanguage);
+                editor.apply();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Nada que hacer
             }
         });
 
+        // Configurar botón de guardar cambios
+        Button saveButton = findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(v -> {
+            // Guardar cambios en SharedPreferences o en una base de datos
+            Toast.makeText(SettingsActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
+            finish(); // Regresar a la actividad anterior
+        });
+
         // Agregar listener para actualizar el volumen
+        volumeSeekBar.setProgress(appPrefs.getVolume());
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                appPrefs.setVolume(progress);
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
             }
 
@@ -77,7 +105,9 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         switchDarkMode = findViewById(R.id.switch_dark_mode);
+        switchDarkMode.setChecked(appPrefs.areDarkThemeEnabled());
         switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            appPrefs.setDarkThemeEnabled(isChecked);
             int mode = isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
             AppCompatDelegate.setDefaultNightMode(mode);
         });
@@ -112,5 +142,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    private void setAppTheme() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode", false);
+        if (isDarkModeEnabled) {
+            setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppThemeLight);
+        }
+    }
 }
 
