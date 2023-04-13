@@ -219,12 +219,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-
-
     private Boolean checkHorizontalBoat(int row, int col){
         GridLayout gridLayout = findViewById(R.id.gridLayout);
 
-        if(col > 0 && getValueFromButton(gridLayout.getChildAt(row * 10 + col - 1)) == 1) {
+        if (col > 0 && getValueFromButton(gridLayout.getChildAt(row * 10 + col - 1)) == 1) {
             return false;
         }
 
@@ -236,11 +234,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
             }
         }
 
-        if(j < 9 && getValueFromButton(gridLayout.getChildAt(row * 10 + j)) == 1) {
-            return false;
-        }
-
-        return true;
+        return j >= 9 || getValueFromButton(gridLayout.getChildAt(row * 10 + j)) != 1;
     }
 
     private Boolean checkVerticalBoat(int row, int col){
@@ -257,13 +251,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 return false;
             }
         }
-
-
-        if (i < 9 && getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1){
-            return false;
-        }
-
-        return true;
+        return i >= 9 || getValueFromButton(gridLayout.getChildAt(i * 10 + col)) != 1;
     }
 
     private List<View> getAdjacentButtons(int row, int col) {
@@ -284,6 +272,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 }
             }
         }
+
         if (row < 9) {
             View bottomButton = gridLayout.getChildAt((row + 1) * 10 + col);
             if (getValueFromButton(bottomButton) == 1) {
@@ -295,6 +284,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 }
             }
         }
+
         if (col > 0) {
             View leftButton = gridLayout.getChildAt(row * 10 + col - 1);
             if (getValueFromButton(leftButton) == 1) {
@@ -306,6 +296,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 }
             }
         }
+
         if (col < 9) {
             View rightButton = gridLayout.getChildAt(row * 10 + col + 1);
             if (getValueFromButton(rightButton) == 1) {
