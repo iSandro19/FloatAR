@@ -14,19 +14,27 @@
         android:gravity="center"
         android:padding="16dp"/>
 
+    <TextView
+        android:id="@+id/help_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:text="@string/help_text_title"
+        android:textAlignment="center"
+        tools:targetApi="o" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/help_text"
+            android:id="@+id/help_text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/help_text"
-            android:textAlignment="viewStart"
-            android:justificationMode="inter_word"
+            android:textSize="16sp"
+            android:padding="20dp"
+            android:text="@string/help_text_content"
             tools:targetApi="o" />
-
     </ScrollView>
-
 </LinearLayout>
