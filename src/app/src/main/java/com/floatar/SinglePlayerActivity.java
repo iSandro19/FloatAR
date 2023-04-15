@@ -1,12 +1,19 @@
 package com.floatar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 public class SinglePlayerActivity extends AppCompatActivity {
 
@@ -18,6 +25,65 @@ public class SinglePlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
+
+        GridLayout gridLayout = findViewById(R.id.gridLayout_myBoard);
+        mContext = this;
+        createBoard();
+
+        // OnClickListener para los botones del tablero
+        View.OnClickListener buttonClickListener = v -> {
+            // Obtener la etiqueta del botón
+            String tag = (String) v.getTag();
+
+            // Obtener la posición del botón a partir de su etiqueta
+            int row = Integer.parseInt(tag.split("_")[1]);
+            int col = Integer.parseInt(tag.split("_")[2]);
+
+            // Ejecutar la lógica del juego correspondiente
+            if (myBoard[row][col] == 0) {
+
+            } else if (myBoard[row][col] == 1) {
+
+            }
+        };
+
+        // Asignar el OnClickListener a cada botón
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            View child = gridLayout.getChildAt(i);
+            child.setOnClickListener(buttonClickListener);
+        }
+
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.layout_menu_main_help:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     private int getScreenWidth() {
@@ -26,7 +92,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private void createBoard(){
         // Obtener el GridLayout del layout XML
-        GridLayout gridLayout = findViewById(R.id.gridLayout);
+        GridLayout gridLayout = findViewById(R.id.gridLayout_myBoard);
 
         // Crear un bucle para agregar los botones
         for (int row = 0; row < 10; row++) {

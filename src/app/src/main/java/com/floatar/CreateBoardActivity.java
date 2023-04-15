@@ -28,12 +28,11 @@ public class CreateBoardActivity extends AppCompatActivity {
 
 
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
-    int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation, actualTurn;
+    int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        actualTurn = 0;
 
         setContentView(R.layout.activity_create_board);
 
