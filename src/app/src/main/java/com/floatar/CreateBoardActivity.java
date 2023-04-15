@@ -188,7 +188,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 params.columnSpec = GridLayout.spec(col);
                 button.setLayoutParams(params);
                 gridLayout.addView(button);
-                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
+                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
             }
         }
     }
@@ -417,7 +417,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     private void deleteBoat(View v ,int row, int col){
         myBoard[row][col] = 0;
-        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
+        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
 
         List<View> adjacentButtons = getAdjacentButtons(row, col);
         int i = 1;
@@ -426,7 +426,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             int adjRow = Integer.parseInt(tag.split("_")[1]);
             int adjCol = Integer.parseInt(tag.split("_")[2]);
             myBoard[adjRow][adjCol] = 0;
-            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
+            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
             i++;
         }
         subBoat(i);

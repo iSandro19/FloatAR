@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_main"
     android:visibility="visible"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,40 +11,37 @@
 
     <ImageView
         android:id="@+id/layout_main_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:contentDescription="@string/app_name"
-        android:scaleX="0.75"
-        android:scaleY="0.75"
+        android:scaleType="centerCrop"
         app:srcCompat="@drawable/ic_launcher_floatar" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="150dp" />
 
     <Button
         android:id="@+id/layout_main_button_singleplayer"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="@string/single_player" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/single_player"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/layout_main_button_multiplayer"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="@string/multi_player" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/multi_player"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/layout_main_button_exit"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="@string/exit_game" />
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/exit_game"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
 </LinearLayout>

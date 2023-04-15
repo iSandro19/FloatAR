@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Colores de Material Design -->
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="light_brown">#bc9771</color>
+    <color name="medium_brown">#C18641</color>
+    <color name="dark_brown">#B5722E</color>
+    <color name="light_wood">#422E23</color>
+    <color name="dark_wood">#322016</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black_background">#27160D</color>
+    <color name="white_background">#BCA996</color>
 </resources>
