@@ -19,12 +19,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
-    private final int[][] rivalBoard = new int[10][10];
-
     private Context mContext;
+
+
 
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
     int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation, actualTurn;
@@ -70,7 +71,15 @@ public class CreateBoardActivity extends AppCompatActivity {
             } else if (v == vertical) {
                 orientation = 1;
             } else if (v == confirm) {
-                Log.d("Tablero", Arrays.deepToString(myBoard));
+                if (numBoats1 == 3 && numBoats2 == 2 && numBoats3 == 3 && numBoats4 == 2){
+                    Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
+                    startGame.putExtra("myBoard", myBoard);
+                    startGame.putExtra("rivalBoard", createRivalBoard());
+                    startActivity(startGame);
+
+                } else {
+                    Toast.makeText(CreateBoardActivity.this, "Faltan barcos por colocar", Toast.LENGTH_SHORT).show();
+                }
             }
         };
 
@@ -181,6 +190,68 @@ public class CreateBoardActivity extends AppCompatActivity {
                 gridLayout.addView(button);
                 button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
             }
+        }
+    }
+
+    private int[][] createRivalBoard(){
+
+        Random rand = new Random();
+
+        int randomBoard = rand.nextInt(4);
+
+        switch (randomBoard) {
+            case 0:
+                return new int[][]{
+                    {0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                    {0, 1, 1, 1, 1, 0, 0, 0, 0, 1},
+                    {0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+                    {0, 0, 1, 0, 1, 1, 1, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+                    {0, 1, 1, 0, 0, 0, 0, 1, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+                    {0, 0, 1, 1, 1, 0, 0, 1, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 1, 0, 0, 0}
+                };
+            case 1:
+                return new int[][]{
+                    {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                    {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
+                    {0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {1, 1, 1, 1, 0, 1, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
+                    {0, 0, 1, 0, 0, 1, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 1, 1, 0, 0, 1, 1, 1, 1, 0}};
+            case 2:
+                return new int[][]{
+                    {1, 1, 0, 0, 1, 1, 1, 0, 1, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {1, 1, 1, 0, 1, 1, 0, 1, 1, 1}};
+            case 3:
+                return new int[][]{
+                    {1, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+                    {1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                    {1, 0, 1, 0, 1, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
+                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                    {0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                    {0, 0, 0, 1, 0, 0, 1, 1, 1, 0},
+                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                    {1, 1, 1, 0, 0, 0, 0, 1, 0, 0} };
+            default:
+                Log.d("Error aleatorio", "Error a causa de la aleatoriedad");
+                return null;
         }
     }
 
