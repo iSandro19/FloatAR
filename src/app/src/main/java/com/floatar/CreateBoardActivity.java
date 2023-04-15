@@ -17,10 +17,13 @@ import android.widget.GridLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
+    private final int[][] rivalBoard = new int[10][10];
+
     private Context mContext;
 
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
@@ -67,7 +70,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             } else if (v == vertical) {
                 orientation = 1;
             } else if (v == confirm) {
-                setContentView(R.layout.activity_about);
+                Log.d("Tablero", Arrays.deepToString(myBoard));
             }
         };
 
@@ -350,7 +353,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         Log.d("Tamaño: ", String.valueOf(i));
 
-        subBoat();
+        subBoat(i);
     }
 
     private void sumBoat(){
@@ -372,8 +375,8 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
     }
 
-    private void subBoat(){
-        switch (sizeBoat) {
+    private void subBoat(int i){
+        switch (i) {
             case 1:
                 numBoats1--;
                 break;
