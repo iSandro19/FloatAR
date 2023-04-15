@@ -245,6 +245,10 @@ public class CreateBoardActivity extends AppCompatActivity {
         for (; j < Math.min(col+sizeBoat, 9); j++) {
             if (row > 0 && row < 9 && (getValueFromButton(gridLayout.getChildAt(row * 10 + j)) == 1 || getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + j)) == 1 || getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + j)) == 1)) {
                 return false;
+            } else if (row == 0 && (getValueFromButton(gridLayout.getChildAt(j)) == 1 || getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + j)) == 1)) {
+                return false;
+            } else if (row == 9 && (getValueFromButton(gridLayout.getChildAt(row * 10 + j)) == 1 || getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + j)) == 1)) {
+                return false;
             }
         }
 
@@ -262,6 +266,10 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         for (; i < Math.min(row+sizeBoat, 9); i++) {
             if (col > 0 && col < 9 && (getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col - 1)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col + 1)) == 1)) {
+                return false;
+            } else if (col == 0 && (getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col + 1)) == 1)) {
+                return false;
+            } else if (col == 9 && (getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col - 1)) == 1)) {
                 return false;
             }
         }
@@ -350,9 +358,6 @@ public class CreateBoardActivity extends AppCompatActivity {
             button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
             i++;
         }
-
-        Log.d("Tamaño: ", String.valueOf(i));
-
         subBoat(i);
     }
 
@@ -375,8 +380,8 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
     }
 
-    private void subBoat(int i){
-        switch (i) {
+    private void subBoat(int deleteBoat){
+        switch (deleteBoat) {
             case 1:
                 numBoats1--;
                 break;
