@@ -25,8 +25,6 @@ public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
     private Context mContext;
 
-
-
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
     int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
 

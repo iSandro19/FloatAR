@@ -53,6 +53,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
             child.setOnClickListener(buttonClickListener);
         }
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @SuppressLint("NonConstantResourceId")
