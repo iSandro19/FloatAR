@@ -19,7 +19,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SinglePlayerActivity extends AppCompatActivity {
+public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
     private Context mContext;
 
@@ -31,7 +31,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         actualTurn = 0;
 
-        setContentView(R.layout.activity_single_player);
+        setContentView(R.layout.activity_create_board);
 
         numBoats1 = 0;
         numBoats2 = 0;
@@ -99,7 +99,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 } else if (sizeBoat == 4 && numBoats4 < 2){
                     createBoat(v, row, col);
                 } else {
-                    Toast.makeText(SinglePlayerActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBoardActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
                 }
             } else if (myBoard[row][col] == 1) {
                 deleteBoat(v, row, col);
@@ -202,10 +202,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
                     sumBoat();  //Sumamos el tipo de barco
                 } else {
-                    Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBoardActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateBoardActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -222,10 +222,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
                     sumBoat();  //Sumamos el tipo de barco
                 } else {
-                    Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBoardActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateBoardActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -24,7 +24,7 @@
             android:exported="false"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
-            android:name=".SinglePlayerActivity"
+            android:name=".CreateBoardActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity

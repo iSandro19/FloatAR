@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonSinglePlayer = findViewById(R.id.layout_main_button_singleplayer);
         buttonSinglePlayer.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SinglePlayerActivity.class);
+            Intent intent = new Intent(this, CreateBoardActivity.class);
             startActivity(intent);
         });
 
