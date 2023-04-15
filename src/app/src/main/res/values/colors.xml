@@ -8,6 +8,6 @@
     <color name="dark_wood">#322016</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="black_background">#27160D</color>
-    <color name="white_background">#BCA996</color>
+    <color name="black_background">#050505</color>
+    <color name="white_background">#F3EFEB</color>
 </resources>
