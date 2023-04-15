@@ -100,7 +100,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             int col = Integer.parseInt(tag.split("_")[2]);
 
             // Ejecutar la lógica del juego correspondiente
-            if (myBoard[row][col] == 0) {
+            if (myBoard[row][col] == 0) {             ///////////// Falta arreglar bug de esquinas //////////
                 if (sizeBoat == 1 && numBoats1 < 3){
                     createBoat(v, row, col);
                 } else if (sizeBoat == 2 && numBoats2 < 2){
