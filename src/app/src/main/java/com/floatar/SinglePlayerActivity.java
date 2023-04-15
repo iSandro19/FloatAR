@@ -117,4 +117,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent backPress = new Intent(SinglePlayerActivity.this, MainActivity.class);
+        startActivity(backPress);
+    }
 }
