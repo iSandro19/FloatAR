@@ -62,5 +62,6 @@
     <string name="string">string</string>
     <string name="settings_language">Idioma</string>
     <string name="language_selector">Language selector</string>
+    <string name="confirmar">Confirmar</string>
 
 </resources>

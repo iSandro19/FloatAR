@@ -23,12 +23,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private final int[][] myBoard = new int[10][10];
     private Context mContext;
 
-    private Button boat1, boat2, boat3, boat4, horizontal, vertical;
-    int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
+    private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
+    int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation, actualTurn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        actualTurn = 0;
+
         setContentView(R.layout.activity_single_player);
 
         numBoats1 = 0;
@@ -49,8 +51,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         boat4 = findViewById(R.id.but_boat_s4);
         horizontal = findViewById(R.id.but_horizontal_boat);
         vertical = findViewById(R.id.but_vertical_boat);
+        confirm = findViewById(R.id.cmdkslcmdslkcs);
 
-        View.OnClickListener sizeClickListener = v -> {
+        View.OnClickListener optionsClickListener = v -> {
             if (v == boat1){
                 sizeBoat = 1;
             } else if (v == boat2) {
@@ -58,21 +61,23 @@ public class SinglePlayerActivity extends AppCompatActivity {
             } else if (v == boat3) {
                 sizeBoat = 3;
             } else if (v == boat4) {
-                Log.d("dfsfdsfds", "entro en 4");
                 sizeBoat = 4;
             } else if (v == horizontal) {
                 orientation = 0;
             } else if (v == vertical) {
                 orientation = 1;
+            } else if (v == confirm) {
+                setContentView(R.layout.activity_about);
             }
         };
 
-        boat1.setOnClickListener(sizeClickListener);
-        boat2.setOnClickListener(sizeClickListener);
-        boat3.setOnClickListener(sizeClickListener);
-        boat4.setOnClickListener(sizeClickListener);
-        horizontal.setOnClickListener(sizeClickListener);
-        vertical.setOnClickListener(sizeClickListener);
+        boat1.setOnClickListener(optionsClickListener);
+        boat2.setOnClickListener(optionsClickListener);
+        boat3.setOnClickListener(optionsClickListener);
+        boat4.setOnClickListener(optionsClickListener);
+        horizontal.setOnClickListener(optionsClickListener);
+        vertical.setOnClickListener(optionsClickListener);
+        confirm.setOnClickListener(optionsClickListener);
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -85,7 +90,17 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
             // Ejecutar la lógica del juego correspondiente
             if (myBoard[row][col] == 0) {
-                createBoat(v, row, col);
+                if (sizeBoat == 1 && numBoats1 < 3){
+                    createBoat(v, row, col);
+                } else if (sizeBoat == 2 && numBoats2 < 2){
+                    createBoat(v, row, col);
+                } else if (sizeBoat == 3 && numBoats3 < 3) {
+                    createBoat(v, row, col);
+                } else if (sizeBoat == 4 && numBoats4 < 2){
+                    createBoat(v, row, col);
+                } else {
+                    Toast.makeText(SinglePlayerActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
+                }
             } else if (myBoard[row][col] == 1) {
                 deleteBoat(v, row, col);
             }
@@ -174,48 +189,44 @@ public class SinglePlayerActivity extends AppCompatActivity {
         Log.d("Barcos3: ", String.valueOf(numBoats3));
         Log.d("Barcos4: ", String.valueOf(numBoats4));
 
-        sumBoat();  //Sumamos el tipo de barco
-
-        if (numBoats1 <= 3 && numBoats2 <= 2 && numBoats3 <= 3 && numBoats4 <= 2){  //Si se cumple lo creamos, sinó lo restamos
-            if (orientation == 0){
-                if (checkHorizontalBoat(row, col)){
-                    if(col+sizeBoat <= 10){
-                        for (int j = col; j < col+sizeBoat; j++) {
-                            myBoard[row][j] = 1;
-                            View button = gridLayout.getChildAt(row * 10 + j);
-                            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                        }
-                        // Cambiar el color del botón pulsado
-                        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-
-                    } else {
-                        Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+        if (orientation == 0){
+            if (checkHorizontalBoat(row, col)){
+                if(col+sizeBoat <= 10){
+                    for (int j = col; j < col+sizeBoat; j++) {
+                        myBoard[row][j] = 1;
+                        View button = gridLayout.getChildAt(row * 10 + j);
+                        button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
                     }
-                } else {
-                    Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
-                }
+                    // Cambiar el color del botón pulsado
+                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
 
+                    sumBoat();  //Sumamos el tipo de barco
+                } else {
+                    Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                if (checkVerticalBoat(row, col)){
-                    if(row+sizeBoat <= 10){
-                        for (int i = row; i < row+sizeBoat; i++) {
-                            myBoard[i][col] = 1;
-                            View button = gridLayout.getChildAt(i * 10 + col);
-                            button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                        }
-
-                        // Cambiar el color del botón pulsado
-                        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
-                    } else {
-                        Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
             }
+
         } else {
-            Toast.makeText(SinglePlayerActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
-            subBoat();
+            if (checkVerticalBoat(row, col)){
+                if(row+sizeBoat <= 10){
+                    for (int i = row; i < row+sizeBoat; i++) {
+                        myBoard[i][col] = 1;
+                        View button = gridLayout.getChildAt(i * 10 + col);
+                        button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+                    }
+
+                    // Cambiar el color del botón pulsado
+                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
+
+                    sumBoat();  //Sumamos el tipo de barco
+                } else {
+                    Toast.makeText(SinglePlayerActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(SinglePlayerActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
