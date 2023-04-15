@@ -47,7 +47,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 params.columnSpec = GridLayout.spec(col);
                 button.setLayoutParams(params);
                 gridLayout.addView(button);
-                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple_200));
+                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
             }
         }
     }
