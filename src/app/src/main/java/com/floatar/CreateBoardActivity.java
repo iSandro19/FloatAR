@@ -9,11 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,7 +32,6 @@ public class CreateBoardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_board);
 
         numBoats1 = 0;
@@ -44,14 +45,16 @@ public class CreateBoardActivity extends AppCompatActivity {
         mContext = this;
         createBoard();
 
-
         boat1 = findViewById(R.id.but_boat_s1);
         boat2 = findViewById(R.id.but_boat_s2);
         boat3 = findViewById(R.id.but_boat_s3);
         boat4 = findViewById(R.id.but_boat_s4);
         horizontal = findViewById(R.id.but_horizontal_boat);
         vertical = findViewById(R.id.but_vertical_boat);
-        confirm = findViewById(R.id.cmdkslcmdslkcs);
+        confirm = findViewById(R.id.confirm);
+
+        // Lista de barcos creados y por crear
+        updateBoatsLeftTextView();
 
         View.OnClickListener optionsClickListener = v -> {
             if (v == boat1){
@@ -107,7 +110,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 } else if (sizeBoat == 4 && numBoats4 < 2){
                     createBoat(v, row, col);
                 } else {
-                    Toast.makeText(CreateBoardActivity.this, "Demasiados barcos", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBoardActivity.this, "No puedes colocar más barcos de este tamaño", Toast.LENGTH_SHORT).show();
                 }
             } else if (myBoard[row][col] == 1) {
                 deleteBoat(v, row, col);
@@ -157,6 +160,19 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
     }
 
+    private void updateBoatsLeftTextView() {
+        String boatsLeftString = "Barcos por colocar:\n";
+        boatsLeftString += (3 - numBoats1) + " de tamaño 1\n";
+        boatsLeftString += (2 - numBoats2) + " de tamaño 2\n";
+        boatsLeftString += (3 - numBoats3) + " de tamaño 3\n";
+        boatsLeftString += (2 - numBoats4) + " de tamaño 4";
+
+        TextView boats = findViewById(R.id.text_view_boats_left);
+        boats.setText(boatsLeftString);
+        boats.setGravity(Gravity.CENTER);
+    }
+
+
     private int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
     }
@@ -172,7 +188,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 Button button = new Button(this);
                 button.setTag("pos_" + row + "_" + col);
 
-                //button.setBackgroundResource(R.drawable.casilla);
+                //button.se tBackgroundResource(R.drawable.casilla);
 
                 // Agregar el botón al GridLayout
                 int size = (getScreenWidth() - 100)/10;
@@ -298,6 +314,9 @@ public class CreateBoardActivity extends AppCompatActivity {
                 Toast.makeText(CreateBoardActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
             }
         }
+
+        // Lista de barcos creados y por crear
+        updateBoatsLeftTextView();
     }
 
     private Boolean checkHorizontalBoat(int row, int col){

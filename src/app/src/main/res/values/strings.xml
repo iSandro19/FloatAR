@@ -87,10 +87,14 @@
         antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
     </string>
 
-    <!-- Strings -->
+    <!-- To classify Strings -->
     <string name="string">string</string>
     <string name="settings_language">Idioma</string>
     <string name="language_selector">Language selector</string>
-    <string name="confirmar">Confirmar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="you_won">¡Has ganado!</string>
+    <string name="you_lost">Has perdido</string>
+    <string name="play_again">Jugar de nuevo</string>
+    <string name="game_over">Fin del juego</string>
 
 </resources>
