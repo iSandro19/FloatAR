@@ -329,7 +329,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         int j = col;
 
-        for (; j < Math.min(col+sizeBoat, 9); j++) {
+        for (; j < Math.min(col+sizeBoat, 10); j++) {
             if (row > 0 && row < 9 && (getValueFromButton(gridLayout.getChildAt(row * 10 + j)) == 1 || getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + j)) == 1 || getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + j)) == 1)) {
                 return false;
             } else if (row == 0 && (getValueFromButton(gridLayout.getChildAt(j)) == 1 || getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + j)) == 1)) {
@@ -366,7 +366,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         int i = row;
 
-        for (; i < Math.min(row+sizeBoat, 9); i++) {
+        for (; i < Math.min(row+sizeBoat, 10); i++) {
             if (col > 0 && col < 9 && (getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col - 1)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col + 1)) == 1)) {
                 return false;
             } else if (col == 0 && (getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1 || getValueFromButton(gridLayout.getChildAt(i * 10 + col + 1)) == 1)) {
