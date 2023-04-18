@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -342,7 +343,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             j++;
         }
 
-        if (j <= 9 && getValueFromButton(gridLayout.getChildAt(row * 10 + col + 1)) == 1) {
+        if (j <= 9 && getValueFromButton(gridLayout.getChildAt(row * 10 + j)) == 1) {
             return false;
         } else if (j == 10) {
             if (row == 0 && getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + 9)) == 1) {
@@ -379,7 +380,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             i++;
         }
 
-        if (i <= 9 && getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + col)) == 1) {
+        if (i <= 9 && getValueFromButton(gridLayout.getChildAt(i * 10 + col)) == 1) {
             return false;
         } else if (i == 10) {
             if (col == 0 && getValueFromButton(gridLayout.getChildAt(9 * 10 + col + 1)) == 1) {
@@ -476,6 +477,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             i++;
         }
         subBoat(i);
+        updateBoatsLeftTextView();
     }
 
     private void sumBoat(){
