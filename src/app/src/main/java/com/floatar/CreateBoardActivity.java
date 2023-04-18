@@ -100,7 +100,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             int col = Integer.parseInt(tag.split("_")[2]);
 
             // Ejecutar la lógica del juego correspondiente
-            if (myBoard[row][col] == 0) {             ///////////// Falta arreglar bug de esquinas //////////
+            if (myBoard[row][col] == 0) {
                 if (sizeBoat == 1 && numBoats1 < 3){
                     createBoat(v, row, col);
                 } else if (sizeBoat == 2 && numBoats2 < 2){
@@ -338,7 +338,22 @@ public class CreateBoardActivity extends AppCompatActivity {
             }
         }
 
-        return j >= 9 || getValueFromButton(gridLayout.getChildAt(row * 10 + j)) != 1;
+        if (col == 9) {
+            j++;
+        }
+
+        if (j <= 9 && getValueFromButton(gridLayout.getChildAt(row * 10 + col + 1)) == 1) {
+            return false;
+        } else if (j == 10) {
+            if (row == 0 && getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + 9)) == 1) {
+                return false;
+            } else if (row == 9 && getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + 9)) == 1) {
+                return false;
+            } else if (row > 0 && row < 9 && (getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + 9)) == 1 || getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + 9)) == 1)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Boolean checkVerticalBoat(int row, int col){
@@ -359,7 +374,23 @@ public class CreateBoardActivity extends AppCompatActivity {
                 return false;
             }
         }
-        return i >= 9 || getValueFromButton(gridLayout.getChildAt(i * 10 + col)) != 1;
+
+        if (row == 9) {
+            i++;
+        }
+
+        if (i <= 9 && getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + col)) == 1) {
+            return false;
+        } else if (i == 10) {
+            if (col == 0 && getValueFromButton(gridLayout.getChildAt(9 * 10 + col + 1)) == 1) {
+                return false;
+            } else if (col == 9 && getValueFromButton(gridLayout.getChildAt(9 * 10 + col - 1)) == 1) {
+                return false;
+            } else if (col > 0 && col < 9 && (getValueFromButton(gridLayout.getChildAt(9 * 10 + col - 1)) == 1 || getValueFromButton(gridLayout.getChildAt(9 * 10 + col + 1)) == 1)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private List<View> getAdjacentButtons(int row, int col) {
