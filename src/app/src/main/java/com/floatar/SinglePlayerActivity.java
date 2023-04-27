@@ -3,6 +3,7 @@ package com.floatar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -14,12 +15,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class SinglePlayerActivity extends AppCompatActivity {
     private int[][] playerBoard = new int[10][10];
     private int[][] opponentBoard = new int[10][10];
+    private final Button[][] playerButtonGrid = new Button[10][10];
     private Context mContext;
     private boolean playerTurn = true;
 
@@ -58,7 +59,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
             if (playerTurn) {
                 playerTurn(v, row, col);
             } else {
-                opponentTurn(v);
+                opponentTurn();
             }
         };
 
@@ -78,6 +79,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                     button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue)); // color para las celdas con barco
                 }
                 playerGridLayout.addView(button);
+                playerButtonGrid[i][j] = button;
             }
         }
 
@@ -109,21 +111,24 @@ public class SinglePlayerActivity extends AppCompatActivity {
             // El jugador ha acertado
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
-            if (checkGameOver(opponentBoard)) {
-                // El jugador ha ganado
-                System.out.println("El jugador ha ganado");
-            }
+
+            checkGameOver();
+
+            Log.d(".SinglePlayer", "El jugador ha acertado, matiene el turno");
         } else {
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
             playerTurn = false; // Cambiar el turno al oponente
+            opponentTurn();
+            Log.d(".SinglePlayer", "El jugador ha fallado, turno para el oponente");
         }
     }
 
-    private void opponentTurn(View v) {
+    private void opponentTurn() {
+        int row = 0;
+        int col = 0;
         if (!playerTurn) {
-            int row, col;
             Random random = new Random();
 
             do {
@@ -133,56 +138,61 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
             if (playerBoard[row][col] == 1) {
                 // El oponente ha acertado
-                opponentBoard[row][col] = 2; // Actualizar la matriz "opponentBoard"
-                //Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
-                v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
-                if (checkGameOver(playerBoard)) {
-                    // El oponente ha ganado
-                    System.out.println("El oponente ha ganado");
-                } else {
-                    // El oponente escoge una posición adyacente de forma aleatoria
-                    int[] neighborRowOffsets = {-1, 0, 1, 0};
-                    int[] neighborColOffsets = {0, 1, 0, -1};
-                    ArrayList<Integer> validNeighbors = new ArrayList<>();
-                    for (int i = 0; i < neighborRowOffsets.length; i++) {
-                        int neighborRow = row + neighborRowOffsets[i];
-                        int neighborCol = col + neighborColOffsets[i];
-                        if (neighborRow >= 0 && neighborRow < 10 && neighborCol >= 0 && neighborCol < 10 && opponentBoard[neighborRow][neighborCol] == 0) {
-                            validNeighbors.add(i);
-                        }
-                    }
-                    if (validNeighbors.size() > 0) {
-                        int neighborIndex = validNeighbors.get(random.nextInt(validNeighbors.size()));
-                        int neighborRow = row + neighborRowOffsets[neighborIndex];
-                        int neighborCol = col + neighborColOffsets[neighborIndex];
-                        opponentBoard[neighborRow][neighborCol] = -1; // Marcar la posición como "fallida"
-                        //Button neighborButton = playerButtonGrid[neighborRow][neighborCol];
-                        v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
-                    }
-                }
+                playerBoard[row][col] = 2; // Actualizar la matriz "opponentBoard"
+                Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
+                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
+
+                checkGameOver();
+
+                Log.d(".SinglePlayer", "El oponente ha acertado, mantiene el turno");
+                opponentTurn();
             } else {
                 // El oponente ha fallado
-                opponentBoard[row][col] = -1; // Actualizar la matriz "opponentBoard"
-                //Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
-                v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black)); // Cambiar el color del botón a negro
+                playerBoard[row][col] = -1; // Actualizar la matriz "opponentBoard"
+                Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
+                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a negro
                 playerTurn = true; // Cambiar el turno al jugador
+                Log.d(".SinglePlayer", "El oponente ha fallado, turno para el jugador");
             }
         }
     }
 
     // Comprobar si el juego ha terminado
-    private boolean checkGameOver(int[][] board) {
-        boolean gameOver = true;
-        // Comprobar si quedan barcos en el tablero
-        for (int[] row : board) {
+    private void checkGameOver() {
+        boolean check = true;
+
+        for (int[] row : playerBoard) {
             for (int cell : row) {
                 if (cell == 1) {
-                    gameOver = false;
+                    check = false;
                     break;
                 }
             }
         }
-        return gameOver;
+
+        if (check) {
+            Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
+            intent.putExtra("winner", "player");
+            startActivity(intent);
+        }
+
+        check = true;
+
+        for (int[] row : opponentBoard) {
+            for (int cell : row) {
+                if (cell == 1) {
+                    check = false;
+                    break;
+                }
+            }
+        }
+
+        if (check) {
+            Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
+            intent.putExtra("winner", "opponent");
+            startActivity(intent);
+        }
+
     }
 
     @Override

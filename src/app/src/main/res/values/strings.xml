@@ -19,7 +19,7 @@
     <string name="exit_game">Exit Game</string>
     <string name="multi_player">Multi Player</string>
 
-    <!-- Strings related to the single player activity -->
+    <!-- Strings related to the create board activity -->
     <string name="but_boat_s1">Barco 1</string>
     <string name="but_boat_s2">Barco 2</string>
     <string name="but_boat_s3">Barco 3</string>
@@ -27,12 +27,18 @@
     <string name="but_horizontal_boat">Horizontal</string>
     <string name="but_vertical_boat">Vertical</string>
 
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">Tablero del jugador</string>
+    <string name="opponent_board">Tablero del oponente</string>
+
     <!-- Strings related to the settings activity -->
     <string name="settings_title">Configuración</string>
     <string name="notifications_title">Notificaciones</string>
     <string name="theme_title">Tema oscuro</string>
     <string name="volume_title">Volumen</string>
     <string name="sava_changes_title">Guardar cambios</string>
+    <string name="settings_language">Idioma</string>
+    <string name="language_selector">Language selector</string>
 
     <!-- Strings related to the help activity -->
     <string name="help_title">Uso de FloatAR</string>
@@ -87,16 +93,12 @@
         antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
     </string>
 
-    <!-- To classify Strings -->
-    <string name="string">string</string>
-    <string name="settings_language">Idioma</string>
-    <string name="language_selector">Language selector</string>
-    <string name="confirm">Confirmar</string>
+    <!-- Strings related to the game over activity -->
     <string name="you_won">¡Has ganado!</string>
     <string name="you_lost">Has perdido</string>
     <string name="play_again">Jugar de nuevo</string>
-    <string name="game_over">Fin del juego</string>
-    <string name="player_board">Tablero del jugador</string>
-    <string name="opponent_board">Tablero del oponente</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">Confirmar</string>
 
 </resources>
