@@ -100,5 +100,8 @@
 
     <!-- To-classify Strings -->
     <string name="confirm">Confirmar</string>
+    <string name="not_implemented_yet">No implementado</string>
+    <string name="not_implemented_yet_description">Esta actividad está en proceso de construcción.</string>
+    <string name="info_logo">info_logo</string>
 
 </resources>

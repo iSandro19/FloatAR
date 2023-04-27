@@ -18,12 +18,14 @@ public class MainActivity extends AppCompatActivity {
         Button buttonSinglePlayer = findViewById(R.id.layout_main_button_singleplayer);
         buttonSinglePlayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateBoardActivity.class);
+            intent.putExtra("mode", "singleplayer");
             startActivity(intent);
         });
 
         Button buttonMultiplayer = findViewById(R.id.layout_main_button_multiplayer);
         buttonMultiplayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateBoardActivity.class);
+            intent.putExtra("gameMode", "multiplayer");
             startActivity(intent);
         });
 

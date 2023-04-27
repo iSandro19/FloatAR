@@ -71,11 +71,20 @@ public class CreateBoardActivity extends AppCompatActivity {
                 orientation = 1;
             } else if (v == confirm) {
                 if (numBoats1 == 3 && numBoats2 == 2 && numBoats3 == 3 && numBoats4 == 2){
-                    Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
-                    startGame.putExtra("playerBoard", myBoard);
-                    startGame.putExtra("opponentBoard", createRivalBoard());
-                    startActivity(startGame);
-
+                    Bundle extras = getIntent().getExtras();
+                    if(extras != null) {
+                        if(extras.getString("gameMode").equals("multiplayer")) {
+                            Intent startGame = new Intent(CreateBoardActivity.this, MultiPlayerActivity.class);
+                            startGame.putExtra("playerBoard", myBoard);
+                            startActivity(startGame);
+                        }
+                        if(extras.getString("gameMode").equals("singleplayer")) {
+                            Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
+                            startGame.putExtra("playerBoard", myBoard);
+                            startGame.putExtra("opponentBoard", createRivalBoard());
+                            startActivity(startGame);
+                        }
+                    }
                 } else {
                     Toast.makeText(CreateBoardActivity.this, "Faltan barcos por colocar", Toast.LENGTH_SHORT).show();
                 }
@@ -349,9 +358,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 return false;
             } else if (row == 9 && getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + 9)) == 1) {
                 return false;
-            } else if (row > 0 && row < 9 && (getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + 9)) == 1 || getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + 9)) == 1)) {
-                return false;
-            }
+            } else return row <= 0 || row >= 9 || (getValueFromButton(gridLayout.getChildAt((row - 1) * 10 + 9)) != 1 && getValueFromButton(gridLayout.getChildAt((row + 1) * 10 + 9)) != 1);
         }
         return true;
     }
@@ -386,9 +393,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 return false;
             } else if (col == 9 && getValueFromButton(gridLayout.getChildAt(9 * 10 + col - 1)) == 1) {
                 return false;
-            } else if (col > 0 && col < 9 && (getValueFromButton(gridLayout.getChildAt(9 * 10 + col - 1)) == 1 || getValueFromButton(gridLayout.getChildAt(9 * 10 + col + 1)) == 1)) {
-                return false;
-            }
+            } else return col <= 0 || col >= 9 || (getValueFromButton(gridLayout.getChildAt(9 * 10 + col - 1)) != 1 && getValueFromButton(gridLayout.getChildAt(9 * 10 + col + 1)) != 1);
         }
         return true;
     }
