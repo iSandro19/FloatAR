@@ -1,9 +1,5 @@
 package com.floatar;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +14,11 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -73,8 +72,8 @@ public class CreateBoardActivity extends AppCompatActivity {
             } else if (v == confirm) {
                 if (numBoats1 == 3 && numBoats2 == 2 && numBoats3 == 3 && numBoats4 == 2){
                     Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
-                    startGame.putExtra("myBoard", myBoard);
-                    startGame.putExtra("rivalBoard", createRivalBoard());
+                    startGame.putExtra("playerBoard", myBoard);
+                    startGame.putExtra("opponentBoard", createRivalBoard());
                     startActivity(startGame);
 
                 } else {

@@ -1,10 +1,5 @@
 package com.floatar;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 
-import java.util.Random;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class SinglePlayerActivity extends AppCompatActivity {
-    private final int[][] myBoard = new int[10][10];
-    private final int[][] opponentBoard = new int[10][10];
+    private int[][] playerBoard = new int[10][10];
+    private int[][] opponentBoard = new int[10][10];
     private Context mContext;
     private boolean playerTurn = true;
 
@@ -28,9 +25,21 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
 
-        GridLayout gridLayout = findViewById(R.id.gridLayout_myBoard);
+        GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board);
+        GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board);
         mContext = this;
-        createBoard();
+
+        // Obtener el tablero del jugador
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            playerBoard = (int[][]) bundle.getSerializable("playerBoard");
+        }
+
+        // Obtener el tablero del oponente
+        if (bundle != null) {
+            opponentBoard = (int[][]) bundle.getSerializable("opponentBoard");
+        }
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -42,19 +51,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
             int col = Integer.parseInt(tag.split("_")[2]);
 
             // Ejecutar la lógica del juego correspondiente
+
             if (playerTurn) {
-                if (myBoard[row][col] == 1) {
-                    // El jugador ha acertado
-                    myBoard[row][col] = 2; // Actualizar la matriz "myBoard"
-                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
-                    checkGameOver(); // Comprobar si el juego ha terminado
-                } else {
-                    // El jugador ha fallado
-                    myBoard[row][col] = -1; // Actualizar la matriz "myBoard"
-                    v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
-                    playerTurn = false; // Cambiar el turno al oponente
-                    opponentTurn(); // Ejecutar la lógica del oponente
-                }
+                playerTurn(v, row, col);
+            } else {
+                opponentTurn(v, row, col);
             }
         };
 
@@ -62,14 +63,33 @@ public class SinglePlayerActivity extends AppCompatActivity {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Button button = new Button(this);
-                button.setTag("button_" + i + "_" + j); // Establecer una etiqueta única para cada botón
+                button.setTag("player_button_" + i + "_" + j); // Establecer una etiqueta única para cada botón
+                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
+                int buttonSize = (getScreenWidth()/2) / 10;
+                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(buttonSize, buttonSize);
+                params.setMargins(3, 3, 3, 3);
+                button.setLayoutParams(params);
+                button.setOnClickListener(buttonClickListener);
+                // Establecer el color del botón según el contenido de la celda en myBoard
+                if (playerBoard[i][j] == 1) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue)); // color para las celdas con barco
+                }
+                playerGridLayout.addView(button);
+            }
+        }
+
+        // Añadir los botones al tablero
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                Button button = new Button(this);
+                button.setTag("opponent_button_" + i + "_" + j); // Establecer una etiqueta única para cada botón
                 button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
                 int buttonSize = (getScreenWidth() - 100) / 10;
                 ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(buttonSize, buttonSize);
                 params.setMargins(3, 3, 3, 3);
                 button.setLayoutParams(params);
                 button.setOnClickListener(buttonClickListener);
-                gridLayout.addView(button);
+                opponentGridLayout.addView(button);
             }
         }
 
@@ -80,105 +100,32 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    // Generar los barcos aleatorios
-    private void createBoard() {
-        // Barcos de tamaño 5
-        createShip(5);
-
-        // Barcos de tamaño 4
-        createShip(4);
-        createShip(4);
-
-        // Barcos de tamaño 3
-        createShip(3);
-        createShip(3);
-        createShip(3);
-
-        // Barcos de tamaño 2
-        createShip(2);
-        createShip(2);
-        createShip(2);
-        createShip(2);
-    }
-
-    // Generar un barco de tamaño "size" aleatorio
-    private void createShip(int size) {
-        Random random = new Random();
-        boolean vertical = random.nextBoolean();
-        int row, col;
-
-        if (vertical) {
-            row = random.nextInt(10 - size + 1);
-            col = random.nextInt(10);
-            for (int i = row; i < row + size; i++) {
-                myBoard[i][col] = 1;
-            }
+    // Ejecutar la lógica del jugador
+    private void playerTurn(View v, int row, int col) {
+        if (opponentBoard[row][col] == 1) {
+            // El jugador ha acertado
+            opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
         } else {
-            row = random.nextInt(10);
-            col = random.nextInt(10 - size + 1);
-            for (int j = col; j < col + size; j++) {
-                myBoard[row][j] = 1;
-            }
+            // El jugador ha fallado
+            opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
+            playerTurn = false; // Cambiar el turno al oponente
         }
     }
-
 
     // Ejecutar la lógica del oponente
-    private void opponentTurn() {
-        Random random = new Random();
-        int row, col;
-
-        do {
-            row = random.nextInt(10);
-            col = random.nextInt(10);
-        } while (opponentBoard[row][col] != 0);
-
-        if (myBoard[row][col] == 1) {
-            opponentBoard[row][col] = 2;
-            int buttonId = getResources().getIdentifier("button_" + row + "_" + col, "id", getPackageName());
-            Button button = findViewById(buttonId);
-            if (button != null) {
-                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
-            }
-            checkGameOver();
+    private void opponentTurn(View v, int row, int col) {
+        if (playerBoard[row][col] == 1) {
+            // El jugador ha acertado
+            playerBoard[row][col] = 2; // Actualizar la matriz "myBoard"
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
         } else {
-            opponentBoard[row][col] = -1;
-            playerTurn = true;
-            int buttonId = getResources().getIdentifier("button_" + row + "_" + col, "id", getPackageName());
-            Button button = findViewById(buttonId);
-            if (button != null) {
-                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray));
-            }
+            // El jugador ha fallado
+            playerBoard[row][col] = -1; // Actualizar la matriz "myBoard"
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
+            playerTurn = true; // Cambiar el turno al oponente
         }
-    }
-
-
-    // Comprobar si el juego ha terminado
-    private void checkGameOver() {
-        /*boolean gameOver = true;
-        for (int[] row : myBoard) {
-            for (int cell : row) {
-                if (cell == 1) {
-                    gameOver = false;
-                    break;
-                }
-            }
-            if (!gameOver) {
-                break;
-            }
-        }
-        if (gameOver) {
-            new AlertDialog.Builder(mContext)
-                    .setTitle(R.string.game_over)
-                    .setMessage(R.string.you_lost)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                        Intent intent = new Intent(mContext, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    })
-                    .setCancelable(false)
-                    .show();
-        }*/
     }
 
     @Override
@@ -193,7 +140,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() { // Se puede recuperar la actividad de main????????
+    public void onBackPressed() {
         super.onBackPressed();
         Intent backPress = new Intent(SinglePlayerActivity.this, MainActivity.class);
         startActivity(backPress);

@@ -96,5 +96,7 @@
     <string name="you_lost">Has perdido</string>
     <string name="play_again">Jugar de nuevo</string>
     <string name="game_over">Fin del juego</string>
+    <string name="player_board">Tablero del jugador</string>
+    <string name="opponent_board">Tablero del oponente</string>
 
 </resources>

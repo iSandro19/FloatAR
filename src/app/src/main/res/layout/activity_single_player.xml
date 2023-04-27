@@ -5,8 +5,16 @@
     android:orientation="vertical"
     android:layout_gravity="center">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/player_board"
+        android:textSize="30sp"
+        android:padding="10dp"
+        android:gravity="center"/>
+
     <GridLayout
-        android:id="@+id/gridLayout_myBoard"
+        android:id="@+id/grid_layout_player_board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="10"
@@ -17,5 +25,24 @@
         android:padding="5dp">
     </GridLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/opponent_board"
+        android:textSize="30sp"
+        android:padding="10dp"
+        android:gravity="center"/>
+
+    <GridLayout
+        android:id="@+id/grid_layout_opponent_board"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="10"
+        android:rowCount="10"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        android:layout_gravity="center"
+        android:padding="5dp">
+    </GridLayout>
 
 </LinearLayout>
