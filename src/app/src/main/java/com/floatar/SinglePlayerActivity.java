@@ -55,7 +55,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
             int col = Integer.parseInt(tag.split("_")[2]);
 
             // Ejecutar la lógica del juego correspondiente
-
             if (playerTurn) {
                 playerTurn(v, row, col);
             } else {
@@ -160,38 +159,30 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private void checkGameOver() {
         boolean check = true;
 
-        for (int[] row : playerBoard) {
-            for (int cell : row) {
+        // Gana la IA
+        for (int[] row : playerBoard)
+            for (int cell : row)
                 if (cell == 1) {
-                    check = false;
-                    break;
+                    check = false; break;
                 }
-            }
-        }
-
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "opponent");
             startActivity(intent);
         }
 
+        // Gana el jugador
         check = true;
-
-        for (int[] row : opponentBoard) {
-            for (int cell : row) {
+        for (int[] row : opponentBoard)
+            for (int cell : row)
                 if (cell == 1) {
-                    check = false;
-                    break;
+                    check = false; break;
                 }
-            }
-        }
-
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "player");
             startActivity(intent);
         }
-
     }
 
     @Override
