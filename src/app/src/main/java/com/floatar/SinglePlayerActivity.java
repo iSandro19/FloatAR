@@ -126,8 +126,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     }
 
     private void opponentTurn() {
-        int row = 0;
-        int col = 0;
+        int row, col;
         if (!playerTurn) {
             Random random = new Random();
 
@@ -172,7 +171,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
-            intent.putExtra("winner", "player");
+            intent.putExtra("winner", "opponent");
             startActivity(intent);
         }
 
@@ -189,7 +188,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
-            intent.putExtra("winner", "opponent");
+            intent.putExtra("winner", "player");
             startActivity(intent);
         }
 
