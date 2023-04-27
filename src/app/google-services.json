@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1048672278666",
+    "project_id": "ps-floatar",
+    "storage_bucket": "ps-floatar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048672278666:android:1f4c827228d705d4aef573",
+        "android_client_info": {
+          "package_name": "com.floatar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048672278666-6b99incpm11ahh30s7792qac0ik8bm36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-a-l7o8T8Y6n-FimDtHeePdPtNK_ns9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048672278666-6b99incpm11ahh30s7792qac0ik8bm36.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

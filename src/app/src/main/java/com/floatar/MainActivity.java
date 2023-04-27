@@ -9,11 +9,18 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Inicializar Firebase
+        FirebaseApp.initializeApp(this);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         Button buttonSinglePlayer = findViewById(R.id.layout_main_button_singleplayer);
         buttonSinglePlayer.setOnClickListener(v -> {
@@ -30,9 +37,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button buttonExit = findViewById(R.id.layout_main_button_exit);
-        buttonExit.setOnClickListener(v -> {
-            finish();
-        });
+        buttonExit.setOnClickListener(v -> finish());
 
         // Aplicar el modo oscuro al reiniciar la actividad
         applyAppPreferences();

@@ -11,6 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FloatAR"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.firebase.database.collection.DeferredLifecycleAdapter"
+            android:value="com.google.firebase.database.collection.LifecycleAdapter" />
+
         <activity
             android:name=".MultiPlayerActivity"
             android:exported="false" />
