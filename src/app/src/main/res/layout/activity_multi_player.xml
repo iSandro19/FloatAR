@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="16dp">
@@ -15,8 +16,8 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/info_logo"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/ic_dialog_info"
-        tools:ignore="ImageContrastCheck" />
+        app:tint="@color/red"
+        android:src="@android:drawable/ic_dialog_alert" />
 
     <!-- Título de la actividad -->
     <TextView
