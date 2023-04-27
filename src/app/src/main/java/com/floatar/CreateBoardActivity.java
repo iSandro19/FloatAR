@@ -77,12 +77,13 @@ public class CreateBoardActivity extends AppCompatActivity {
                             Intent startGame = new Intent(CreateBoardActivity.this, MultiPlayerActivity.class);
                             startGame.putExtra("playerBoard", myBoard);
                             startActivity(startGame);
-                        }
-                        if(extras.getString("gameMode").equals("singleplayer")) {
+                        } else if(extras.getString("gameMode").equals("singleplayer")) {
                             Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
                             startGame.putExtra("playerBoard", myBoard);
                             startGame.putExtra("opponentBoard", createRivalBoard());
                             startActivity(startGame);
+                        } else {
+                            Log.e("CreateBoardActivity", "Error al obtener el modo de juego");
                         }
                     }
                 } else {
