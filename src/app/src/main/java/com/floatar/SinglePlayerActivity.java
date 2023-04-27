@@ -24,6 +24,12 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private Context mContext;
     private boolean playerTurn = true;
 
+    /*
+     * Existe un bug con la lógica de la IA. Avanzada la partida deja de jugar.
+     * A mayores no juega de forma lógica y/ordenada, por lo que tendríamos que
+     * mejorar su algoritmo.
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
