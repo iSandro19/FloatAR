@@ -1,14 +1,13 @@
 package com.floatar;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.Button;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -23,14 +22,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button buttonMultiplayer = findViewById(R.id.layout_main_button_multiplayer);
-        buttonMultiplayer.setOnClickListener(v ->
-                Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT).show()
-        );
+        buttonMultiplayer.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CreateBoardActivity.class);
+            startActivity(intent);
+        });
 
         Button buttonExit = findViewById(R.id.layout_main_button_exit);
         buttonExit.setOnClickListener(v -> {
             finish();
-            System.exit(0);
         });
 
         // Aplicar el modo oscuro al reiniciar la actividad
