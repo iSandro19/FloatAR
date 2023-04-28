@@ -14,7 +14,7 @@
         android:gravity="center"/>
 
     <GridLayout
-        android:id="@+id/grid_layout_player_board"
+        android:id="@+id/grid_layout_player_board_single_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="10"
@@ -34,7 +34,7 @@
         android:gravity="center"/>
 
     <GridLayout
-        android:id="@+id/grid_layout_opponent_board"
+        android:id="@+id/grid_layout_opponent_board_single_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="10"

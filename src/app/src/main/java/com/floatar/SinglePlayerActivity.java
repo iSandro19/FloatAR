@@ -35,8 +35,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_player);
 
-        GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board);
-        GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board);
+        GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board_single_player);
+        GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board_single_player);
         mContext = this;
 
         // Obtener el tablero del jugador

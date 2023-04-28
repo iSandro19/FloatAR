@@ -1,15 +1,24 @@
 package com.floatar;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,20 +26,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
 public class MultiPlayerActivity extends AppCompatActivity {
-
     private DatabaseReference mDatabase;
     private String gameId;
     private String playerId;
     private int[][] playerBoard = new int[10][10];
+    private int[][] opponentBoard = new int[10][10];
+    private final Button[][] playerButtonGrid = new Button[10][10];
+    private Context mContext;
+    private boolean playerTurn = true;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_player);
+
+        GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board_multi_player);
+        GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board_multi_player);
+        mContext = this;
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -38,58 +56,137 @@ public class MultiPlayerActivity extends AppCompatActivity {
             playerBoard = (int[][]) bundle.getSerializable("playerBoard");
         }
 
-        // Obtener la instancia de la base de datos de Firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        // Obtener una referencia a la ubicación que deseas escribir en la base de datos
-        DatabaseReference reference = database.getReference("partidas");
-
-        // Agregar un valor inicial a la base de datos
-        reference.setValue("Hello, Firebase!");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously();
 
         // Generar un identificador único para la partida y el jugador actual
         gameId = generateGameId();
         playerId = generatePlayerId();
 
+        TextView tv = findViewById(R.id.text_view_multi_player);
+        tv.setText("Game ID: " + gameId + "\nPlayer ID: " + playerId);
+
         // Conectar con la base de datos de Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Crear un nodo para la partida y guardar el tablero del jugador actual
-        //mDatabase.child("games").child(gameId).child("players").child(playerId).setValue(Arrays.asList(playerBoard));
+        mDatabase
+            .child("games")
+            .child(gameId)
+            .child("players")
+            .child(playerId)
+            .setValue(Arrays.deepToString(playerBoard));
 
         // Escuchar los cambios en la base de datos para actualizar el tablero del jugador actual
-        mDatabase.child("games").child(gameId).child("players").child(playerId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                playerBoard = dataSnapshot.getValue(int[][].class);
-                // Actualizar la pantalla del juego con el tablero del jugador actual
-                updateUI();
-            }
+        mDatabase
+            .child("games")
+            .child(gameId)
+            .child("players")
+            .child(playerId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String value = dataSnapshot.getValue(String.class);
+                    Toast.makeText(MultiPlayerActivity.this, value, Toast.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
+                }
         });
 
-        // Agregar un listener a la referencia de la base de datos para leer su valor
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Obtener el valor de la base de datos y mostrarlo en un Toast
-                String value = dataSnapshot.getValue(String.class);
-                Toast.makeText(MultiPlayerActivity.this, value, Toast.LENGTH_SHORT).show();
-            }
+        // OnClickListener para los botones del tablero
+        View.OnClickListener buttonClickListener = v -> {
+            // Obtener la etiqueta del botón
+            String tag = (String) v.getTag();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Manejar errores de la base de datos aquí
-            }
-        });
+            // Obtener la posición del botón a partir de su etiqueta
+            int row = Integer.parseInt(tag.split("_")[1]);
+            int col = Integer.parseInt(tag.split("_")[2]);
 
+            // Ejecutar la lógica del juego correspondiente
+            if (playerTurn) {
+                playerTurn(v, row, col);
+            } else {
+                opponentTurn();
+            }
+        };
+
+        // Añadir los botones al tablero
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                Button button = new Button(this);
+                button.setTag("playerbutton_" + i + "_" + j); // Establecer una etiqueta única para cada botón
+                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
+                int buttonSize = (getScreenWidth()/2) / 10;
+                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(buttonSize, buttonSize);
+                params.setMargins(3, 3, 3, 3);
+                button.setLayoutParams(params);
+                button.setOnClickListener(buttonClickListener);
+                // Establecer el color del botón según el contenido de la celda en myBoard
+                if (playerBoard[i][j] == 1) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue)); // color para las celdas con barco
+                }
+                playerGridLayout.addView(button);
+                playerButtonGrid[i][j] = button;
+            }
+        }
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                Button button = new Button(this);
+                button.setTag("opponentbutton_" + i + "_" + j); // Establecer una etiqueta única para cada botón
+                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
+                int buttonSize = (int) ((getScreenWidth()/1.5) / 10);
+                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(buttonSize, buttonSize);
+                params.setMargins(3, 3, 3, 3);
+                button.setLayoutParams(params);
+                button.setOnClickListener(buttonClickListener);
+                opponentGridLayout.addView(button);
+            }
+        }
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void playerTurn(View v, int row, int col) {
+        // TODO
+    }
+
+    private void opponentTurn() {
+        // TODO: Implementar la lógica del juego para el multijador
+    }
+
+    // Comprobar si el juego ha terminado
+    private void checkGameOver() {
+        boolean check = true;
+
+        // Gana la IA
+        for (int[] row : playerBoard)
+            for (int cell : row)
+                if (cell == 1) {
+                    check = false; break;
+                }
+        if (check) {
+            Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
+            intent.putExtra("winner", "opponent");
+            startActivity(intent);
+        }
+
+        // Gana el jugador
+        check = true;
+        for (int[] row : opponentBoard)
+            for (int cell : row)
+                if (cell == 1) {
+                    check = false; break;
+                }
+        if (check) {
+            Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
+            intent.putExtra("winner", "player");
+            startActivity(intent);
         }
     }
 
@@ -108,9 +205,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
         return Settings.Secure.ANDROID_ID + "_" + sdf.format(new Date());
     }
 
-    // Actualizar la pantalla del juego con el tablero del jugador actual
-    private void updateUI() {
-        // TODO: Implementar la actualización de la pantalla del juego con el tablero del jugador actual
+    private int getScreenWidth() {
+        return getResources().getDisplayMetrics().widthPixels;
     }
 
     @Override

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 public class CreateBoardActivity extends AppCompatActivity {
-    private final int[][] myBoard = new int[10][10];
+    private final int[][] playerBoard = new int[10][10];
     private Context mContext;
 
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
@@ -80,11 +80,11 @@ public class CreateBoardActivity extends AppCompatActivity {
                     if(extras != null) {
                         if(extras.getString("gameMode").equals("multiplayer")) {
                             Intent startGame = new Intent(CreateBoardActivity.this, MultiPlayerActivity.class);
-                            startGame.putExtra("playerBoard", myBoard);
+                            startGame.putExtra("playerBoard", playerBoard);
                             startActivity(startGame);
                         } else if(extras.getString("gameMode").equals("singleplayer")) {
                             Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
-                            startGame.putExtra("playerBoard", myBoard);
+                            startGame.putExtra("playerBoard", playerBoard);
                             startGame.putExtra("opponentBoard", createRivalBoard());
                             startActivity(startGame);
                         } else {
@@ -115,7 +115,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             int col = Integer.parseInt(tag.split("_")[2]);
 
             // Ejecutar la lógica del juego correspondiente
-            if (myBoard[row][col] == 0) {
+            if (playerBoard[row][col] == 0) {
                 if (sizeBoat == 1 && numBoats1 < 3){
                     createBoat(v, row, col);
                 } else if (sizeBoat == 2 && numBoats2 < 2){
@@ -127,7 +127,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(CreateBoardActivity.this, "No puedes colocar más barcos de este tamaño", Toast.LENGTH_SHORT).show();
                 }
-            } else if (myBoard[row][col] == 1) {
+            } else if (playerBoard[row][col] == 1) {
                 deleteBoat(v, row, col);
             }
         };
@@ -294,7 +294,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             if (checkHorizontalBoat(row, col)){
                 if(col+sizeBoat <= 10){
                     for (int j = col; j < col+sizeBoat; j++) {
-                        myBoard[row][j] = 1;
+                        playerBoard[row][j] = 1;
                         View button = gridLayout.getChildAt(row * 10 + j);
                         button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
                     }
@@ -313,7 +313,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             if (checkVerticalBoat(row, col)){
                 if(row+sizeBoat <= 10){
                     for (int i = row; i < row+sizeBoat; i++) {
-                        myBoard[i][col] = 1;
+                        playerBoard[i][col] = 1;
                         View button = gridLayout.getChildAt(i * 10 + col);
                         button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
                     }
@@ -469,11 +469,11 @@ public class CreateBoardActivity extends AppCompatActivity {
         int row = Integer.parseInt(tag.split("_")[1]);
         int col = Integer.parseInt(tag.split("_")[2]);
 
-        return myBoard[row][col];
+        return playerBoard[row][col];
     }
 
     private void deleteBoat(View v ,int row, int col){
-        myBoard[row][col] = 0;
+        playerBoard[row][col] = 0;
         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
 
         List<View> adjacentButtons = getAdjacentButtons(row, col);
@@ -482,7 +482,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             String tag = (String) button.getTag();
             int adjRow = Integer.parseInt(tag.split("_")[1]);
             int adjCol = Integer.parseInt(tag.split("_")[2]);
-            myBoard[adjRow][adjCol] = 0;
+            playerBoard[adjRow][adjCol] = 0;
             button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
             i++;
         }
