@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.firebase.appcheck.interop.BuildConfig;
+
 public class AboutActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     @Override
