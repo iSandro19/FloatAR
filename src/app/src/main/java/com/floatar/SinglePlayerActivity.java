@@ -94,7 +94,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 Button button = new Button(this);
                 button.setTag("opponentbutton_" + i + "_" + j); // Establecer una etiqueta única para cada botón
                 button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
-                int buttonSize = (getScreenWidth() - 100) / 10;
+                int buttonSize = (getScreenWidth() - 200) / 10;
                 ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(buttonSize, buttonSize);
                 params.setMargins(3, 3, 3, 3);
                 button.setLayoutParams(params);
