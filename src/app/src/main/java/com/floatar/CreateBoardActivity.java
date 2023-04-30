@@ -222,7 +222,12 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     private int[][] createRivalBoard(){
 
-        Random rand = new Random();
+        IACreateBoard iaBoard = new IACreateBoard();
+        iaBoard.fillBoard();
+
+        return iaBoard.getBoard();
+
+        /*Random rand = new Random();
 
         int randomBoard = rand.nextInt(4);
 
@@ -279,7 +284,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             default:
                 Log.d("Error aleatorio", "Error a causa de la aleatoriedad");
                 return null;
-        }
+        }*/
     }
 
     private void createBoat(View v, int row, int col){
