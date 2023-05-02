@@ -24,12 +24,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private Context mContext;
     private boolean playerTurn = true;
 
-    /*
-     * Existe un bug con la lógica de la IA. Avanzada la partida deja de jugar.
-     * A mayores no juega de forma lógica y/ordenada, por lo que tendríamos que
-     * mejorar su algoritmo.
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +32,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board_single_player);
         GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board_single_player);
         mContext = this;
+
+        //MediaPlayer hitSound = MediaPlayer.create(this, R.raw.hit);
+        //MediaPlayer missSound = MediaPlayer.create(this, R.raw.miss);
 
         // Obtener el tablero del jugador
         Intent intent = getIntent();
@@ -118,9 +115,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
             // El jugador ha acertado
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
-
             checkGameOver();
-
             Log.d(".SinglePlayer", "El jugador ha acertado, matiene el turno");
         } else {
             // El jugador ha fallado

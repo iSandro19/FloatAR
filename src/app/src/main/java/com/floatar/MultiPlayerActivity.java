@@ -35,7 +35,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private String gameId;
     private String playerId;
     private int[][] playerBoard = new int[10][10];
-    private int[][] opponentBoard = new int[10][10];
+    private final int[][] opponentBoard = new int[10][10];
     private final Button[][] playerButtonGrid = new Button[10][10];
     private Context mContext;
     private boolean playerTurn = true;
@@ -104,8 +104,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
             int row = Integer.parseInt(tag.split("_")[1]);
             int col = Integer.parseInt(tag.split("_")[2]);
 
+            String buttonType = String.valueOf(tag.split("_")[0]);
+
             // Ejecutar la lógica del juego correspondiente
-            if (playerTurn) {
+            if (playerTurn && !buttonType.equals("playerbutton")) {
                 playerTurn(v, row, col);
             } else {
                 opponentTurn();
