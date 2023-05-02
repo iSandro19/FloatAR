@@ -60,8 +60,10 @@ public class SinglePlayerActivity extends AppCompatActivity {
             int row = Integer.parseInt(tag.split("_")[1]);
             int col = Integer.parseInt(tag.split("_")[2]);
 
+            String buttonType = String.valueOf(tag.split("_")[0]);
+
             // Ejecutar la lógica del juego correspondiente
-            if (playerTurn) {
+            if (playerTurn && !buttonType.equals("playerbutton")) {
                 playerTurn(v, row, col);
             } else {
                 opponentTurn();
@@ -174,6 +176,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "opponent");
+            System.out.println("Gana la IA");
             startActivity(intent);
         }
 
@@ -187,6 +190,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "player");
+            System.out.println("Gana el jugador");
             startActivity(intent);
         }
     }
