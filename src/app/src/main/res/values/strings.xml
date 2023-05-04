@@ -103,5 +103,10 @@
     <string name="not_implemented_yet">No implementado</string>
     <string name="not_implemented_yet_description">Esta actividad está en proceso de construcción.</string>
     <string name="info_logo">info_logo</string>
+    <string name="create_lobby">Crear lobby</string>
+    <string name="open_lobbies">Lobbies disponibles:</string>
+    <string name="lobby_name">Nombre de la lobby</string>
+    <string name="join_lobby">Unirse a lobby</string>
+    <string name="your_name">Tu nombre</string>
 
 </resources>

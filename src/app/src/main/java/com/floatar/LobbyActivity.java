@@ -1,0 +1,147 @@
+package com.floatar;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class LobbyActivity extends AppCompatActivity {
+    private Button createLobbyButton;
+    private ListView lobbyList;
+    private List<Lobby> lobbies;
+    private ArrayAdapter<Lobby> lobbyAdapter;
+
+    private FirebaseDatabase database;
+    private DatabaseReference lobbiesRef;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lobby);
+
+        createLobbyButton = findViewById(R.id.create_lobby_button);
+        lobbyList = findViewById(R.id.lobby_list);
+
+        lobbies = new ArrayList<>();
+        lobbyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lobbies);
+        lobbyList.setAdapter(lobbyAdapter);
+
+        database = FirebaseDatabase.getInstance();
+        lobbiesRef = database.getReference("lobbies");
+
+        // Escuchar los cambios en la lista de lobbies
+        lobbiesRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Lobby lobby = snapshot.getValue(Lobby.class);
+                lobbies.add(lobby);
+                lobbyAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                // No implementado
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Lobby lobby = snapshot.getValue(Lobby.class);
+                lobbies.remove(lobby);
+                lobbyAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                // No implementado
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // No implementado
+            }
+        });
+
+        // Cuando el usuario seleccione una lobby de la lista, llamar a onLobbySelected
+        lobbyList.setOnItemClickListener((parent, view, position, id) -> onLobbySelected(lobbies.get(position)));
+    }
+
+    public void onCreateLobbyClicked(View view) {
+        // Mostrar un cuadro de diálogo para que el usuario ingrese el nombre de la lobby y seleccione el número de jugadores
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Crear lobby");
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_create_lobby, null);
+        builder.setView(dialogView);
+
+        // Name
+        EditText lobbyNameEditText = dialogView.findViewById(R.id.lobby_name_edit_text);
+
+        builder.setPositiveButton("Crear", (dialog, which) -> {
+            String lobbyName = lobbyNameEditText.getText().toString().trim();
+
+            // Crear la lobby y agregarla a la lista
+            Lobby lobby = new Lobby(lobbyName);
+            String key = lobbiesRef.push().getKey();
+            assert key != null;
+            lobbiesRef.child(key).setValue(lobby);
+
+            // Mostrar un mensaje de éxito
+            Toast.makeText(this, "Lobby creada", Toast.LENGTH_SHORT).show();
+        });
+
+        builder.setNegativeButton("Cancelar", null);
+
+        builder.show();
+    }
+
+    private void onLobbySelected(Lobby lobby) {
+        // Mostrar un cuadro de diálogo para que el usuario ingrese su nombre y se una a la lobby
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Unirse a " + lobby.getName());
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_join_lobby, null);
+        builder.setView(dialogView);
+
+        EditText playerNameEditText = dialogView.findViewById(R.id.player_name_edit_text);
+
+        builder.setPositiveButton("Unirse", (dialog, which) -> {
+            String playerName = playerNameEditText.getText().toString().trim();
+
+            // Agregar el jugador a la lista de jugadores de la lobby
+            DatabaseReference playersRef = lobbiesRef.child(lobby.getKey()).child("players");
+            String key = playersRef.push().getKey();
+            assert key != null;
+            playersRef.child(key).setValue(playerName);
+
+            // Iniciar la actividad del juego y pasar la información de la lobby
+            Intent intent = new Intent(this, MultiPlayerActivity.class);
+            intent.putExtra("lobbyName", lobby.getName());
+            intent.putExtra("playerName", playerName);
+            intent.putExtra("lobbyKey", lobby.getKey());
+            startActivity(intent);
+        });
+
+        builder.setNegativeButton("Cancelar", null);
+
+        builder.show();
+    }
+}
