@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] playerBoard = new int[10][10];
@@ -81,6 +80,9 @@ public class CreateBoardActivity extends AppCompatActivity {
                         if(extras.getString("gameMode").equals("multiplayer")) {
                             Intent startGame = new Intent(CreateBoardActivity.this, MultiPlayerActivity.class);
                             startGame.putExtra("playerBoard", playerBoard);
+                            startGame.putExtra("lobbyName", extras.getString("lobbyName"));
+                            startGame.putExtra("playerName", extras.getString("playerName"));
+                            startGame.putExtra("lobbyKey", extras.getString("lobbyKey"));
                             startActivity(startGame);
                         } else if(extras.getString("gameMode").equals("singleplayer")) {
                             Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
