@@ -5,9 +5,9 @@
     <string name="floatar_logo">FloatAR logo</string>
 
     <!-- Strings related to the main menu -->
-    <string name="settings">Settings</string>
-    <string name="help">Help</string>
-    <string name="about">About</string>
+    <string name="settings">Ajustes</string>
+    <string name="help">Ayuda</string>
+    <string name="about">Sobre la aplicación</string>
 
     <!-- Strings related to the game -->
     <string name="player_turn">1</string>
@@ -15,9 +15,9 @@
     <string name="score_format">Score</string>
 
     <!-- Strings related to the main activity -->
-    <string name="single_player">Single Player</string>
-    <string name="exit_game">Exit Game</string>
-    <string name="multi_player">Multi Player</string>
+    <string name="single_player">Un jugador</string>
+    <string name="exit_game">Salir</string>
+    <string name="multi_player">Multijugador</string>
 
     <!-- Strings related to the create board activity -->
     <string name="but_boat_s1">Barco 1</string>
@@ -108,5 +108,8 @@
     <string name="lobby_name">Nombre de la lobby</string>
     <string name="join_lobby">Unirse a lobby</string>
     <string name="your_name">Tu nombre</string>
+    <string name="lobby">Salas</string>
+    <string name="game_over">Fin del juego</string>
+    <string name="create_board">Crear tablero</string>
 
 </resources>

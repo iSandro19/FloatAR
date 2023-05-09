@@ -150,8 +150,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(R.string.multi_player);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
     }
 
     private void playerTurn(View v, int row, int col) {
@@ -211,13 +213,27 @@ public class MultiPlayerActivity extends AppCompatActivity {
         return getResources().getDisplayMetrics().widthPixels;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            // Eliminar el nodo del jugador actual al salir de la actividad
-            mDatabase.child("games").child(gameId).child("players").child(playerId).removeValue();
-            onBackPressed();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Eliminar el nodo del jugador actual al salir de la actividad
+                mDatabase.child("games").child(gameId).child("players").child(playerId).removeValue();
+                onBackPressed();
+                return true;
+            case R.id.layout_menu_main_help:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

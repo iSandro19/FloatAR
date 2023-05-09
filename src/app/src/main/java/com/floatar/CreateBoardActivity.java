@@ -28,11 +28,6 @@ public class CreateBoardActivity extends AppCompatActivity {
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
     int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
 
-    /*
-     * Queda por hacer que el tablero de la IA se genere de forma aleatoria.
-     * Por ahora solo escoge al azar unos tableros predefinidos.
-     */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +137,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(R.string.create_board);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }

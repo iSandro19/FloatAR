@@ -6,51 +6,51 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/player_board"
-        android:textSize="30sp"
-        android:padding="10dp"
-        android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/player_board"
+            android:textSize="30sp"
+            android:padding="10dp"
+            android:gravity="center"/>
 
-    <GridLayout
-        android:id="@+id/grid_layout_player_board_multi_player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="10"
-        android:rowCount="10"
-        android:orientation="horizontal"
-        android:background="@android:color/white"
-        android:layout_gravity="center"
-        android:padding="5dp">
-    </GridLayout>
+        <GridLayout
+            android:id="@+id/grid_layout_player_board_multi_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="10"
+            android:rowCount="10"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:layout_gravity="center"
+            android:padding="5dp">
+        </GridLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/opponent_board"
-        android:textSize="30sp"
-        android:padding="10dp"
-        android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/opponent_board"
+            android:textSize="30sp"
+            android:padding="10dp"
+            android:gravity="center"/>
 
-    <GridLayout
-        android:id="@+id/grid_layout_opponent_board_multi_player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="10"
-        android:rowCount="10"
-        android:orientation="horizontal"
-        android:background="@android:color/white"
-        android:layout_gravity="center"
-        android:padding="5dp">
-    </GridLayout>
+        <GridLayout
+            android:id="@+id/grid_layout_opponent_board_multi_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="10"
+            android:rowCount="10"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:layout_gravity="center"
+            android:padding="5dp">
+        </GridLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text_view_multi_player"
-        android:gravity="center">
-    </TextView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_view_multi_player"
+            android:gravity="center">
+        </TextView>
 
 </LinearLayout>
