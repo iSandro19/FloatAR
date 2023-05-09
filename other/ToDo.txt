@@ -1,5 +1,6 @@
 ToDo:
-1. Implementación de pequeños test
-2. Uso de las notificaciones
-3. Implementación de varios idiomas
-4. Creación de una pequeña demo de AR
+1. Acabar el modo multijugador
+2. Implementación de pequeños test
+3. Uso de las notificaciones
+4. Implementación de varios idiomas
+5. Creación de una pequeña demo de AR
