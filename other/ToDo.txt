@@ -1,0 +1,5 @@
+ToDo:
+1. Implementación de pequeños test
+2. Uso de las notificaciones
+3. Implementación de varios idiomas
+4. Creación de una pequeña demo de AR

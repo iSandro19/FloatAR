@@ -32,7 +32,6 @@ public class LobbyActivity extends AppCompatActivity {
     private ListView lobbyList;
     private List<Lobby> lobbies;
     private ArrayAdapter<Lobby> lobbyAdapter;
-
     private FirebaseDatabase database;
     private DatabaseReference lobbiesRef;
 
