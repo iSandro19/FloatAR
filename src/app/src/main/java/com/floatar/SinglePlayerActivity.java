@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class SinglePlayerActivity extends AppCompatActivity {
@@ -111,12 +113,21 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     // Ejecutar la lógica del jugador
     private void playerTurn(View v, int row, int col) {
+        Log.d("Tablero", Arrays.deepToString(opponentBoard));
+        Log.d("Casilla valor", String.valueOf(opponentBoard[row][col]));
+
+
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
             checkGameOver();
             Log.d(".SinglePlayer", "El jugador ha acertado, matiene el turno");
+
+        } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
+            Toast.makeText(SinglePlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
+            //Hacer que puedas volver a tener turno////////////////////////
+
         } else {
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
@@ -147,6 +158,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
                 Log.d(".SinglePlayer", "El oponente ha acertado, mantiene el turno");
                 opponentTurn();
+            } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
+                //opponentTurn();
+                //Hacer que vaya descartando las casillas//////////////////////////////////////
             } else {
                 // El oponente ha fallado
                 playerBoard[row][col] = -1; // Actualizar la matriz "opponentBoard"
