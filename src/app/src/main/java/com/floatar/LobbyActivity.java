@@ -2,6 +2,7 @@ package com.floatar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,7 +47,7 @@ public class LobbyActivity extends AppCompatActivity {
         lobbyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lobbies);
         lobbyList.setAdapter(lobbyAdapter);
 
-        database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         lobbiesRef = database.getReference("lobbies");
 
         // Escuchar los cambios en la lista de lobbies
@@ -53,8 +55,11 @@ public class LobbyActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Lobby lobby = snapshot.getValue(Lobby.class);
-                lobbies.add(lobby);
-                lobbyAdapter.notifyDataSetChanged();
+                if (lobby != null) {
+                    lobby.setKey(snapshot.getKey());
+                    lobbies.add(lobby);
+                    lobbyAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -65,8 +70,10 @@ public class LobbyActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Lobby lobby = snapshot.getValue(Lobby.class);
-                lobbies.remove(lobby);
-                lobbyAdapter.notifyDataSetChanged();
+                if (lobby != null) {
+                    lobbies.remove(lobby);
+                    lobbyAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -82,6 +89,11 @@ public class LobbyActivity extends AppCompatActivity {
 
         // Cuando el usuario seleccione una lobby de la lista, llamar a onLobbySelected
         lobbyList.setOnItemClickListener((parent, view, position, id) -> onLobbySelected(lobbies.get(position)));
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public void onCreateLobbyClicked(View view) {
@@ -98,11 +110,22 @@ public class LobbyActivity extends AppCompatActivity {
         builder.setPositiveButton("Crear", (dialog, which) -> {
             String lobbyName = lobbyNameEditText.getText().toString().trim();
 
-            // Crear la lobby y agregarla a la lista
+            if (TextUtils.isEmpty(lobbyName)) {
+                Toast.makeText(this, "El nombre de la lobby no puede estar vacío", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Crear la lobby y agregarla a la base de datos
+            DatabaseReference newLobbyRef = lobbiesRef.push();
             Lobby lobby = new Lobby(lobbyName);
-            String key = lobbiesRef.push().getKey();
-            assert key != null;
-            lobbiesRef.child(key).setValue(lobby);
+            lobby.setKey(newLobbyRef.getKey());
+            newLobbyRef.setValue(lobby);
+
+            // Agregar el creador de la lobby a la lista de jugadores
+            DatabaseReference playersRef = newLobbyRef.child("players");
+            String creatorKey = playersRef.push().getKey();
+            assert creatorKey != null;
+            playersRef.child(creatorKey).setValue(getIntent().getStringExtra("playerName"));
 
             // Mostrar un mensaje de éxito
             Toast.makeText(this, "Lobby creada", Toast.LENGTH_SHORT).show();
@@ -126,22 +149,42 @@ public class LobbyActivity extends AppCompatActivity {
         builder.setPositiveButton("Unirse", (dialog, which) -> {
             String playerName = playerNameEditText.getText().toString().trim();
 
-            // Agregar el jugador a la lista de jugadores de la lobby
-            DatabaseReference playersRef = lobbiesRef.child(lobby.getKey()).child("players");
-            String key = playersRef.push().getKey();
-            assert key != null;
-            playersRef.child(key).setValue(playerName);
+            if (playerName.isEmpty()) {
+                // Si el nombre del jugador está vacío, mostrar un mensaje de error
+                Toast.makeText(this, "Por favor ingrese su nombre", Toast.LENGTH_SHORT).show();
+            } else {
+                // Agregar el jugador a la lista de jugadores de la lobby
+                DatabaseReference playersRef = lobbiesRef.child(lobby.getKey()).child("players");
+                String key = playersRef.push().getKey();
+                if (key == null) {
+                    // Si no se pudo obtener una clave, mostrar un mensaje de error
+                    Toast.makeText(this, "No se pudo unir a la lobby", Toast.LENGTH_SHORT).show();
+                } else {
+                    playersRef.child(key).setValue(playerName);
 
-            // Iniciar la actividad del juego y pasar la información de la lobby
-            Intent intent = new Intent(this, MultiPlayerActivity.class);
-            intent.putExtra("lobbyName", lobby.getName());
-            intent.putExtra("playerName", playerName);
-            intent.putExtra("lobbyKey", lobby.getKey());
-            startActivity(intent);
+                    // Iniciar la actividad del juego y pasar la información de la lobby
+                    Intent intent = new Intent(this, CreateBoardActivity.class);
+                    intent.putExtra("lobbyName", lobby.getName());
+                    intent.putExtra("playerName", playerName);
+                    intent.putExtra("lobbyKey", lobby.getKey());
+                    intent.putExtra("gameMode", "multiplayer");
+                    startActivity(intent);
+                }
+            }
         });
 
         builder.setNegativeButton("Cancelar", null);
 
         builder.show();
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

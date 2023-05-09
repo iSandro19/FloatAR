@@ -1,5 +1,7 @@
 package com.floatar;
 
+import androidx.annotation.NonNull;
+
 public class Lobby {
     private String name;
     private String key;
@@ -22,5 +24,11 @@ public class Lobby {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
     }
 }
