@@ -24,7 +24,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/single_player"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/layout_main_button_multiplayer"
@@ -33,7 +33,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/multi_player"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/layout_main_button_exit"
@@ -42,6 +42,6 @@
         android:layout_marginTop="16dp"
         android:text="@string/exit_game"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
