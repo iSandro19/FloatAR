@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,27 +16,28 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
 
 public class MultiPlayerActivity extends AppCompatActivity {
-    private DatabaseReference mDatabase;
-    private String gameId;
+    private String lobbyKey;
     private String playerId;
+    private String opponentId;
+
     private int[][] playerBoard = new int[10][10];
-    private final int[][] opponentBoard = new int[10][10];
+    private int[][] opponentBoard = new int[10][10];
+
     private final Button[][] playerButtonGrid = new Button[10][10];
+    private final Button[][] opponentButtonGrid = new Button[10][10];
+
     private Context mContext;
     private boolean playerTurn = true;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/");
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -54,46 +53,46 @@ public class MultiPlayerActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             playerBoard = (int[][]) bundle.getSerializable("playerBoard");
+            lobbyKey = bundle.getString("lobbyKey");
+            playerId = bundle.getString("playerId");
         }
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mAuth.signInAnonymously();
-
-        // Generar un identificador único para la partida y el jugador actual
-        gameId = generateGameId();
-        playerId = generatePlayerId();
-
-        TextView tv = findViewById(R.id.text_view_multi_player);
-        tv.setText("Game ID: " + gameId + "\nPlayer ID: " + playerId);
-
-        // Conectar con la base de datos de Firebase
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        // Crear un nodo para la partida y guardar el tablero del jugador actual
-        mDatabase
+        // Obtener el tablero del oponente de la base de datos
+        database.getReference("lobbies")
             .child("games")
-            .child(gameId)
+            .child(lobbyKey)
             .child("players")
-            .child(playerId)
-            .setValue(Arrays.deepToString(playerBoard));
-
-        // Escuchar los cambios en la base de datos para actualizar el tablero del jugador actual
-        mDatabase
-            .child("games")
-            .child(gameId)
-            .child("players")
-            .child(playerId).addValueEventListener(new ValueEventListener() {
+            .orderByKey()
+            .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    String value = dataSnapshot.getValue(String.class);
-                    Toast.makeText(MultiPlayerActivity.this, value, Toast.LENGTH_SHORT).show();
+                    for (DataSnapshot playerSnapshot : dataSnapshot.getChildren()) {
+                        String playerId = playerSnapshot.getKey();
+                        assert playerId != null;
+                        if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
+                            opponentId = playerId;
+                            // Es el jugador oponente
+                            String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                            // Actualizar el tablero del oponente
+                            assert value != null;
+                            updateOpponentBoard(value);
+                            playerTurn = true;
+                        } else {
+                            // Es el jugador local
+                            String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                            // Actualizar el tablero del jugador local
+                            assert value != null;
+                            updatePlayerBoard(value);
+                            playerTurn = false;
+                        }
+                    }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
                 }
-        });
+            });
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -110,7 +109,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             if (playerTurn && !buttonType.equals("playerbutton")) {
                 playerTurn(v, row, col);
             } else {
-                opponentTurn();
+                opponentTurn(v, row, col);
             }
         };
 
@@ -145,6 +144,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 button.setLayoutParams(params);
                 button.setOnClickListener(buttonClickListener);
                 opponentGridLayout.addView(button);
+
+                opponentButtonGrid[i][j] = button;
             }
         }
 
@@ -156,13 +157,119 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
     }
 
-    private void playerTurn(View v, int row, int col) {
-        // TODO
+    private void updateOpponentBoard(String updatedOpponentBoard) {
+        int[][] board = new int[10][10];
+        String[] rows = updatedOpponentBoard.split("\n");
+        for (int i = 0; i < 10; i++) {
+            String[] columns = rows[i].split(",");
+            for (int j = 0; j < 10; j++) {
+                board[i][j] = Integer.parseInt(columns[j]);
+            }
+        }
+        opponentBoard = board;
+
+        // Actualizar el tablero del oponente
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                Button button = opponentButtonGrid[i][j];
+                int cellValue = opponentBoard[i][j];
+                if (cellValue == 1) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue));
+                } else if (cellValue == 2) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
+                } else {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
+                }
+            }
+        }
     }
 
-    private void opponentTurn() {
-        // TODO: Implementar la lógica del juego para el multijador
+    private void updatePlayerBoard(String updatePlayerBoard) {
+        int[][] board = new int[10][10];
+        String[] rows = updatePlayerBoard.split("\n");
+        for (int i = 0; i < 10; i++) {
+            String[] columns = rows[i].split(",");
+            for (int j = 0; j < 10; j++) {
+                board[i][j] = Integer.parseInt(columns[j]);
+            }
+        }
+        playerBoard = board;
+
+        // Actualizar el tablero del jugador local
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                Button button = playerButtonGrid[i][j];
+                int cellValue = playerBoard[i][j];
+                if (cellValue == 1) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue));
+                } else {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
+                }
+            }
+        }
     }
+
+
+    private void playerTurn(View v, int row, int col) {
+        Log.d("Tablero", Arrays.deepToString(opponentBoard));
+        Log.d("Casilla valor", String.valueOf(opponentBoard[row][col]));
+
+        if (opponentBoard[row][col] == 1) {
+            // El jugador ha acertado
+            opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
+
+            database.getReference("lobbies")
+                    .child("games")
+                    .child(lobbyKey)
+                    .child("players")
+                    .child(opponentId)
+                    .child("playerBoard")
+                    .setValue((Arrays.deepToString(opponentBoard)));
+
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
+            checkGameOver();
+
+        } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
+            Toast.makeText(MultiPlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
+            //Hacer que puedas volver a tener turno////////////////////////
+
+        } else {
+            // El jugador ha fallado
+            opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
+            playerTurn = false; // Cambiar el turno al oponente
+            opponentTurn(v, row, col);
+        }
+    }
+
+    private void opponentTurn(View v, int row, int col) {
+        if (opponentBoard[row][col] == 1) {
+            database.getReference("lobbies")
+                    .child("games")
+                    .child(lobbyKey)
+                    .child("players")
+                    .child(playerId)
+                    .child("playerBoard")
+                    .setValue((Arrays.deepToString(playerBoard)));
+
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
+            checkGameOver();
+            Log.d(".SinglePlayer", "El jugador ha acertado, matiene el turno");
+
+        } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
+            Toast.makeText(MultiPlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
+            //Hacer que puedas volver a tener turno////////////////////////
+
+        } else {
+            // El jugador ha fallado
+            opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
+            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
+            playerTurn = false; // Cambiar el turno al oponente
+            opponentTurn(v, row, col);
+            Log.d(".SinglePlayer", "El jugador ha fallado, turno para el oponente");
+        }
+    }
+
 
     // Comprobar si el juego ha terminado
     private void checkGameOver() {
@@ -194,21 +301,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
     }
 
-    // Generar un identificador único para la partida
-    private String generateGameId() {
-        // Implementación para generar un identificador único usando la fecha y hora actual
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        return sdf.format(new Date());
-    }
-
-    // Generar un identificador único para el jugador actual
-    private String generatePlayerId() {
-        // Implementación para generar un identificador único usando el ID del dispositivo y la fecha y hora actual
-        //String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        return Settings.Secure.ANDROID_ID + "_" + sdf.format(new Date());
-    }
-
     private int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
     }
@@ -219,7 +311,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Eliminar el nodo del jugador actual al salir de la actividad
-                mDatabase.child("games").child(gameId).child("players").child(playerId).removeValue();
+                //database...
                 onBackPressed();
                 return true;
             case R.id.layout_menu_main_help:

@@ -18,12 +18,16 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] playerBoard = new int[10][10];
     private Context mContext;
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/");
 
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
     int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
@@ -73,12 +77,19 @@ public class CreateBoardActivity extends AppCompatActivity {
                     Bundle extras = getIntent().getExtras();
                     if(extras != null) {
                         if(extras.getString("gameMode").equals("multiplayer")) {
+                            database.getReference("lobbies")
+                                    .child(extras.getString("lobbyKey"))
+                                    .child("players")
+                                    .child(extras.getString("playerId"))
+                                    .child("playerBoard")
+                                    .setValue(Arrays.deepToString(playerBoard));
                             Intent startGame = new Intent(CreateBoardActivity.this, MultiPlayerActivity.class);
                             startGame.putExtra("playerBoard", playerBoard);
                             startGame.putExtra("lobbyName", extras.getString("lobbyName"));
-                            startGame.putExtra("playerName", extras.getString("playerName"));
+                            startGame.putExtra("playerId", extras.getString("playerId"));
                             startGame.putExtra("lobbyKey", extras.getString("lobbyKey"));
                             startActivity(startGame);
+
                         } else if(extras.getString("gameMode").equals("singleplayer")) {
                             Intent startGame = new Intent(CreateBoardActivity.this, SinglePlayerActivity.class);
                             startGame.putExtra("playerBoard", playerBoard);

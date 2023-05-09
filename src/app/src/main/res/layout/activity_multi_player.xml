@@ -46,11 +46,4 @@
             android:padding="5dp">
         </GridLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_view_multi_player"
-            android:gravity="center">
-        </TextView>
-
 </LinearLayout>

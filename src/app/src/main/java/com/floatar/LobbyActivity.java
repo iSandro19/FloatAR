@@ -32,7 +32,6 @@ public class LobbyActivity extends AppCompatActivity {
     private ListView lobbyList;
     private List<Lobby> lobbies;
     private ArrayAdapter<Lobby> lobbyAdapter;
-    private FirebaseDatabase database;
     private DatabaseReference lobbiesRef;
 
     @Override
@@ -47,7 +46,7 @@ public class LobbyActivity extends AppCompatActivity {
         lobbyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lobbies);
         lobbyList.setAdapter(lobbyAdapter);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/");
         lobbiesRef = database.getReference("lobbies");
 
         // Escuchar los cambios en la lista de lobbies
@@ -161,12 +160,13 @@ public class LobbyActivity extends AppCompatActivity {
                     // Si no se pudo obtener una clave, mostrar un mensaje de error
                     Toast.makeText(this, "No se pudo unir a la lobby", Toast.LENGTH_SHORT).show();
                 } else {
-                    playersRef.child(key).setValue(playerName);
+                    playersRef.child(key).child("name").setValue(playerName);
+                    playersRef.child(key).child("key").setValue(key);
 
                     // Iniciar la actividad del juego y pasar la información de la lobby
                     Intent intent = new Intent(this, CreateBoardActivity.class);
                     intent.putExtra("lobbyName", lobby.getName());
-                    intent.putExtra("playerName", playerName);
+                    intent.putExtra("playerId", key);
                     intent.putExtra("lobbyKey", lobby.getKey());
                     intent.putExtra("gameMode", "multiplayer");
                     startActivity(intent);
@@ -177,7 +177,6 @@ public class LobbyActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancelar", null);
 
         builder.show();
-
     }
 
     @SuppressLint("NonConstantResourceId")
