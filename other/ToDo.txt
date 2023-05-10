@@ -1,6 +1,7 @@
 ToDo:
 1. Acabar el modo multijugador
-2. Implementación de pequeños test
-3. Uso de las notificaciones
-4. Implementación de varios idiomas
-5. Creación de una pequeña demo de AR
+2. Arreglar problemas de seguridad de la BBDD
+3. Implementación de pequeños test
+4. Uso de las notificaciones
+5. Implementación de varios idiomas
+6. Creación de una pequeña demo de AR
