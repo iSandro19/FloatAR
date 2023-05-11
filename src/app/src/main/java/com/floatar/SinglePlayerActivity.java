@@ -27,6 +27,47 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private Context mContext;
     private boolean playerTurn = true;
 
+    // Métodos públicos ----------------------------------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.layout_menu_main_help:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent backPress = new Intent(SinglePlayerActivity.this, MainActivity.class);
+        startActivity(backPress);
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +154,14 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    // Ejecutar la lógica del jugador
+    // Métodos privados ----------------------------------------------------------------------------
+
+    /**
+     * Comprobar si el juego ha terminado
+     * @param v Botón pulsado
+     * @param row Fila del botón pulsado
+     * @param col Columna del botón pulsado
+     */
     private void playerTurn(View v, int row, int col) {
         Log.d("Tablero", Arrays.deepToString(opponentBoard));
         Log.d("Casilla valor", String.valueOf(opponentBoard[row][col]));
@@ -140,6 +188,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método que se ejecuta cuando el oponente ha acertado o fallado
+     */
     private void opponentTurn() {
         int row, col;
         if (!playerTurn) {
@@ -161,6 +212,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 Log.d(".SinglePlayer", "El oponente ha acertado, mantiene el turno");
                 opponentTurn();
             } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
+                Log.d(".SinglePlayer", "El oponente ha fallado, turno para el jugador");
                 //opponentTurn();
                 //Hacer que vaya descartando las casillas//////////////////////////////////////
             } else {
@@ -174,7 +226,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    // Comprobar si el juego ha terminado
+    /**
+     * Comprueba si el juego ha terminado
+     */
     private void checkGameOver() {
         boolean check = true;
 
@@ -206,44 +260,11 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.layout_menu_main_help:
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_about:
-                intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+    /**
+     * Obtiene el ancho de la pantalla
+     * @return ancho de la pantalla
+     */
     private int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent backPress = new Intent(SinglePlayerActivity.this, MainActivity.class);
-        startActivity(backPress);
     }
 }

@@ -21,12 +21,22 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class SettingsActivity extends AppCompatActivity {
     private AppPreferences appPrefs;
-    private SwitchCompat notificationsSwitch;
-    private SwitchCompat switchDarkMode;
-    private Spinner languageSpinner;
-    private SeekBar volumeSeekBar;
     private AudioManager audioManager;
     private SharedPreferences sharedPreferences;
+
+    // Métodos públicos ----------------------------------------------------------------------------
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +44,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         // Inicializar
-        notificationsSwitch = findViewById(R.id.notificationsSwitch);
-        languageSpinner = findViewById(R.id.languageSpinner);
-        volumeSeekBar = findViewById(R.id.volumeSeekBar);
+        SwitchCompat notificationsSwitch = findViewById(R.id.notificationsSwitch);
+        Spinner languageSpinner = findViewById(R.id.languageSpinner);
+        SeekBar volumeSeekBar = findViewById(R.id.volumeSeekBar);
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
@@ -103,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        switchDarkMode = findViewById(R.id.switch_dark_mode);
+        SwitchCompat switchDarkMode = findViewById(R.id.switch_dark_mode);
         switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             appPrefs.setDarkThemeEnabled(isChecked);
             int mode = isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO;
@@ -118,16 +128,12 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    // Métodos privados ----------------------------------------------------------------------------
 
+    /**
+     * Habilita o deshabilita las notificaciones.
+     * @param enabled true para habilitar, false para deshabilitar.
+     */
     private void toggleNotifications(boolean enabled) {
         SharedPreferences.Editor editor = getSharedPreferences("settings", MODE_PRIVATE).edit();
         editor.putBoolean("notifications_enabled", enabled);

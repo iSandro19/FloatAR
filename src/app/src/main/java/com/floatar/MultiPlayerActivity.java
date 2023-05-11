@@ -24,6 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Arrays;
 
 public class MultiPlayerActivity extends AppCompatActivity {
+    private final Button[][] playerButtonGrid = new Button[10][10];
+    private final Button[][] opponentButtonGrid = new Button[10][10];
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance(String.valueOf(R.string.database));
+
     private String lobbyKey;
     private String playerId;
     private String opponentId;
@@ -31,13 +35,37 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private int[][] playerBoard = new int[10][10];
     private int[][] opponentBoard = new int[10][10];
 
-    private final Button[][] playerButtonGrid = new Button[10][10];
-    private final Button[][] opponentButtonGrid = new Button[10][10];
-
     private Context mContext;
     private boolean playerTurn = true;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/");
+    // Métodos públicos ----------------------------------------------------------------------------
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Eliminar el nodo del jugador actual al salir de la actividad
+                //database...
+                onBackPressed();
+                return true;
+            case R.id.layout_menu_main_help:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Métodos privados ----------------------------------------------------------------------------
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -59,7 +87,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
-            .child("games")
             .child(lobbyKey)
             .child("players")
             .orderByKey()
@@ -71,12 +98,13 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         assert playerId != null;
                         if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
                             opponentId = playerId;
-                            // Es el jugador oponente
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                            // Actualizar el tablero del oponente
                             assert value != null;
                             updateOpponentBoard(value);
                             playerTurn = true;
+
+                            System.out.println(opponentId);
+                            System.out.println(value);
                         } else {
                             // Es el jugador local
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
@@ -84,6 +112,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             assert value != null;
                             updatePlayerBoard(value);
                             playerTurn = false;
+
+                            System.out.println(playerId);
+                            System.out.println(value);
                         }
                     }
                 }
@@ -154,18 +185,28 @@ public class MultiPlayerActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.multi_player);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
+    // Métodos privados ----------------------------------------------------------------------------
+
+    /**
+     * Método que se ejecuta cuando el jugador local hace click en un botón del tablero
+     * @param updatedOpponentBoard Tablero del oponente a actualizar
+     */
     private void updateOpponentBoard(String updatedOpponentBoard) {
         int[][] board = new int[10][10];
-        String[] rows = updatedOpponentBoard.split("\n");
-        for (int i = 0; i < 10; i++) {
-            String[] columns = rows[i].split(",");
-            for (int j = 0; j < 10; j++) {
-                board[i][j] = Integer.parseInt(columns[j]);
+        updatedOpponentBoard = updatedOpponentBoard.replace("[[", "[").replace("]]", "]");
+        String[] rows = updatedOpponentBoard.split("],\\[");
+        rows[0] = rows[0].replace("[", "");
+        rows[rows.length-1] = rows[rows.length-1].replace("]", "");
+        for (int i = 0; i < rows.length; i++) {
+            String[] elements = rows[i].split(",");
+            board[i] = new int[elements.length];
+            for (int j = 0; j < elements.length; j++) {
+                board[i][j] = Integer.parseInt(elements[j].trim());
             }
         }
+
         opponentBoard = board;
 
         // Actualizar el tablero del oponente
@@ -184,6 +225,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Actualiza el tablero del jugador local
+     * @param updatePlayerBoard String con el tablero del jugador local
+     */
     private void updatePlayerBoard(String updatePlayerBoard) {
         int[][] board = new int[10][10];
         String[] rows = updatePlayerBoard.split("\n");
@@ -209,7 +254,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Comprobar si el juego ha terminado
+     * @param v Botón pulsado
+     * @param row Fila del botón pulsado
+     * @param col Columna del botón pulsado
+     */
     private void playerTurn(View v, int row, int col) {
         Log.d("Tablero", Arrays.deepToString(opponentBoard));
         Log.d("Casilla valor", String.valueOf(opponentBoard[row][col]));
@@ -242,6 +292,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método que se ejecuta cuando el oponente ha acertado o fallado
+     * @param v Botón pulsado
+     * @param row Fila del botón pulsado
+     * @param col Columna del botón pulsado
+     */
     private void opponentTurn(View v, int row, int col) {
         if (opponentBoard[row][col] == 1) {
             database.getReference("lobbies")
@@ -270,8 +326,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
     }
 
-
-    // Comprobar si el juego ha terminado
+    /**
+     * Comprueba si el juego ha terminado
+     */
     private void checkGameOver() {
         boolean check = true;
 
@@ -301,32 +358,28 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Obtiene el ancho de la pantalla
+     * @return ancho de la pantalla
+     */
     private int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // Eliminar el nodo del jugador actual al salir de la actividad
-                //database...
-                onBackPressed();
-                return true;
-            case R.id.layout_menu_main_help:
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_about:
-                intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
-                return true;
+    /**
+     * Convierte el tablero de tipo String a tipo int[][]
+     * @param stringBoard string con el tablero
+     * @return tablero de tipo int[][]
+     */
+    private int[][] convertStringBoardToArrayBoard(String stringBoard) {
+        int[][] board = new int[10][10];
+        String[] rows = stringBoard.split("\n");
+        for (int i = 0; i < 10; i++) {
+            String[] columns = rows[i].split(",");
+            for (int j = 0; j < 10; j++) {
+                board[i][j] = Integer.parseInt(columns[j]);
+            }
         }
-        return super.onOptionsItemSelected(item);
+        return board;
     }
 }

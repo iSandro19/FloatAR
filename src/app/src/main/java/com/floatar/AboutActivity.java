@@ -13,6 +13,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.appcheck.interop.BuildConfig;
 
 public class AboutActivity extends AppCompatActivity {
+
+    // Métodos públicos ----------------------------------------------------------------------------
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +52,5 @@ public class AboutActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.about);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

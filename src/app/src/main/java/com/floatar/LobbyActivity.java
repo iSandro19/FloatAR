@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,19 +27,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LobbyActivity extends AppCompatActivity {
-    private Button createLobbyButton;
-    private ListView lobbyList;
     private List<Lobby> lobbies;
     private ArrayAdapter<Lobby> lobbyAdapter;
     private DatabaseReference lobbiesRef;
+
+    // Métodos públicos ----------------------------------------------------------------------------
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.layout_menu_main_help:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Método llamado cuando se hace clic en el botón "Crear lobby"
+     * @param view La vista que llamó al método
+     */
+    public void onCreateLobbyClicked(View view) {
+        // Mostrar un cuadro de diálogo para que el usuario ingrese el nombre de la lobby y seleccione el número de jugadores
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Crear lobby");
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_create_lobby, null);
+        builder.setView(dialogView);
+
+        // Name
+        EditText lobbyNameEditText = dialogView.findViewById(R.id.lobby_name_edit_text);
+
+        builder.setPositiveButton("Crear", (dialog, which) -> {
+            String lobbyName = lobbyNameEditText.getText().toString().trim();
+
+            if (TextUtils.isEmpty(lobbyName)) {
+                Toast.makeText(this, "El nombre de la lobby no puede estar vacío", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Crear la lobby y agregarla a la base de datos
+            DatabaseReference newLobbyRef = lobbiesRef.push();
+            Lobby lobby = new Lobby(lobbyName);
+            lobby.setKey(newLobbyRef.getKey());
+            newLobbyRef.setValue(lobby);
+
+            // Agregar el creador de la lobby a la lista de jugadores
+            DatabaseReference playersRef = newLobbyRef.child("players");
+            String creatorKey = playersRef.push().getKey();
+            assert creatorKey != null;
+            playersRef.child(creatorKey).setValue(getIntent().getStringExtra("playerName"));
+
+            // Mostrar un mensaje de éxito
+            Toast.makeText(this, "Lobby creada", Toast.LENGTH_SHORT).show();
+        });
+
+        builder.setNegativeButton("Cancelar", null);
+
+        builder.show();
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        createLobbyButton = findViewById(R.id.create_lobby_button);
-        lobbyList = findViewById(R.id.lobby_list);
+        ListView lobbyList = findViewById(R.id.lobby_list);
 
         lobbies = new ArrayList<>();
         lobbyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lobbies);
@@ -96,46 +163,12 @@ public class LobbyActivity extends AppCompatActivity {
         }
     }
 
-    public void onCreateLobbyClicked(View view) {
-        // Mostrar un cuadro de diálogo para que el usuario ingrese el nombre de la lobby y seleccione el número de jugadores
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Crear lobby");
+    // Métodos privados ----------------------------------------------------------------------------
 
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_create_lobby, null);
-        builder.setView(dialogView);
-
-        // Name
-        EditText lobbyNameEditText = dialogView.findViewById(R.id.lobby_name_edit_text);
-
-        builder.setPositiveButton("Crear", (dialog, which) -> {
-            String lobbyName = lobbyNameEditText.getText().toString().trim();
-
-            if (TextUtils.isEmpty(lobbyName)) {
-                Toast.makeText(this, "El nombre de la lobby no puede estar vacío", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Crear la lobby y agregarla a la base de datos
-            DatabaseReference newLobbyRef = lobbiesRef.push();
-            Lobby lobby = new Lobby(lobbyName);
-            lobby.setKey(newLobbyRef.getKey());
-            newLobbyRef.setValue(lobby);
-
-            // Agregar el creador de la lobby a la lista de jugadores
-            DatabaseReference playersRef = newLobbyRef.child("players");
-            String creatorKey = playersRef.push().getKey();
-            assert creatorKey != null;
-            playersRef.child(creatorKey).setValue(getIntent().getStringExtra("playerName"));
-
-            // Mostrar un mensaje de éxito
-            Toast.makeText(this, "Lobby creada", Toast.LENGTH_SHORT).show();
-        });
-
-        builder.setNegativeButton("Cancelar", null);
-
-        builder.show();
-    }
-
+    /**
+     * Método llamado cuando el usuario selecciona una lobby de la lista
+     * @param lobby La lobby seleccionada
+     */
     private void onLobbySelected(Lobby lobby) {
         // Mostrar un cuadro de diálogo para que el usuario ingrese su nombre y se una a la lobby
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -177,28 +210,5 @@ public class LobbyActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancelar", null);
 
         builder.show();
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.layout_menu_main_help:
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_about:
-                intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

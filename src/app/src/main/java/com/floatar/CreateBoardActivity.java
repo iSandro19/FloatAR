@@ -26,11 +26,45 @@ import java.util.List;
 
 public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] playerBoard = new int[10][10];
-    private Context mContext;
-    FirebaseDatabase database = FirebaseDatabase.getInstance("https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/");
-
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance(String.valueOf(R.string.database));
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
-    int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
+    private Context mContext;
+    private int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
+
+    // Métodos públicos ----------------------------------------------------------------------------
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.layout_menu_main_help:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,37 +187,11 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    // Métodos privados ----------------------------------------------------------------------------
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.layout_menu_main_help:
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_about:
-                intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
+    /**
+     * Actualiza el texto de la parte inferior de la pantalla con los barcos que quedan por colocar
+     */
     private void updateBoatsLeftTextView() {
         String boatsLeftString = "Barcos por colocar:\n";
         boatsLeftString += (3 - numBoats1) + " de tamaño 1\n";
@@ -196,11 +204,16 @@ public class CreateBoardActivity extends AppCompatActivity {
         boats.setGravity(Gravity.CENTER);
     }
 
-
+    /**
+     * Obtiene el ancho de la pantalla
+     */
     private int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
     }
 
+    /**
+     * Crea el tablero de juego
+     */
     private void createBoard(){
         // Obtener el GridLayout del layout XML
         GridLayout gridLayout = findViewById(R.id.gridLayout);
@@ -229,73 +242,23 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Crea el tablero de la IA
+     * @return tablero de la IA
+     */
     private int[][] createRivalBoard(){
-
         IACreateBoard iaBoard = new IACreateBoard();
         iaBoard.fillBoard();
 
         return iaBoard.getBoard();
-
-        /*Random rand = new Random();
-
-        int randomBoard = rand.nextInt(4);
-
-        switch (randomBoard) {
-            case 0:
-                return new int[][]{
-                    {0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                    {0, 1, 1, 1, 1, 0, 0, 0, 0, 1},
-                    {0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
-                    {0, 0, 1, 0, 1, 1, 1, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-                    {0, 1, 1, 0, 0, 0, 0, 1, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
-                    {0, 0, 1, 1, 1, 0, 0, 1, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 1, 0, 0, 0}
-                };
-            case 1:
-                return new int[][]{
-                    {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-                    {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
-                    {0, 1, 0, 0, 1, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {1, 1, 1, 1, 0, 1, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 1, 0, 1, 1, 0},
-                    {0, 0, 1, 0, 0, 1, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 1, 1, 0, 0, 1, 1, 1, 1, 0}};
-            case 2:
-                return new int[][]{
-                    {1, 1, 0, 0, 1, 1, 1, 0, 1, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {1, 1, 1, 0, 1, 1, 0, 1, 1, 1}};
-            case 3:
-                return new int[][]{
-                    {1, 0, 0, 0, 0, 0, 0, 1, 1, 0},
-                    {1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-                    {1, 0, 1, 0, 1, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 1, 0, 0, 1, 1, 1, 0},
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                    {1, 1, 1, 0, 0, 0, 0, 1, 0, 0} };
-            default:
-                Log.d("Error aleatorio", "Error a causa de la aleatoriedad");
-                return null;
-        }*/
     }
 
+    /**
+     * Crea un barco en el tablero
+     * @param v botón pulsado
+     * @param row fila del botón
+     * @param col columna del botón
+     */
     private void createBoat(View v, int row, int col){
         GridLayout gridLayout = findViewById(R.id.gridLayout);
 
@@ -348,6 +311,12 @@ public class CreateBoardActivity extends AppCompatActivity {
         updateBoatsLeftTextView();
     }
 
+    /**
+     * Comprueba si se puede crear un barco en horizontal
+     * @param row fila
+     * @param col columna
+     * @return true si se puede crear, false si no
+     */
     private Boolean checkHorizontalBoat(int row, int col){
         GridLayout gridLayout = findViewById(R.id.gridLayout);
 
@@ -383,6 +352,12 @@ public class CreateBoardActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Comprueba si se puede crear un barco en vertical
+     * @param row fila
+     * @param col columna
+     * @return true si se puede crear, false si no
+     */
     private Boolean checkVerticalBoat(int row, int col){
         GridLayout gridLayout = findViewById(R.id.gridLayout);
 
@@ -418,6 +393,12 @@ public class CreateBoardActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Obtiene los botones adyacentes a la casilla seleccionada
+     * @param row fila
+     * @param col columna
+     * @return lista de botones adyacentes
+     */
     private List<View> getAdjacentButtons(int row, int col) {
         List<View> adjacentButtons = new ArrayList<>();
 
@@ -476,6 +457,11 @@ public class CreateBoardActivity extends AppCompatActivity {
         return adjacentButtons;
     }
 
+    /**
+     * Obtiene el valor de la casilla seleccionada
+     * @param button casilla seleccionada
+     * @return valor de la casilla
+     */
     private int getValueFromButton(View button){
         String tag = (String) button.getTag();
 
@@ -486,6 +472,12 @@ public class CreateBoardActivity extends AppCompatActivity {
         return playerBoard[row][col];
     }
 
+    /**
+     * Elimina el barco seleccionado
+     * @param v vista del botón
+     * @param row fila
+     * @param col columna
+     */
     private void deleteBoat(View v ,int row, int col){
         playerBoard[row][col] = 0;
         v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
@@ -504,6 +496,9 @@ public class CreateBoardActivity extends AppCompatActivity {
         updateBoatsLeftTextView();
     }
 
+    /**
+     * Actualiza el contador de los barcos restantes (sumando)
+     */
     private void sumBoat(){
         switch (sizeBoat) {
             case 1:
@@ -523,6 +518,10 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Actualiza el contador de los barcos restantes (restando)
+     * @param deleteBoat tamaño del barco eliminado
+     */
     private void subBoat(int deleteBoat){
         switch (deleteBoat) {
             case 1:
