@@ -14,14 +14,13 @@
         android:theme="@style/Theme.FloatAR"
         tools:targetApi="31">
 
-        <activity
-            android:name=".LobbyActivity"
-            android:exported="false" />
-
         <meta-data
             android:name="com.google.firebase.database.collection.DeferredLifecycleAdapter"
             android:value="com.google.firebase.database.collection.LifecycleAdapter" />
 
+        <activity
+            android:name=".LobbyActivity"
+            android:exported="false" />
         <activity
             android:name=".MultiPlayerActivity"
             android:exported="false" />
@@ -53,10 +52,8 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
