@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores de Material Design -->
+    <color name="light_brown">#bc9771</color>
+    <color name="medium_brown">#C18641</color>
+    <color name="dark_brown">#B5722E</color>
+
+    <color name="light_wood">#422E23</color>
+    <color name="dark_wood">#322016</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="black_background">#050505</color>
+    <color name="white_background">#F3EFEB</color>
+
+    <color name="red">#F44336</color>
+    <color name="gray">#939393</color>
+    <color name="blue">#49A2B3</color>
+</resources>

@@ -1,6 +1,0 @@
-Bugs:
-1. Al cambiar el tema de la app en partida, la resetea
-2. La IA no funciona correctamente siempre
-3. El selector del volumen no funciona correctamente
-4. Las notificaciones no funcionan correctamente
-5. El botón de retroceder no se comporta adecuadamente
