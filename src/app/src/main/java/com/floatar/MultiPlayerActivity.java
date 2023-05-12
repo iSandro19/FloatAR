@@ -106,9 +106,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             System.out.println(opponentId);
                             System.out.println(value);
                         } else {
-                            // Es el jugador local
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                            // Actualizar el tablero del jugador local
                             assert value != null;
                             updatePlayerBoard(value);
                             playerTurn = false;
@@ -194,20 +192,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
      * @param updatedOpponentBoard Tablero del oponente a actualizar
      */
     private void updateOpponentBoard(String updatedOpponentBoard) {
-        int[][] board = new int[10][10];
-        updatedOpponentBoard = updatedOpponentBoard.replace("[[", "[").replace("]]", "]");
-        String[] rows = updatedOpponentBoard.split("],\\[");
-        rows[0] = rows[0].replace("[", "");
-        rows[rows.length-1] = rows[rows.length-1].replace("]", "");
-        for (int i = 0; i < rows.length; i++) {
-            String[] elements = rows[i].split(",");
-            board[i] = new int[elements.length];
-            for (int j = 0; j < elements.length; j++) {
-                board[i][j] = Integer.parseInt(elements[j].trim());
-            }
-        }
-
-        opponentBoard = board;
+        opponentBoard = convertStringBoardToArrayBoard(updatedOpponentBoard);
 
         // Actualizar el tablero del oponente
         for (int i = 0; i < 10; i++) {
@@ -230,15 +215,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
      * @param updatePlayerBoard String con el tablero del jugador local
      */
     private void updatePlayerBoard(String updatePlayerBoard) {
-        int[][] board = new int[10][10];
-        String[] rows = updatePlayerBoard.split("\n");
-        for (int i = 0; i < 10; i++) {
-            String[] columns = rows[i].split(",");
-            for (int j = 0; j < 10; j++) {
-                board[i][j] = Integer.parseInt(columns[j]);
-            }
-        }
-        playerBoard = board;
+        playerBoard = convertStringBoardToArrayBoard(updatePlayerBoard);
 
         // Actualizar el tablero del jugador local
         for (int i = 0; i < 10; i++) {
@@ -373,13 +350,26 @@ public class MultiPlayerActivity extends AppCompatActivity {
      */
     private int[][] convertStringBoardToArrayBoard(String stringBoard) {
         int[][] board = new int[10][10];
-        String[] rows = stringBoard.split("\n");
+        // Eliminar los corchetes de los extremos
+        stringBoard = stringBoard.replace("[[", "[");
+        stringBoard = stringBoard.replace("]]", "]");
+
+        // Obtener las filas (Ej: "[1,2,3,4,5,6,7,8,9,10],...")
+        String[] rows = stringBoard.split("],");
         for (int i = 0; i < 10; i++) {
+            // Eliminar los corchetes de los extremos
+            rows[i] = rows[i].replace("[", "");
+            rows[i] = rows[i].replace("]", "");
+
+            // Obtener las columnas (Ej: "1,2,3,4,5,6,7,8,9,10")
             String[] columns = rows[i].split(",");
             for (int j = 0; j < 10; j++) {
                 board[i][j] = Integer.parseInt(columns[j]);
             }
         }
+
+        // Devolver el tablero
+        Log.d("Tablero", Arrays.deepToString(board));
         return board;
     }
 }
