@@ -26,7 +26,7 @@ import java.util.List;
 
 public class CreateBoardActivity extends AppCompatActivity {
     private final int[][] playerBoard = new int[10][10];
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance(String.valueOf(R.string.database));
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance("https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/");
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
     private Context mContext;
     private int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;

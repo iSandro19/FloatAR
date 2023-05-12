@@ -26,7 +26,7 @@ import java.util.Arrays;
 public class MultiPlayerActivity extends AppCompatActivity {
     private final Button[][] playerButtonGrid = new Button[10][10];
     private final Button[][] opponentButtonGrid = new Button[10][10];
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance(String.valueOf(R.string.database));
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance("https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/");
 
     private String lobbyKey;
     private String playerId;
