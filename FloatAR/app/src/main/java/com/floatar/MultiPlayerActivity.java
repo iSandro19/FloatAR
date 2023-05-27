@@ -135,7 +135,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
             String buttonType = String.valueOf(tag.split("_")[0]);
 
             // Ejecutar la lógica del juego correspondiente
-            if (playerTurn && !buttonType.equals("opponentbutton")) {
+            if (playerTurn && !buttonType.equals("playerbutton")) {
+                Log.d("entro", "entroooooooooo2");
                 playerTurn(v, row, col);
             }
         };
