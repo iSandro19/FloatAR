@@ -131,8 +131,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
         } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
             Toast.makeText(SinglePlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
-            //Hacer que puedas volver a tener turno////////////////////////
-
         } else {
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
@@ -152,12 +150,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
                 int row = position / 10;
                 int col = position % 10;
-
-                Log.d("Ind: ", String.valueOf(randomIndex));
-
-                Log.d("Lista tammmmmmmmm:", String.valueOf(availablePositions.size()));
-                Log.d("Lista: ", String.valueOf(availablePositions));
-
 
                 if (playerBoard[row][col] == 1) {
                     // El oponente ha acertado

@@ -135,10 +135,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
             String buttonType = String.valueOf(tag.split("_")[0]);
 
             // Ejecutar la lógica del juego correspondiente
-            if (playerTurn && !buttonType.equals("playerbutton")) {
+            if (playerTurn && !buttonType.equals("opponentbutton")) {
                 playerTurn(v, row, col);
-            } else {
-                opponentTurn(v, row, col);
             }
         };
 
@@ -199,8 +197,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
             for (int j = 0; j < 10; j++) {
                 Button button = opponentButtonGrid[i][j];
                 int cellValue = opponentBoard[i][j];
-                if (cellValue == 1) {
-                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue));
+                if (cellValue == -1) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray));
                 } else if (cellValue == 2) {
                     button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
                 } else {
@@ -258,48 +256,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
             Toast.makeText(MultiPlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
-            //Hacer que puedas volver a tener turno////////////////////////
-
         } else {
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
             playerTurn = false; // Cambiar el turno al oponente
-            opponentTurn(v, row, col);
-        }
-    }
-
-    /**
-     * Método que se ejecuta cuando el oponente ha acertado o fallado
-     * @param v Botón pulsado
-     * @param row Fila del botón pulsado
-     * @param col Columna del botón pulsado
-     */
-    private void opponentTurn(View v, int row, int col) {
-        if (opponentBoard[row][col] == 1) {
-            database.getReference("lobbies")
-                    .child("games")
-                    .child(lobbyKey)
-                    .child("players")
-                    .child(playerId)
-                    .child("playerBoard")
-                    .setValue((Arrays.deepToString(playerBoard)));
-
-            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
-            checkGameOver();
-            Log.d(".SinglePlayer", "El jugador ha acertado, matiene el turno");
-
-        } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
-            Toast.makeText(MultiPlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
-            //Hacer que puedas volver a tener turno////////////////////////
-
-        } else {
-            // El jugador ha fallado
-            opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
-            v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
-            playerTurn = false; // Cambiar el turno al oponente
-            opponentTurn(v, row, col);
-            Log.d(".SinglePlayer", "El jugador ha fallado, turno para el oponente");
         }
     }
 
