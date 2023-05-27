@@ -81,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        Button buttonAR = findViewById(R.id.layout_main_button_ar);
+        buttonAR.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ARActivity.class);
+            startActivity(intent);
+        });
+
         Button buttonExit = findViewById(R.id.layout_main_button_exit);
         buttonExit.setOnClickListener(v -> {
             buttonsSound.start();
