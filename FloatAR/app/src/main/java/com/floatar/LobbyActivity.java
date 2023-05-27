@@ -22,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,45 +171,63 @@ public class LobbyActivity extends AppCompatActivity {
      * @param lobby La lobby seleccionada
      */
     private void onLobbySelected(Lobby lobby) {
-        // Mostrar un cuadro de diálogo para que el usuario ingrese su nombre y se una a la lobby
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Unirse a " + lobby.getName());
+        // Obtener una referencia a la lista de jugadores de la lobby
+        DatabaseReference playersRef = lobbiesRef.child(lobby.getKey()).child("players");
 
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_join_lobby, null);
-        builder.setView(dialogView);
+        // Consultar el número de jugadores actuales en la sala
+        playersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() < 2) {
+                    // Mostrar un cuadro de diálogo para que el usuario ingrese su nombre y se una a la lobby
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LobbyActivity.this);
+                    builder.setTitle("Unirse a " + lobby.getName());
 
-        EditText playerNameEditText = dialogView.findViewById(R.id.player_name_edit_text);
+                    View dialogView = LayoutInflater.from(LobbyActivity.this).inflate(R.layout.dialog_join_lobby, null);
+                    builder.setView(dialogView);
 
-        builder.setPositiveButton("Unirse", (dialog, which) -> {
-            String playerName = playerNameEditText.getText().toString().trim();
+                    EditText playerNameEditText = dialogView.findViewById(R.id.player_name_edit_text);
 
-            if (playerName.isEmpty()) {
-                // Si el nombre del jugador está vacío, mostrar un mensaje de error
-                Toast.makeText(this, "Por favor ingrese su nombre", Toast.LENGTH_SHORT).show();
-            } else {
-                // Agregar el jugador a la lista de jugadores de la lobby
-                DatabaseReference playersRef = lobbiesRef.child(lobby.getKey()).child("players");
-                String key = playersRef.push().getKey();
-                if (key == null) {
-                    // Si no se pudo obtener una clave, mostrar un mensaje de error
-                    Toast.makeText(this, "No se pudo unir a la lobby", Toast.LENGTH_SHORT).show();
+                    builder.setPositiveButton("Unirse", (dialog, which) -> {
+                        String playerName = playerNameEditText.getText().toString().trim();
+
+                        if (playerName.isEmpty()) {
+                            // Si el nombre del jugador está vacío, mostrar un mensaje de error
+                            Toast.makeText(LobbyActivity.this, "Por favor ingrese su nombre", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Agregar el jugador a la lista de jugadores de la lobby
+                            String key = playersRef.push().getKey();
+                            if (key == null) {
+                                // Si no se pudo obtener una clave, mostrar un mensaje de error
+                                Toast.makeText(LobbyActivity.this, "No se pudo unir a la lobby", Toast.LENGTH_SHORT).show();
+                            } else {
+                                playersRef.child(key).child("name").setValue(playerName);
+                                playersRef.child(key).child("key").setValue(key);
+
+                                // Iniciar la actividad del juego y pasar la información de la lobby
+                                Intent intent = new Intent(LobbyActivity.this, CreateBoardActivity.class);
+                                intent.putExtra("lobbyName", lobby.getName());
+                                intent.putExtra("playerId", key);
+                                intent.putExtra("lobbyKey", lobby.getKey());
+                                intent.putExtra("gameMode", "multiplayer");
+                                startActivity(intent);
+                            }
+                        }
+                    });
+
+                    builder.setNegativeButton("Cancelar", null);
+
+                    builder.show();
                 } else {
-                    playersRef.child(key).child("name").setValue(playerName);
-                    playersRef.child(key).child("key").setValue(key);
-
-                    // Iniciar la actividad del juego y pasar la información de la lobby
-                    Intent intent = new Intent(this, CreateBoardActivity.class);
-                    intent.putExtra("lobbyName", lobby.getName());
-                    intent.putExtra("playerId", key);
-                    intent.putExtra("lobbyKey", lobby.getKey());
-                    intent.putExtra("gameMode", "multiplayer");
-                    startActivity(intent);
+                    // Mostrar un mensaje de error si ya hay dos jugadores en la sala
+                    Toast.makeText(LobbyActivity.this, "La sala está llena. No se puede unir más jugadores.", Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Manejar el error de Firebase Database, si es necesario
+            }
         });
-
-        builder.setNegativeButton("Cancelar", null);
-
-        builder.show();
     }
 }
