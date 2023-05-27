@@ -364,7 +364,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             // Obtener las columnas (Ej: "1,2,3,4,5,6,7,8,9,10")
             String[] columns = rows[i].split(",");
             for (int j = 0; j < 10; j++) {
-                board[i][j] = Integer.parseInt(columns[j]);
+                board[i][j] = Integer.parseInt(columns[j].trim());
             }
         }
 
