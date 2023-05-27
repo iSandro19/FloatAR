@@ -3,12 +3,14 @@ package com.floatar;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.MediaController;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,32 +40,35 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private Context mContext;
     private boolean playerTurn = true;
 
+    MediaPlayer settingsSound;
+    MediaPlayer abouthelpSound;
+
     // Métodos públicos ----------------------------------------------------------------------------
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                // Eliminar el nodo del jugador actual al salir de la actividad
-                //database...
-                onBackPressed();
-                return true;
             case R.id.layout_menu_main_help:
+                abouthelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_settings:
+                settingsSound.start();
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
+                abouthelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
 
     // Métodos protegidos ----------------------------------------------------------------------------
 
@@ -72,6 +77,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_player);
+
+        settingsSound = MediaPlayer.create(this, R.raw.settings_in);
+        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
 
         GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board_multi_player);
         GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board_multi_player);
@@ -181,6 +189,19 @@ public class MultiPlayerActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle(R.string.multi_player);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (settingsSound != null) {
+            settingsSound.release();
+            settingsSound = null;
+        }
+        if (abouthelpSound != null) {
+            abouthelpSound.release();
+            abouthelpSound = null;
         }
     }
 

@@ -17,8 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer buttonsSound;
     private MediaPlayer settingsSound;
-    private MediaPlayer helpSound;
-    private MediaPlayer aboutSound;
+    private MediaPlayer abouthelpSound;
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case R.id.layout_menu_main_help:
+                abouthelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
+                abouthelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // Sonidos
         buttonsSound = MediaPlayer.create(this, R.raw.button);
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
+        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
 
         // Inicializar Firebase
         FirebaseApp.initializeApp(this);
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonAR = findViewById(R.id.layout_main_button_ar);
         buttonAR.setOnClickListener(v -> {
+            buttonsSound.start();
             Intent intent = new Intent(this, ARActivity.class);
             startActivity(intent);
         });
@@ -108,13 +111,9 @@ public class MainActivity extends AppCompatActivity {
             settingsSound.release();
             settingsSound = null;
         }
-        if (helpSound != null) {
-            helpSound.release();
-            helpSound = null;
-        }
-        if (aboutSound != null) {
-            aboutSound.release();
-            aboutSound = null;
+        if (abouthelpSound != null) {
+            abouthelpSound.release();
+            abouthelpSound = null;
         }
     }
 

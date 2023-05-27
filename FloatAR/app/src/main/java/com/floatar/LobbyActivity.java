@@ -2,6 +2,7 @@ package com.floatar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,29 +33,37 @@ public class LobbyActivity extends AppCompatActivity {
     private ArrayAdapter<Lobby> lobbyAdapter;
     private DatabaseReference lobbiesRef;
 
+    // Sounds
+    private MediaPlayer settingsSound;
+    private  MediaPlayer abouthelpSound;
+
     // Métodos públicos ----------------------------------------------------------------------------
 
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
             case R.id.layout_menu_main_help:
+                abouthelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_settings:
+                settingsSound.start();
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
+                abouthelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -107,6 +116,10 @@ public class LobbyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+
+        //Sounds
+        settingsSound = MediaPlayer.create(this, R.raw.settings_in);
+        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
 
         ListView lobbyList = findViewById(R.id.lobby_list);
 
@@ -175,6 +188,19 @@ public class LobbyActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle(R.string.lobby);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (settingsSound != null) {
+            settingsSound.release();
+            settingsSound = null;
+        }
+        if (abouthelpSound != null) {
+            abouthelpSound.release();
+            abouthelpSound = null;
         }
     }
 

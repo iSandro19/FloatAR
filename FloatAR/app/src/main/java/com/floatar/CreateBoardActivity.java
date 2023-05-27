@@ -34,6 +34,8 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     // Sounds
 
+    private MediaPlayer settingsSound;
+    private MediaPlayer abouthelpSound;
     private MediaPlayer pianoD;
     private MediaPlayer pianoE;
     private MediaPlayer pianoF;
@@ -58,14 +60,17 @@ public class CreateBoardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case R.id.layout_menu_main_help:
+                abouthelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_settings:
+                settingsSound.start();
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
+                abouthelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
@@ -85,6 +90,8 @@ public class CreateBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_board);
 
         // Sounds
+        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
+        settingsSound = MediaPlayer.create(this, R.raw.settings_in);
         pianoD = MediaPlayer.create(this, R.raw.piano_d);
         pianoE = MediaPlayer.create(this, R.raw.piano_e);
         pianoF = MediaPlayer.create(this, R.raw.piano_f);
