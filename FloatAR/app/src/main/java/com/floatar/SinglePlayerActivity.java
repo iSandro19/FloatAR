@@ -29,6 +29,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private Context mContext;
     private boolean playerTurn = true;
 
+    ArrayList<Integer> availablePositions = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
         if (bundle != null) {
             opponentBoard = (int[][]) bundle.getSerializable("opponentBoard");
         }
+
+        // Obtener una lista de las posiciones disponibles del rival
+        createAvailablePositions();
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -140,14 +145,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     private void opponentTurn() {
         if (!playerTurn) {
-            ArrayList<Integer> availablePositions = new ArrayList<>();
-            // Recorrer la matriz playerBoard para encontrar las posiciones disponibles
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 10; j++) {
-                    availablePositions.add(i * 10 + j); // Almacenar la posición como un número único
-                }
-            }
-
             if (!availablePositions.isEmpty()) {
                 Random random = new Random();
                 int randomIndex = random.nextInt(availablePositions.size());
@@ -164,7 +161,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
                 if (playerBoard[row][col] == 1) {
                     // El oponente ha acertado
-                    availablePositions.remove(0);
+                    availablePositions.remove(Integer.valueOf(position));
+                    //Log.d("elimina: ", String.valueOf(availablePositions.remove(randomIndex)));
+
                     playerBoard[row][col] = 2; // Actualizar la matriz "playerBoard"
                     Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
                     button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
@@ -175,7 +174,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
                     opponentTurn();
                 } else {
                     // El oponente ha fallado
-                    availablePositions.remove(0);
+                    availablePositions.remove(Integer.valueOf(position));
+                    //Log.d("elimina: ", String.valueOf(availablePositions.remove(randomIndex)));
                     playerBoard[row][col] = -1; // Actualizar la matriz "playerBoard"
                     Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
                     button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a negro
@@ -185,6 +185,15 @@ public class SinglePlayerActivity extends AppCompatActivity {
             } else {
                 // No hay posiciones disponibles, el juego ha terminado
                 checkGameOver();
+            }
+        }
+    }
+
+    private void createAvailablePositions() {
+        // Recorrer la matriz playerBoard para encontrar las posiciones disponibles
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                availablePositions.add(i * 10 + j); // Almacenar la posición como un número único
             }
         }
     }
