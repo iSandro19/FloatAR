@@ -2,6 +2,7 @@ package com.floatar;
 
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -23,6 +24,9 @@ public class SettingsActivity extends AppCompatActivity {
     private AppPreferences appPrefs;
     private AudioManager audioManager;
     private SharedPreferences sharedPreferences;
+
+    // Sounds
+    private MediaPlayer settingsOut;
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -47,6 +51,9 @@ public class SettingsActivity extends AppCompatActivity {
         SwitchCompat notificationsSwitch = findViewById(R.id.notificationsSwitch);
         Spinner languageSpinner = findViewById(R.id.languageSpinner);
         SeekBar volumeSeekBar = findViewById(R.id.volumeSeekBar);
+
+        //Sonidos
+        settingsOut = MediaPlayer.create(this, R.raw.settings_out);
 
         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
@@ -92,6 +99,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Configurar botón de guardar cambios
         Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
+            settingsOut.start();
             // Guardar cambios en SharedPreferences o en una base de datos
             Toast.makeText(SettingsActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
             finish(); // Regresar a la actividad anterior
@@ -128,6 +136,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(settingsOut != null){
+            settingsOut.release();
+            settingsOut = null;
+        }
+    }
     // Métodos privados ----------------------------------------------------------------------------
 
     /**

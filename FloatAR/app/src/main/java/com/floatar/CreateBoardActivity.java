@@ -3,6 +3,7 @@ package com.floatar;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,6 +31,18 @@ public class CreateBoardActivity extends AppCompatActivity {
     private Button boat1, boat2, boat3, boat4, horizontal, vertical, confirm;
     private Context mContext;
     private int numBoats1, numBoats2, numBoats3, numBoats4, sizeBoat, orientation;
+
+    // Sounds
+
+    private MediaPlayer pianoD;
+    private MediaPlayer pianoE;
+    private MediaPlayer pianoF;
+    private MediaPlayer pianoG;
+    private MediaPlayer pianoA;
+
+    private List<MediaPlayer> melody = new ArrayList<>();
+    private int index;
+
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -71,6 +84,16 @@ public class CreateBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_board);
 
+        // Sounds
+        pianoD = MediaPlayer.create(this, R.raw.piano_d);
+        pianoE = MediaPlayer.create(this, R.raw.piano_e);
+        pianoF = MediaPlayer.create(this, R.raw.piano_f);
+        pianoG = MediaPlayer.create(this, R.raw.piano_g);
+        pianoA = MediaPlayer.create(this, R.raw.piano_a);
+
+        // Create melody
+        initialiceMelody();
+
         numBoats1 = 0;
         numBoats2 = 0;
         numBoats3 = 0;
@@ -109,6 +132,9 @@ public class CreateBoardActivity extends AppCompatActivity {
             } else if (v == confirm) {
                 if (numBoats1 == 3 && numBoats2 == 2 && numBoats3 == 3 && numBoats4 == 2){
                     Bundle extras = getIntent().getExtras();
+                    // Play melody
+                    melody.get(index).start();
+                    index = 0;
                     if(extras != null) {
                         if(extras.getString("gameMode").equals("multiplayer")) {
                             database.getReference("lobbies")
@@ -170,6 +196,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                     Toast.makeText(CreateBoardActivity.this, "No puedes colocar más barcos de este tamaño", Toast.LENGTH_SHORT).show();
                 }
             } else if (playerBoard[row][col] == 1) {
+                index--;
                 deleteBoat(v, row, col);
             }
         };
@@ -184,6 +211,31 @@ public class CreateBoardActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle(R.string.create_board);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(pianoD != null){
+            pianoD.release();
+            pianoD = null;
+        }
+        if(pianoE != null){
+            pianoE.release();
+            pianoE = null;
+        }
+        if(pianoF != null){
+            pianoF.release();
+            pianoF = null;
+        }
+        if(pianoG != null){
+            pianoG.release();
+            pianoG = null;
+        }
+        if(pianoA != null){
+            pianoA.release();
+            pianoA = null;
         }
     }
 
@@ -279,6 +331,9 @@ public class CreateBoardActivity extends AppCompatActivity {
                     v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
 
                     sumBoat();  //Sumamos el tipo de barco
+                    // Play melody
+                    melody.get(index).start();
+                    index++;
                 } else {
                     Toast.makeText(CreateBoardActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
                 }
@@ -539,5 +594,20 @@ public class CreateBoardActivity extends AppCompatActivity {
             default:
                 Log.d("Error", "Tamaño imposible");
         }
+    }
+
+    private void initialiceMelody(){
+        index = 0;
+        melody.add(pianoD);
+        melody.add(pianoE);
+        melody.add(pianoF);
+        melody.add(pianoA);
+        melody.add(pianoG);
+        melody.add(pianoF);
+        melody.add(pianoE);
+        melody.add(pianoF);
+        melody.add(pianoG);
+        melody.add(pianoA);
+        melody.add(pianoG);
     }
 }
