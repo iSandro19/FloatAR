@@ -17,7 +17,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class SinglePlayerActivity extends AppCompatActivity {
@@ -26,47 +28,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
     private final Button[][] playerButtonGrid = new Button[10][10];
     private Context mContext;
     private boolean playerTurn = true;
-
-    // Métodos públicos ----------------------------------------------------------------------------
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            case R.id.layout_menu_main_help:
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_settings:
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_about:
-                intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent backPress = new Intent(SinglePlayerActivity.this, MainActivity.class);
-        startActivity(backPress);
-    }
-
-    // Métodos protegidos --------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +57,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
         View.OnClickListener buttonClickListener = v -> {
             // Obtener la etiqueta del botón
             String tag = (String) v.getTag();
-
             // Obtener la posición del botón a partir de su etiqueta
             int row = Integer.parseInt(tag.split("_")[1]);
             int col = Integer.parseInt(tag.split("_")[2]);
@@ -154,18 +114,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    // Métodos privados ----------------------------------------------------------------------------
-
-    /**
-     * Comprobar si el juego ha terminado
-     * @param v Botón pulsado
-     * @param row Fila del botón pulsado
-     * @param col Columna del botón pulsado
-     */
+    // Ejecutar la lógica del jugador
     private void playerTurn(View v, int row, int col) {
-        Log.d("Tablero", Arrays.deepToString(opponentBoard));
-        Log.d("Casilla valor", String.valueOf(opponentBoard[row][col]));
-
 
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
@@ -188,47 +138,58 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Método que se ejecuta cuando el oponente ha acertado o fallado
-     */
     private void opponentTurn() {
-        int row, col;
         if (!playerTurn) {
-            Random random = new Random();
+            ArrayList<Integer> availablePositions = new ArrayList<>();
+            // Recorrer la matriz playerBoard para encontrar las posiciones disponibles
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    availablePositions.add(i * 10 + j); // Almacenar la posición como un número único
+                }
+            }
 
-            do {
-                row = random.nextInt(10);
-                col = random.nextInt(10);
-            } while (opponentBoard[row][col] != 0);
+            if (!availablePositions.isEmpty()) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(availablePositions.size());
+                int position = availablePositions.get(randomIndex);
 
-            if (playerBoard[row][col] == 1) {
-                // El oponente ha acertado
-                playerBoard[row][col] = 2; // Actualizar la matriz "opponentBoard"
-                Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
-                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
+                int row = position / 10;
+                int col = position % 10;
 
-                checkGameOver();
+                Log.d("Ind: ", String.valueOf(randomIndex));
 
-                Log.d(".SinglePlayer", "El oponente ha acertado, mantiene el turno");
-                opponentTurn();
-            } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
-                Log.d(".SinglePlayer", "El oponente ha fallado, turno para el jugador");
-                //opponentTurn();
-                //Hacer que vaya descartando las casillas//////////////////////////////////////
+                Log.d("Lista tammmmmmmmm:", String.valueOf(availablePositions.size()));
+                Log.d("Lista: ", String.valueOf(availablePositions));
+
+
+                if (playerBoard[row][col] == 1) {
+                    // El oponente ha acertado
+                    availablePositions.remove(0);
+                    playerBoard[row][col] = 2; // Actualizar la matriz "playerBoard"
+                    Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
+
+                    checkGameOver();
+
+                    Log.d(".SinglePlayer", "El oponente ha acertado, mantiene el turno");
+                    opponentTurn();
+                } else {
+                    // El oponente ha fallado
+                    availablePositions.remove(0);
+                    playerBoard[row][col] = -1; // Actualizar la matriz "playerBoard"
+                    Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a negro
+                    playerTurn = true; // Cambiar el turno al jugador
+                    Log.d(".SinglePlayer", "El oponente ha fallado, turno para el jugador");
+                }
             } else {
-                // El oponente ha fallado
-                playerBoard[row][col] = -1; // Actualizar la matriz "opponentBoard"
-                Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
-                button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a negro
-                playerTurn = true; // Cambiar el turno al jugador
-                Log.d(".SinglePlayer", "El oponente ha fallado, turno para el jugador");
+                // No hay posiciones disponibles, el juego ha terminado
+                checkGameOver();
             }
         }
     }
 
-    /**
-     * Comprueba si el juego ha terminado
-     */
+    // Comprobar si el juego ha terminado
     private void checkGameOver() {
         boolean check = true;
 
@@ -260,11 +221,44 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Obtiene el ancho de la pantalla
-     * @return ancho de la pantalla
-     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.layout_menu_main_help:
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent backPress = new Intent(SinglePlayerActivity.this, MainActivity.class);
+        startActivity(backPress);
     }
 }
