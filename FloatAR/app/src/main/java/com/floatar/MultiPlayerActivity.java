@@ -65,7 +65,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Métodos privados ----------------------------------------------------------------------------
+    // Métodos protegidos ----------------------------------------------------------------------------
 
     @SuppressLint("SetTextI18n")
     @Override
