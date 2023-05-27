@@ -124,8 +124,22 @@ public class LobbyActivity extends AppCompatActivity {
                 Lobby lobby = snapshot.getValue(Lobby.class);
                 if (lobby != null) {
                     lobby.setKey(snapshot.getKey());
-                    lobbies.add(lobby);
-                    lobbyAdapter.notifyDataSetChanged();
+                    DatabaseReference playersRef = snapshot.child("players").getRef();
+                    playersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot playersSnapshot) {
+                            int playerCount = (int) playersSnapshot.getChildrenCount();
+                            if (playerCount < 2) {
+                                lobbies.add(lobby);
+                                lobbyAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Manejar el error si es necesario
+                        }
+                    });
                 }
             }
 
