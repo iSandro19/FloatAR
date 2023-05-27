@@ -13,9 +13,7 @@ import com.google.ar.core.Config;
 import com.google.ar.core.Session;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
 import com.google.ar.core.exceptions.UnavailableException;
-import com.google.ar.sceneform.Node;
-import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.ux.ArFragment;
+
 
 public class ARActivity extends AppCompatActivity {
     /*
