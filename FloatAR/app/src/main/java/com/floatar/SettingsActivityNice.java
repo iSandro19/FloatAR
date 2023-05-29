@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -145,7 +146,7 @@ public class SettingsActivityNice extends AppCompatActivity {
             // Volumen
             audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
             seekBarPreference = findPreference("VOLUME");
-            seekBarPreference.setMax(100);
+            seekBarPreference.setMax(15);   // Valor maximo de volumen del audiomanager
             seekBarPreference.setMin(0);
             seekBarPreference.setOnPreferenceChangeListener((preference, newValue) -> {
 
@@ -153,7 +154,9 @@ public class SettingsActivityNice extends AppCompatActivity {
                 audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
                 seekBarPreference.setValue(progress);
                 appPrefs.setVolume(progress);
+                volumeCheck.seekTo(0);
                 volumeCheck.start();
+
                 return true;
             });
         }
