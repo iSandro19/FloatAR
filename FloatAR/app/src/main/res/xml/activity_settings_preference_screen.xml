@@ -1,0 +1,29 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:key="PREFERENCE_SCREEN">
+
+    <PreferenceCategory app:title="@string/settings_title">
+        <SwitchPreference
+            app:key="NOTIFICATIONS"
+            app:title="@string/notifications_title"/>
+
+        <SwitchPreference
+            app:key="THEME"
+            app:title="@string/theme_title"/>
+
+        <ListPreference
+            app:key="LANGUAGE_LIST"
+            app:title="@string/settings_language"
+            app:entries="@array/languages_array"
+            app:entryValues="@array/languages_array"
+            app:defaultValue="Español"/>
+
+        <SeekBarPreference
+            app:key="VOLUME"
+            app:title="@string/volume_title"
+            app:defaultValue="50"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
