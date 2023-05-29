@@ -33,8 +33,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
     ArrayList<Integer> availablePositions = new ArrayList<>();
 
 
-    private MediaPlayer settingsSound;
-    private MediaPlayer abouthelpSound;
+    private MediaPlayer settingsSound, abouthelpSound, hitSound, missSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +44,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
         GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board_single_player);
         mContext = this;
 
-        //MediaPlayer hitSound = MediaPlayer.create(this, R.raw.hit);
-        //MediaPlayer missSound = MediaPlayer.create(this, R.raw.miss);
+        hitSound = MediaPlayer.create(this, R.raw.hit);
+        missSound = MediaPlayer.create(this, R.raw.miss);
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
         abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
 
@@ -131,6 +130,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
+            hitSound.seekTo(0);
+            hitSound.start();
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
             checkGameOver();
@@ -140,6 +141,8 @@ public class SinglePlayerActivity extends AppCompatActivity {
             Toast.makeText(SinglePlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
         } else {
             // El jugador ha fallado
+            missSound.seekTo(0);
+            missSound.start();
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
             playerTurn = false; // Cambiar el turno al oponente
