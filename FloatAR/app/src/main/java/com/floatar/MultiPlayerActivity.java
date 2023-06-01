@@ -33,14 +33,15 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private String playerId;
     private String opponentId;
 
+    private boolean isPlayerTurn;
+
     private int[][] playerBoard = new int[10][10];
     private int[][] opponentBoard = new int[10][10];
 
     private Context mContext;
-    private boolean playerTurn = true;
 
     MediaPlayer settingsSound;
-    MediaPlayer abouthelpSound;
+    MediaPlayer aboutHelpSound;
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case R.id.layout_menu_main_help:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
@@ -59,7 +60,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
@@ -78,7 +79,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multi_player);
 
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
-        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
+        aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
 
         GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board_multi_player);
         GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board_multi_player);
@@ -91,6 +92,17 @@ public class MultiPlayerActivity extends AppCompatActivity {
             lobbyKey = bundle.getString("lobbyKey");
             playerId = bundle.getString("playerId");
         }
+
+        if (playerId.compareTo(opponentId) < 0) {
+            isPlayerTurn = true;
+            //currentPlayerId = playerId;
+            //opponentPlayerId = opponentId;
+        } else {
+            isPlayerTurn = false;
+            //currentPlayerId = opponentId;
+            //opponentPlayerId = playerId;
+        }
+
 
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
@@ -108,7 +120,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
                             assert value != null;
                             updateOpponentBoard(value);
-                            playerTurn = true;
 
                             System.out.println(opponentId);
                             System.out.println(value);
@@ -116,7 +127,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
                             assert value != null;
                             updatePlayerBoard(value);
-                            playerTurn = false;
 
                             System.out.println(playerId);
                             System.out.println(value);
@@ -142,7 +152,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             String buttonType = String.valueOf(tag.split("_")[0]);
 
             // Ejecutar la lógica del juego correspondiente
-            if (playerTurn && !buttonType.equals("playerbutton")) {
+            if (!buttonType.equals("playerbutton")) {
                 Log.d("entro", "entroooooooooo2");
                 playerTurn(v, row, col);
             }
@@ -198,9 +208,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
             settingsSound.release();
             settingsSound = null;
         }
-        if (abouthelpSound != null) {
-            abouthelpSound.release();
-            abouthelpSound = null;
+        if (aboutHelpSound != null) {
+            aboutHelpSound.release();
+            aboutHelpSound = null;
         }
     }
 
@@ -281,7 +291,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
-            playerTurn = false; // Cambiar el turno al oponente
         }
     }
 
