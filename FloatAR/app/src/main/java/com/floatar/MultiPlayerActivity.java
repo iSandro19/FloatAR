@@ -166,6 +166,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
             Log.d("playerturnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", String.valueOf(isPlayerTurn));
 
             // Ejecutar la lógica del juego correspondiente
+            Log.d("playercountDAtosssssssssssss", String.valueOf(playerCount));
+
             if (!buttonType.equals("playerbutton") && isPlayerTurn && playerCount == 2) {
                 playerTurn(v, row, col);
             }
