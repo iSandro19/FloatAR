@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.layout_menu_main_settings:
                 settingsSound.start();
-                intent = new Intent(this, SettingsActivityNice.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:

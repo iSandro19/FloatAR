@@ -5,19 +5,12 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -27,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
 
-public class SettingsActivityNice extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     Button confirmButton;
 
@@ -56,7 +49,7 @@ public class SettingsActivityNice extends AppCompatActivity {
         confirmButton.setOnClickListener(v -> {
             settingsOut.start();
             // Guardar cambios en SharedPreferences o en una base de datos
-            Toast.makeText(SettingsActivityNice.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingsActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
             finish(); // Regresar a la actividad anterior
         });
 

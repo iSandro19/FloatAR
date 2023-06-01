@@ -19,8 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class SinglePlayerActivity extends AppCompatActivity {
@@ -250,7 +248,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 return true;
             case R.id.layout_menu_main_settings:
                 settingsSound.start();
-                intent = new Intent(this, SettingsActivityNice.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:

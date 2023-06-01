@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.MediaController;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,7 +55,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 return true;
             case R.id.layout_menu_main_settings:
                 settingsSound.start();
-                intent = new Intent(this, SettingsActivityNice.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
