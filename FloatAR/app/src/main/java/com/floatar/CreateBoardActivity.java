@@ -252,11 +252,11 @@ public class CreateBoardActivity extends AppCompatActivity {
      * Actualiza el texto de la parte inferior de la pantalla con los barcos que quedan por colocar
      */
     private void updateBoatsLeftTextView() {
-        String boatsLeftString = "Barcos por colocar:\n";
-        boatsLeftString += (3 - numBoats1) + " de tamaño 1\n";
-        boatsLeftString += (2 - numBoats2) + " de tamaño 2\n";
-        boatsLeftString += (3 - numBoats3) + " de tamaño 3\n";
-        boatsLeftString += (2 - numBoats4) + " de tamaño 4";
+        String boatsLeftString = getString(R.string.boats_left);
+        boatsLeftString += (3 - numBoats1) + " " + getString(R.string.boats_left_1);
+        boatsLeftString += (2 - numBoats2) + " " + getString(R.string.boats_left_2);
+        boatsLeftString += (3 - numBoats3) + " " + getString(R.string.boats_left_3);
+        boatsLeftString += (2 - numBoats4) + " " + getString(R.string.boats_left_4);
 
         TextView boats = findViewById(R.id.text_view_boats_left);
         boats.setText(boatsLeftString);

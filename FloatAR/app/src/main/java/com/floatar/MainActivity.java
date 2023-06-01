@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MediaPlayer buttonsSound;
     private MediaPlayer settingsSound;
-    private MediaPlayer abouthelpSound;
+    private MediaPlayer aboutHelpSound;
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case R.id.layout_menu_main_help:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
@@ -59,10 +59,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        applyAppPreferences();
+
         // Sonidos
         buttonsSound = MediaPlayer.create(this, R.raw.button);
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
-        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
+        aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
 
         // Inicializar Firebase
         FirebaseApp.initializeApp(this);
@@ -95,9 +97,12 @@ public class MainActivity extends AppCompatActivity {
             buttonsSound.start();
             finish();
         });
+    }
 
-        // Aplicar el modo oscuro al reiniciar la actividad
-        applyAppPreferences();
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
     }
 
     @Override
@@ -111,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
             settingsSound.release();
             settingsSound = null;
         }
-        if (abouthelpSound != null) {
-            abouthelpSound.release();
-            abouthelpSound = null;
+        if (aboutHelpSound != null) {
+            aboutHelpSound.release();
+            aboutHelpSound = null;
         }
     }
 

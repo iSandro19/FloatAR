@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to the app -->
+    <string name="app_name">FloatAR</string>
+    <string name="todo">Todo</string>
+    <string name="floatar_logo">FloatAR-Logo</string>
+
+    <!-- Strings related to the main menu -->
+    <string name="settings">Einstellungen</string>
+    <string name="help">Hilfe</string>
+    <string name="about">Über die App</string>
+
+    <!-- Strings related to the game -->
+    <string name="player_turn">Spieler 1</string>
+    <string name="computer_turn">Spieler 2</string>
+    <string name="score_format">Punktzahl</string>
+
+    <!-- Strings related to the main activity -->
+    <string name="single_player">Einzelplayer</string>
+    <string name="exit_game">Spiel beenden</string>
+    <string name="multi_player">Mehrspieler</string>
+
+    <!-- Strings related to the create board activity -->
+    <string name="but_boat_s1">Boot 1</string>
+    <string name="but_boat_s2">Boot 2</string>
+    <string name="but_boat_s3">Boot 3</string>
+    <string name="but_boat_s4">Boot 4</string>
+    <string name="but_horizontal_boat">Horizontal</string>
+    <string name="but_vertical_boat">Vertikal</string>
+    <string name="create_board">Spielfeld erstellen</string>
+    <string name="boats_left">Noch zu platzierende Boote:\n</string>
+    <string name="boats_left_1"> der Größe 1\n</string>
+    <string name="boats_left_2"> der Größe 2\n</string>
+    <string name="boats_left_3"> der Größe 3\n</string>
+    <string name="boats_left_4"> der Größe 4</string>
+
+
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">Spielfeld des Spielers</string>
+    <string name="opponent_board">Spielfeld des Gegners</string>
+
+    <!-- Strings related to the settings activity -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="notifications_title">Benachrichtigungen</string>
+    <string name="theme_title">Dunkles Design</string>
+    <string name="volume_title">Lautstärke</string>
+    <string name="sava_changes_title">Änderungen speichern</string>
+    <string name="settings_language">Sprache</string>
+    <string name="language_selector">Sprachauswahl</string>
+
+    <!-- Strings related to the help activity -->
+    <string name="help_title">Hilfe zu FloatAR</string>
+    <string name="help_text_title">Willkommen zum FloatAR-Hilfebildschirm!</string>
+    <string name="help_text_content">
+        FloatAR ist eine Augmented Reality-Anwendung zum Spielen des beliebten Spiels "Schiffe versenken".
+        Die App ermöglicht es dir, Schiffe auf einem virtuellen Spielfeld zu platzieren und dich in Echtzeit
+        mit anderen Spielern zu messen. Hier sind einige wichtige Funktionen der App:\n\n
+
+        \t\t - Augmented Reality-Spielfeld: Die App verwendet Augmented Reality-Technologie, um ein
+        Spielfeld in Echtzeit zu simulieren. Um das Spiel zu starten, zeige einfach dein Gerät auf
+        eine flache Oberfläche und folge den Anweisungen auf dem Bildschirm, um das Spielfeld zu kalibrieren.\n\n
+
+        \t\t - Platzierung von Schiffen per Gestensteuerung: Sobald das Spielfeld eingerichtet ist,
+        kannst du deine Schiffe auf dem virtuellen Spielfeld per Gestensteuerung platzieren. Ziehe
+        und lasse die Schiffe an der gewünschten Position los und benutze Pinch-Gesten, um sie zu drehen
+        und ihre Größe anzupassen.\n\n
+
+        \t\t - Kollisionsdetektion: Die App verfügt über ein Kollisionserkennungssystem, um sicherzustellen,
+        dass die Schiffe sich nicht auf dem virtuellen Spielfeld überlappen. Wenn du versuchst,
+        ein Schiff an einer ungültigen Position zu platzieren, wird die App dich benachrichtigen und
+        dich auffordern, es zu verschieben.\n\n
+
+        \t\t - Spielmechanik: Sobald beide Spieler ihre Schiffe platziert haben, kann das Spiel beginnen.
+        Klicke auf die Felder des Spielfelds, um auf die Schiffe deines Gegners zu schießen, und nutze
+        die Anzeigen der App, um zu sehen, ob du getroffen hast oder nicht. Dein Gegner kann auch
+        auf deine Schiffe schießen, also sorge dafür, dass du sie gut verteidigst.\n\n
+
+        \t\t - Erkennung von Siegen und Niederlagen: Die App verfügt über ein System zur Erkennung von
+        Siegen und Niederlagen. Der erste Spieler, der alle Schiffe seines Gegners versenkt, gewinnt das Spiel.\n\n
+
+        \t\t - Echtzeit-Punktzahl und Spielstatus: Die App zeigt die Punktzahl und den Spielstatus
+        in Echtzeit für beide Spieler an. Nutze diese Anzeigen, um deine Züge zu planen und den
+        Fortschritt des Spiels im Auge zu behalten.\n\n
+
+        \t\t - Explosionen und Raketen-Animationen: Die App enthält Animationen, um das Versenken der Schiffe
+        und den Abschuss von Raketen darzustellen. Diese Animationen verleihen dem Spiel Leben und
+        machen es spannender.\n\n
+
+        \t\t - Anpassung der Schiffe: Die App ermöglicht es dir, das Aussehen deiner Schiffe anzupassen,
+        um sie deinem Stil anzupassen. Ändere Farbe und Form deiner Schiffe, um sie einzigartig und
+        wiedererkennbar zu machen.\n\n
+
+        Wir hoffen, dass dir dieser Hilfebildschirm bei der Nutzung von FloatAR geholfen hat.
+        Viel Spaß beim Spielen mit FloatAR!
+    </string>
+
+        <!-- Strings related to the about activity -->
+        <string name="version_number">0.1</string>
+        <string name="developers_name">
+        Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
+    </string>
+        <string name="developers_email">
+        antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
+    </string>
+
+    <!-- Strings related to the game over activity -->
+    <string name="you_won">Du hast gewonnen!</string>
+    <string name="you_lost">Du hast verloren</string>
+    <string name="play_again">Erneut spielen</string>
+    <string name="game_over">Spiel beendet</string>
+
+    <!-- Strings related to the lobby activity -->
+    <string name="create_lobby">Lobby erstellen</string>
+    <string name="open_lobbies">Offene Lobbies:</string>
+    <string name="lobby_name">Lobby-Name</string>
+    <string name="join_lobby">Lobby beitreten</string>
+    <string name="your_name">Dein Name</string>
+    <string name="lobby">Lobby</string>
+
+    <!-- Other strings -->
+    <string name="not_implemented_yet">Noch nicht implementiert</string>
+    <string name="not_implemented_yet_description">Diese Funktion befindet sich noch in der Entwicklung.</string>
+    <string name="info_logo">Info-Logo</string>
+    <string name="show_info">Informationen anzeigen</string>
+
+    <!-- Strings related to the database -->
+    <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">Bestätigen</string>
+    <string name="demo_ar">AR-Demo</string>
+    <string name="depth_api">Tiefen-API</string>
+    <string name="instant_placement">Sofortige Platzierung</string>
+    <string name="battleship">Schlachtschiff</string>
+    <string name="AR_demo">AR-Demo</string>
+</resources>

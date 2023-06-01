@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to the app -->
+    <string name="app_name">FloatAR</string>
+    <string name="todo">À faire</string>
+    <string name="floatar_logo">Logo FloatAR</string>
+
+    <!-- Strings related to the main menu -->
+    <string name="settings">Paramètres</string>
+    <string name="help">Aide</string>
+    <string name="about">À propos</string>
+
+    <!-- Strings related to the game -->
+    <string name="player_turn">1</string>
+    <string name="computer_turn">2</string>
+    <string name="score_format">Score</string>
+
+    <!-- Strings related to the main activity -->
+    <string name="single_player">Un joueur</string>
+    <string name="exit_game">Quitter</string>
+    <string name="multi_player">Multijoueur</string>
+
+    <!-- Strings related to the create board activity -->
+    <string name="but_boat_s1">Bateau 1</string>
+    <string name="but_boat_s2">Bateau 2</string>
+    <string name="but_boat_s3">Bateau 3</string>
+    <string name="but_boat_s4">Bateau 4</string>
+    <string name="but_horizontal_boat">Horizontal</string>
+    <string name="but_vertical_boat">Vertical</string>
+    <string name="create_board">Créer un tableau</string>
+    <string name="boats_left">Bateaux restants à placer :\n</string>
+    <string name="boats_left_1"> de taille 1\n</string>
+    <string name="boats_left_2"> de taille 2\n</string>
+    <string name="boats_left_3"> de taille 3\n</string>
+    <string name="boats_left_4"> de taille 4</string>
+
+
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">Tableau du joueur</string>
+    <string name="opponent_board">Tableau de l`adversaire</string>
+
+    <!-- Strings related to the settings activity -->
+    <string name="settings_title">Paramètres</string>
+    <string name="notifications_title">Notifications</string>
+    <string name="theme_title">Thème sombre</string>
+    <string name="volume_title">Volume</string>
+    <string name="sava_changes_title">Enregistrer les modifications</string>
+    <string name="settings_language">Langue</string>
+    <string name="language_selector">Sélecteur de langue</string>
+
+    <!-- Strings related to the help activity -->
+    <string name="help_title">Utilisation de FloatAR</string>
+    <string name="help_text_title">Bienvenue sur l`écran d`aide de FloatAR !</string>
+    <string name="help_text_content">
+        FloatAR est une application de réalité augmentée pour jouer au célèbre jeu "Bataille navale".
+        L`application vous permet de placer des bateaux sur un tableau virtuel et de jouer en temps réel
+        contre d`autres joueurs. Voici quelques fonctionnalités clés de l`application :\n\n
+
+        \t\t - Tableau en réalité augmentée : L`application utilise la technologie de réalité augmentée
+        pour simuler un tableau en temps réel. Pour commencer à jouer, pointez simplement votre appareil
+        vers une surface plane et suivez les instructions à l`écran pour calibrer la position du tableau.\n\n
+
+        \t\t - Placement des bateaux par des gestes : Une fois que le tableau est configuré, vous pouvez
+        placer vos bateaux sur le tableau virtuel en utilisant des gestes à l`écran. Faites glisser et
+        déposez les bateaux à l`endroit souhaité et utilisez des gestes de pincement pour les faire
+        pivoter et ajuster leur taille.\n\n
+
+        \t\t - Détection des collisions : L`application dispose d`un système de détection des collisions
+        pour garantir que les bateaux ne se chevauchent pas sur le tableau virtuel. Si vous essayez de
+        placer un bateau dans une position invalide, l`application vous alerte et vous demande de le déplacer.\n\n
+
+        \t\t - Système de jeu : Une fois que les deux joueurs ont placé leurs bateaux, le jeu peut commencer.
+        Tirez sur les bateaux de l`adversaire en cliquant sur les cases du tableau et utilisez les
+        indicateurs de l`application pour voir si vous avez touché ou non. Votre adversaire peut également
+        tirer sur vos bateaux, alors assurez-vous de bien les protéger.\n\n
+
+        \t\t - Détection des victoires et des défaites : L`application dispose d`un système pour détecter
+        les victoires et les défaites. Le premier joueur à couler tous les bateaux de l`adversaire remporte la partie.\n\n
+
+        \t\t - Score et état du jeu en temps réel : L`application affiche le score et l`état du jeu en temps réel
+        pour les deux joueurs. Utilisez ces indicateurs pour planifier vos mouvements et suivre les
+        progrès du jeu.\n\n
+
+        \t\t - Animations d`explosion et de lancement de missiles : L`application propose des animations pour
+        montrer l`explosion des bateaux et le lancement de missiles d`un côté à l`autre. Ces animations
+        donnent vie au jeu et le rendent plus excitant.\n\n
+
+        \t\t - Personnalisation des bateaux : L`application vous permet de personnaliser l`apparence de vos bateaux
+        pour qu`ils correspondent à votre style. Modifiez la couleur et la forme de vos bateaux pour les
+        rendre uniques et reconnaissables.\n\n
+
+        Nous espérons que cet écran d`aide vous a été utile. Amusez-vous bien avec FloatAR !
+    </string>
+
+    <!-- Strings related to the about activity -->
+    <string name="version_number">0.1</string>
+    <string name="developers_name">
+        Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
+    </string>
+    <string name="developers_email">
+        antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
+    </string>
+
+    <!-- Strings related to the game over activity -->
+    <string name="you_won">Vous avez gagné !</string>
+    <string name="you_lost">Vous avez perdu</string>
+    <string name="play_again">Rejouer</string>
+    <string name="game_over">Fin de partie</string>
+
+    <!-- Strings related to the lobby activity -->
+    <string name="create_lobby">Créer un salon</string>
+    <string name="open_lobbies">Salons ouverts :</string>
+    <string name="lobby_name">Nom du salon</string>
+    <string name="join_lobby">Rejoindre un salon</string>
+    <string name="your_name">Votre nom</string>
+    <string name="lobby">Salons</string>
+
+    <!-- Other strings -->
+    <string name="not_implemented_yet">Pas encore implémenté</string>
+    <string name="not_implemented_yet_description">Cette fonctionnalité est en cours de développement.</string>
+    <string name="info_logo">logo_info</string>
+    <string name="show_info">Afficher les informations</string>
+
+    <!-- Strings related to the database -->
+    <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">Confirmer</string>
+    <string name="demo_ar">Démo de RA</string>
+    <string name="depth_api">API de profondeur</string>
+    <string name="instant_placement">Placement instantané</string>
+    <string name="battleship">Bateau de guerre</string>
+    <string name="AR_demo">Démo RA</string>
+</resources>

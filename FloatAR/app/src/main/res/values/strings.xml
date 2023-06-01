@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Strings related to the app -->
     <string name="app_name">FloatAR</string>
@@ -27,6 +28,11 @@
     <string name="but_horizontal_boat">Horizontal</string>
     <string name="but_vertical_boat">Vertical</string>
     <string name="create_board">Crear tablero</string>
+    <string name="boats_left">Barcos por colocar:\n</string>
+    <string name="boats_left_1"> de tamaño 1\n</string>
+    <string name="boats_left_2"> de tamaño 2\n</string>
+    <string name="boats_left_3"> de tamaño 3\n</string>
+    <string name="boats_left_4"> de tamaño 4</string>
 
     <!-- Strings related to the single player activity -->
     <string name="player_board">Tablero del jugador</string>

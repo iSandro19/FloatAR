@@ -14,9 +14,9 @@
         <ListPreference
             app:key="LANGUAGE_LIST"
             app:title="@string/settings_language"
-            app:entries="@array/languages_array"
-            app:entryValues="@array/languages_array"
-            app:defaultValue="Español"/>
+            app:entries="@array/languages_entries"
+            app:entryValues="@array/languages_values"
+            app:defaultValue="es"/>
 
         <SeekBarPreference
             app:key="VOLUME"

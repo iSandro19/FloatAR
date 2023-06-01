@@ -2,6 +2,8 @@ package com.floatar;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -20,11 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
 
+import java.util.Locale;
+
 public class SettingsActivity extends AppCompatActivity {
 
     Button confirmButton;
-
     MediaPlayer settingsOut;
+    static SharedPreferences sharedPreferences;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -50,7 +54,29 @@ public class SettingsActivity extends AppCompatActivity {
             settingsOut.start();
             // Guardar cambios en SharedPreferences o en una base de datos
             Toast.makeText(SettingsActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
+
+            String selectedLanguage = sharedPreferences.getString("language", "es");
+            Locale locale = new Locale(selectedLanguage);
+            Locale.setDefault(locale);
+
+            Resources resources = getResources();
+            Configuration configuration = resources.getConfiguration();
+            configuration.setLocale(locale);
+            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
             finish(); // Regresar a la actividad anterior
+
+            /* MODO AUTOMÁTICO DE SELECCIÓN DE IDIOMA
+             * Para facilitar el testeo de los idiomas, se ha dejado de forma manual
+            // Obtener el idioma del dispositivo
+            String deviceLanguage = Locale.getDefault().getLanguage();
+
+            // Verificar si el idioma del dispositivo es compatible con tu aplicación
+            if (deviceLanguage.equals("es") || deviceLanguage.equals("en") || deviceLanguage.equals("fr") || deviceLanguage.equals("de") || deviceLanguage.equals("pt")) {
+                // Establecer el idioma del dispositivo como idioma seleccionado
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                sharedPreferences.edit().putString("language", deviceLanguage).apply();
+            }
+            */
         });
 
         if (savedInstanceState == null) {
@@ -76,8 +102,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     // Fragmento donde están Notificaciones, Tema, Idioma y volumen
     public static class SettingsFragment extends PreferenceFragmentCompat {
-
-        SharedPreferences sharedPreferences;
         SwitchPreference switchPreferenceNotification, switchPreferenceTheme;
         ListPreference listPreference;
         SeekBarPreference seekBarPreference;
@@ -89,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
         MediaPlayer volumeCheck;
 
         @Override
-        public void onCreatePreferences(Bundle savedInstance, String rootKey){
+        public void onCreatePreferences(Bundle savedInstance, String rootKey) {
             setPreferencesFromResource(R.xml.activity_settings_preference_screen, rootKey);
 
             context = getActivity();
@@ -100,6 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Notificaciones
             switchPreferenceNotification = findPreference("NOTIFICATIONS");
+            assert switchPreferenceNotification != null;
             switchPreferenceNotification.setChecked(appPrefs.areNotificationsEnabled());
             switchPreferenceNotification.setOnPreferenceChangeListener((preference, newValue) -> {
                 boolean isChecked = (boolean) newValue;
@@ -111,6 +136,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Tema del dispositivo
             switchPreferenceTheme = findPreference("THEME");
+            assert switchPreferenceTheme != null;
             switchPreferenceTheme.setOnPreferenceChangeListener((preference, newValue) -> {
                 boolean isChecked = (boolean) newValue;
                 appPrefs.setDarkThemeEnabled(isChecked);
@@ -122,9 +148,10 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Idioma
             listPreference = findPreference("LANGUAGE_LIST");
+            assert listPreference != null;
             String selectedValue = listPreference.getValue();
             if (selectedValue == null){
-                listPreference.setValue("Español");
+                listPreference.setValue("es");
             }
             listPreference.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
             listPreference.setOnPreferenceChangeListener((preference, newValue) ->{
@@ -134,11 +161,13 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.apply();
 
                 return true;
+
             });
 
             // Volumen
             audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
             seekBarPreference = findPreference("VOLUME");
+            assert seekBarPreference != null;
             seekBarPreference.setMax(15);   // Valor maximo de volumen del audiomanager
             seekBarPreference.setMin(0);
             seekBarPreference.setOnPreferenceChangeListener((preference, newValue) -> {
