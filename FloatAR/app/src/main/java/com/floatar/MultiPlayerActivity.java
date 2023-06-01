@@ -134,8 +134,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 }
             });
 
+        Log.d("counttttttttttttttttttttttttttttttttttttttttttttttt", String.valueOf(playerCount));
 
-        isPlayerTurn = playerCount == 1;
+        isPlayerTurn = playerCount != 2;
+
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -147,6 +149,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
             int col = Integer.parseInt(tag.split("_")[2]);
 
             String buttonType = String.valueOf(tag.split("_")[0]);
+
+            Log.d("playerturnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", String.valueOf(isPlayerTurn));
 
             // Ejecutar la lógica del juego correspondiente
             if (!buttonType.equals("playerbutton") && isPlayerTurn && playerCount == 2) {
