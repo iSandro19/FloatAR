@@ -72,6 +72,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        // Aquí puedes realizar las acciones necesarias cuando el usuario presione el botón de retroceso
+
+        // Por ejemplo, puedes eliminar al jugador de la base de datos y finalizar la actividad
+        //finish();
+    }
+
 
     // Métodos protegidos ----------------------------------------------------------------------------
 
