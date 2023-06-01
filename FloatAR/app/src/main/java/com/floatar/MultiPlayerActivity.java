@@ -67,6 +67,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -74,6 +77,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         // Aquí puedes realizar las acciones necesarias cuando el usuario presione el botón de retroceso
 
         // Por ejemplo, puedes eliminar al jugador de la base de datos y finalizar la actividad

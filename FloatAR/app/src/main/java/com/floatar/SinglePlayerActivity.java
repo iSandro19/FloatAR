@@ -256,6 +256,9 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

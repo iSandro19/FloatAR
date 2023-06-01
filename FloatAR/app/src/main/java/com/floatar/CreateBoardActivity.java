@@ -168,6 +168,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 if (numBoats1 == 3 && numBoats2 == 2 && numBoats3 == 3 && numBoats4 == 2){
                     Bundle extras = getIntent().getExtras();
                     // Play melody
+                    melody.get(index).seekTo(0);
                     melody.get(index).start();
                     index = 0;
                     if(extras != null) {
