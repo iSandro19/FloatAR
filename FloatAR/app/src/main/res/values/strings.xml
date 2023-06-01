@@ -120,5 +120,9 @@
     <!-- To-classify Strings -->
     <string name="confirm">Confirmar</string>
     <string name="demo_ar">Demo AR</string>
+    <string name="depth_api">API de profundidad</string>
+    <string name="instant_placement">Instant Placement</string>
+    <string name="battleship">Buque de guerra</string>
+    <string name="AR_demo">Demo de RA</string>
 
 </resources>
