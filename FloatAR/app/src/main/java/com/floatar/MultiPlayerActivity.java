@@ -34,6 +34,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private String opponentId;
 
     private boolean isPlayerTurn;
+    private boolean isPlayerTurnSet = false;
 
     private int playerCount = -1;
 
@@ -127,6 +128,13 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             System.out.println(value);
                         }
                     }
+
+                    if (playerCount == 1 && !isPlayerTurnSet) {
+                        isPlayerTurn = true;
+                    } else {
+                        isPlayerTurn = false;
+                    }
+                    isPlayerTurnSet = true;
                 }
 
                 @Override
@@ -134,11 +142,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
                 }
             });
-
-        Log.d("counttttttttttttttttttttttttttttttttttttttttttttttt", String.valueOf(playerCount));
-
-
-        isPlayerTurn = playerCount != 2;
 
 
         // OnClickListener para los botones del tablero
