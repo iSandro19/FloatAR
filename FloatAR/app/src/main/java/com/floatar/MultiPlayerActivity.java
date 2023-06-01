@@ -105,6 +105,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     playerCount = (int) dataSnapshot.getChildrenCount();
+                    Log.d("playercount11111111111111111111111111111", String.valueOf(playerCount));
                     for (DataSnapshot playerSnapshot : dataSnapshot.getChildren()) {
                         String playerId = playerSnapshot.getKey();
                         assert playerId != null;
@@ -135,6 +136,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             });
 
         Log.d("counttttttttttttttttttttttttttttttttttttttttttttttt", String.valueOf(playerCount));
+
 
         isPlayerTurn = playerCount != 2;
 
