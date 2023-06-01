@@ -3,6 +3,8 @@ package com.floatar;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +46,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     private List<MediaPlayer> melody = new ArrayList<>();
     private int index;
+    private ColorStateList originalColor;
 
 
     // Métodos públicos ----------------------------------------------------------------------------
@@ -116,6 +119,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         boat2 = findViewById(R.id.but_boat_s2);
         boat3 = findViewById(R.id.but_boat_s3);
         boat4 = findViewById(R.id.but_boat_s4);
+        originalColor = boat4.getTextColors(); //Coge el color naranja
         horizontal = findViewById(R.id.but_horizontal_boat);
         vertical = findViewById(R.id.but_vertical_boat);
         confirm = findViewById(R.id.confirm);
@@ -126,16 +130,40 @@ public class CreateBoardActivity extends AppCompatActivity {
         View.OnClickListener optionsClickListener = v -> {
             if (v == boat1){
                 sizeBoat = 1;
+                boat1.setTextColor(Color.BLACK);
+                boat2.setTextColor(originalColor);
+                boat3.setTextColor(originalColor);
+                boat4.setTextColor(originalColor);
+
             } else if (v == boat2) {
                 sizeBoat = 2;
+                boat1.setTextColor(originalColor);
+                boat2.setTextColor(Color.BLACK);
+                boat3.setTextColor(originalColor);
+                boat4.setTextColor(originalColor);
+
             } else if (v == boat3) {
                 sizeBoat = 3;
+                boat1.setTextColor(originalColor);
+                boat2.setTextColor(originalColor);
+                boat3.setTextColor(Color.BLACK);
+                boat4.setTextColor(originalColor);
+
             } else if (v == boat4) {
                 sizeBoat = 4;
+                boat1.setTextColor(originalColor);
+                boat2.setTextColor(originalColor);
+                boat3.setTextColor(originalColor);
+                boat4.setTextColor(Color.BLACK);
+
             } else if (v == horizontal) {
                 orientation = 0;
+                horizontal.setTextColor(Color.BLACK);
+                vertical.setTextColor(originalColor);
             } else if (v == vertical) {
                 orientation = 1;
+                horizontal.setTextColor(originalColor);
+                vertical.setTextColor(Color.BLACK);
             } else if (v == confirm) {
                 if (numBoats1 == 3 && numBoats2 == 2 && numBoats3 == 3 && numBoats4 == 2){
                     Bundle extras = getIntent().getExtras();
@@ -179,6 +207,9 @@ public class CreateBoardActivity extends AppCompatActivity {
         horizontal.setOnClickListener(optionsClickListener);
         vertical.setOnClickListener(optionsClickListener);
         confirm.setOnClickListener(optionsClickListener);
+
+        boat1.setTextColor(Color.BLACK);
+        horizontal.setTextColor(Color.BLACK);
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
