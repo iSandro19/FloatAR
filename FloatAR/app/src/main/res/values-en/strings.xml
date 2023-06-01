@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to the app -->
+    <string name="app_name">FloatAR</string>
+    <string name="todo">ToDo</string>
+    <string name="floatar_logo">FloatAR logo</string>
+
+    <!-- Strings related to the main menu -->
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+
+    <!-- Strings related to the game -->
+    <string name="player_turn">1</string>
+    <string name="computer_turn">2</string>
+    <string name="score_format">Score</string>
+
+    <!-- Strings related to the main activity -->
+    <string name="single_player">Single Player</string>
+    <string name="exit_game">Exit</string>
+    <string name="multi_player">Multiplayer</string>
+
+    <!-- Strings related to the create board activity -->
+    <string name="but_boat_s1">Boat 1</string>
+    <string name="but_boat_s2">Boat 2</string>
+    <string name="but_boat_s3">Boat 3</string>
+    <string name="but_boat_s4">Boat 4</string>
+    <string name="but_horizontal_boat">Horizontal</string>
+    <string name="but_vertical_boat">Vertical</string>
+    <string name="create_board">Create Board</string>
+    <string name="boats_left">Boats left to place:\n</string>
+    <string name="boats_left_1"> of size 1\n</string>
+    <string name="boats_left_2"> of size 2\n</string>
+    <string name="boats_left_3"> of size 3\n</string>
+    <string name="boats_left_4"> of size 4</string>
+
+
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">Player Board</string>
+    <string name="opponent_board">Opponent Board</string>
+
+    <!-- Strings related to the settings activity -->
+    <string name="settings_title">Settings</string>
+    <string name="notifications_title">Notifications</string>
+    <string name="theme_title">Dark Theme</string>
+    <string name="volume_title">Volume</string>
+    <string name="sava_changes_title">Save changes</string>
+    <string name="settings_language">Language</string>
+    <string name="language_selector">Language Selector</string>
+
+    <!-- Strings related to the help activity -->
+    <string name="help_title">Using FloatAR</string>
+    <string name="help_text_title">Welcome to the FloatAR Help Screen!</string>
+    <string name="help_text_content">
+        FloatAR is an augmented reality application to play the popular game Battleship.
+        The application allows you to place ships on a virtual board and compete against other players
+        in real-time. Here are some key features of the application:\n\n
+
+        \t\t - Augmented Reality Board: The application utilizes augmented reality technology to
+        simulate a real-time board. To start playing, simply point your device
+        towards a flat surface and follow the on-screen instructions to calibrate the boards position.\n\n
+
+        \t\t - Gesture-Based Ship Placement: Once the board is set up, you can place your ships on the
+        virtual board using on-screen gestures. Drag and drop the ships to the desired position,
+        and use pinch gestures to rotate and resize them.\n\n
+        and use pinch gestures to rotate and resize them.\n\n
+
+        \t\t - Collision Detection: The application features a collision detection system to ensure that
+        ships do not overlap on the virtual board. If you try to place a ship in an invalid position,
+        the application will alert you and prompt you to move it.\n\n
+
+        \t\t - Gameplay System: Once both players have placed their ships, the game can begin.
+        Fire at your opponents ships by clicking on the squares of the board, and
+        use the applications indicators to see if you hit or miss. Your opponent can also
+        fire at your ships, so make sure to protect them well.\n\n
+
+        \t\t - Detecting Wins and Losses: The application includes a system to detect wins
+        and losses. The first player to sink all of the opponents ships wins the game.\n\n
+
+        \t\t - Real-Time Scoring and Game Status: The application displays real-time scoring and
+        game status for both players. Use these indicators to plan your moves and
+        stay updated on the progress of the game.\n\n
+
+        \t\t - Explosion and Missile Launch Animations: The application features animations
+        to show ship explosions and missile launches from one side to another.
+        These animations bring the game to life and make it more exciting.\n\n
+
+        \t\t - Ship Customization: The application allows you to customize the appearance of your
+        ships to suit your style. Change the color and shape of your ships to
+        make them unique and recognizable.\n\n
+
+        We hope this help screen has been useful to you. Have fun playing with FloatAR!
+    </string>
+
+    <!-- Strings related to the about activity -->
+    <string name="version_number">0.1</string>
+    <string name="developers_name">
+        Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
+    </string>
+    <string name="developers_email">
+        antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
+    </string>
+
+    <!-- Strings related to the game over activity -->
+    <string name="you_won">You Won!</string>
+    <string name="you_lost">You Lost</string>
+    <string name="play_again">Play Again</string>
+    <string name="game_over">Game Over</string>
+
+    <!-- Strings related to the lobby activity -->
+    <string name="create_lobby">Create Lobby</string>
+    <string name="open_lobbies">Available Lobbies:</string>
+    <string name="lobby_name">Lobby Name</string>
+    <string name="join_lobby">Join Lobby</string>
+    <string name="your_name">Your Name</string>
+    <string name="lobby">Lobby</string>
+
+    <!-- Other strings -->
+    <string name="not_implemented_yet">Not Implemented</string>
+    <string name="not_implemented_yet_description">This activity is still under construction.</string>
+    <string name="info_logo">info_logo</string>
+    <string name="show_info">Show Information</string>
+
+    <!-- Strings related to the database -->
+    <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">Confirm</string>
+    <string name="demo_ar">AR Demo</string>
+    <string name="depth_api">Depth API</string>
+    <string name="instant_placement">Instant Placement</string>
+    <string name="battleship">Battleship</string>
+    <string name="AR_demo">AR Demo</string>
+
+</resources>
