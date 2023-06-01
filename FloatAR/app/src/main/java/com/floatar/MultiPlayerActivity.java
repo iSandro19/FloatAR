@@ -35,6 +35,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
     private boolean isPlayerTurn;
 
+    private int playerCount = -1;
+
     private int[][] playerBoard = new int[10][10];
     private int[][] opponentBoard = new int[10][10];
 
@@ -93,16 +95,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             playerId = bundle.getString("playerId");
         }
 
-        if (playerId.compareTo(opponentId) < 0) {
-            isPlayerTurn = true;
-            //currentPlayerId = playerId;
-            //opponentPlayerId = opponentId;
-        } else {
-            isPlayerTurn = false;
-            //currentPlayerId = opponentId;
-            //opponentPlayerId = playerId;
-        }
-
 
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
@@ -112,6 +104,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    playerCount = (int) dataSnapshot.getChildrenCount();
                     for (DataSnapshot playerSnapshot : dataSnapshot.getChildren()) {
                         String playerId = playerSnapshot.getKey();
                         assert playerId != null;
@@ -120,6 +113,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
                             assert value != null;
                             updateOpponentBoard(value);
+                            isPlayerTurn = true;
 
                             System.out.println(opponentId);
                             System.out.println(value);
@@ -140,6 +134,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 }
             });
 
+
+        isPlayerTurn = playerCount == 1;
+
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
             // Obtener la etiqueta del botón
@@ -152,8 +149,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             String buttonType = String.valueOf(tag.split("_")[0]);
 
             // Ejecutar la lógica del juego correspondiente
-            if (!buttonType.equals("playerbutton")) {
-                Log.d("entro", "entroooooooooo2");
+            if (!buttonType.equals("playerbutton") && isPlayerTurn && playerCount == 2) {
                 playerTurn(v, row, col);
             }
         };
@@ -291,6 +287,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
+            isPlayerTurn = false;
         }
     }
 
