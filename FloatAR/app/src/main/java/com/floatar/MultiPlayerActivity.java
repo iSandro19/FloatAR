@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class MultiPlayerActivity extends AppCompatActivity {
     private final Button[][] playerButtonGrid = new Button[10][10];
@@ -35,6 +36,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
     private boolean isPlayerTurn;
     private boolean isPlayerTurnSet = false;
+    private boolean isOpponentReady = false;
 
     private int playerCount = -1;
 
@@ -109,11 +111,17 @@ public class MultiPlayerActivity extends AppCompatActivity {
             playerId = bundle.getString("playerId");
         }
 
+        database.getReference("lobbies")
+                .child(lobbyKey)
+                .child("players")
+                .child(playerId)
+                .child("ready")
+                .setValue("true");
+
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
             .child(lobbyKey)
             .child("players")
-            .orderByKey()
             .addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -133,6 +141,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             System.out.println(value);
                         } else {
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                            isOpponentReady = Boolean.parseBoolean(Objects.requireNonNull(playerSnapshot.child("ready").getValue(String.class)));
+                            Log.d("isPlayerReady", String.valueOf(isOpponentReady));
+
                             assert value != null;
                             updatePlayerBoard(value);
 
@@ -164,7 +175,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         finish();
 
                         // Mostrar Toast indicando que la sala ha sido eliminada
-                        Toast.makeText(MultiPlayerActivity.this, "La sala ha sido eliminada", Toast.LENGTH_SHORT).show();;
+                        Toast.makeText(MultiPlayerActivity.this, "La sala ha sido eliminada", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -190,7 +201,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             // Ejecutar la lógica del juego correspondiente
             Log.d("playercountDAtosssssssssssss", String.valueOf(playerCount));
 
-            if (!buttonType.equals("playerbutton") && isPlayerTurn && playerCount == 2) {
+            if (!buttonType.equals("playerbutton") && isPlayerTurn && isOpponentReady) {
                 playerTurn(v, row, col);
             }
         };

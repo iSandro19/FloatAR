@@ -179,6 +179,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                                     .child(extras.getString("playerId"))
                                     .child("playerBoard")
                                     .setValue(Arrays.deepToString(playerBoard));
+
                             Intent startGame = new Intent(CreateBoardActivity.this, MultiPlayerActivity.class);
                             startGame.putExtra("playerBoard", playerBoard);
                             startGame.putExtra("lobbyName", extras.getString("lobbyName"));
