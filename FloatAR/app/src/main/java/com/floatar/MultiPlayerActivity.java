@@ -448,13 +448,15 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 String newString = getString(R.string.player_board) + " (" + innerTimer + ")";
                 jugadorText.setText(newString);
 
-                database.getReference("lobbies")
-                        .child(lobbyKey)
-                        .child("players")
-                        .child(playerId)
-                        .child("timer")
-                        .setValue(String.valueOf(innerTimer));
-
+                if (database.getReference("lobbies")
+                        .child(lobbyKey).getKey() == null){
+                    database.getReference("lobbies")
+                            .child(lobbyKey)
+                            .child("players")
+                            .child(playerId)
+                            .child("timer")
+                            .setValue(String.valueOf(innerTimer));
+                }
             }
 
             public void onFinish() {
@@ -475,11 +477,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 Log.d("opponentSecondsRemaining", String.valueOf(opponentSecondsRemaining));
                 Log.d("turnTimer", String.valueOf(turnTimer));
                 if(opponentSecondsRemaining == turnTimer) {
-                    //GANASSSSSSSSSSS
-                    Log.d("GANAAAAAAAAAAAAAAAAAAAS", "CNHDSJOCBHJDSAKCJDSAC");
+                    Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
                     this.cancel();
                 } else {
-                    Log.d("else del opponent", "aquiiiiiiiiiiiiiiiiiiiii");
                     turnTimer = opponentSecondsRemaining;
                 }
             }
@@ -488,9 +493,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 String message = "El tiempo ha expirado";
                 Log.d("Countdown", message);
 
-                //GANASSSSSSSSSSS
-                //No se llega jamás
-                Log.d("GANAAAAAAAAAAAAAAAAAAAS", "CNHDSJOCBHJDSAKCJDSAC");
+                Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
 
             }
         };
