@@ -66,9 +66,6 @@ public class MainActivity extends AppCompatActivity {
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
         aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
 
-        // Inicializar Firebase
-        FirebaseApp.initializeApp(this);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         Button buttonSinglePlayer = findViewById(R.id.layout_main_button_singleplayer);
         buttonSinglePlayer.setOnClickListener(v -> {
@@ -80,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonMultiplayer = findViewById(R.id.layout_main_button_multiplayer);
         buttonMultiplayer.setOnClickListener(v -> {
+
+            // Inicializar Firebase
+            FirebaseApp.initializeApp(this);
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
             buttonsSound.start();
             Intent intent = new Intent(this, LobbyActivity.class);
             startActivity(intent);
