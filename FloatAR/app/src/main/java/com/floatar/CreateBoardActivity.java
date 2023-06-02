@@ -37,7 +37,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     // Sounds
 
     private MediaPlayer settingsSound;
-    private MediaPlayer abouthelpSound;
+    private MediaPlayer aboutHelpSound;
     private MediaPlayer pianoD;
     private MediaPlayer pianoE;
     private MediaPlayer pianoF;
@@ -63,7 +63,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case R.id.layout_menu_main_help:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
@@ -73,7 +73,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
@@ -93,7 +93,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_board);
 
         // Sounds
-        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
+        aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
         pianoD = MediaPlayer.create(this, R.raw.piano_d);
         pianoE = MediaPlayer.create(this, R.raw.piano_e);
@@ -119,7 +119,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         boat2 = findViewById(R.id.but_boat_s2);
         boat3 = findViewById(R.id.but_boat_s3);
         boat4 = findViewById(R.id.but_boat_s4);
-        originalColor = boat4.getTextColors(); //Coge el color naranja
+        originalColor = boat4.getTextColors(); // Coge el color naranja
         horizontal = findViewById(R.id.but_horizontal_boat);
         vertical = findViewById(R.id.but_vertical_boat);
         confirm = findViewById(R.id.confirm);
@@ -130,7 +130,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         View.OnClickListener optionsClickListener = v -> {
             if (v == boat1){
                 sizeBoat = 1;
-                boat1.setTextColor(Color.BLACK);
+                boat1.setTextColor(getColor(R.color.gray));
                 boat2.setTextColor(originalColor);
                 boat3.setTextColor(originalColor);
                 boat4.setTextColor(originalColor);
@@ -138,7 +138,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             } else if (v == boat2) {
                 sizeBoat = 2;
                 boat1.setTextColor(originalColor);
-                boat2.setTextColor(Color.BLACK);
+                boat2.setTextColor(getColor(R.color.gray));
                 boat3.setTextColor(originalColor);
                 boat4.setTextColor(originalColor);
 
@@ -146,7 +146,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 sizeBoat = 3;
                 boat1.setTextColor(originalColor);
                 boat2.setTextColor(originalColor);
-                boat3.setTextColor(Color.BLACK);
+                boat3.setTextColor(getColor(R.color.gray));
                 boat4.setTextColor(originalColor);
 
             } else if (v == boat4) {
@@ -154,16 +154,18 @@ public class CreateBoardActivity extends AppCompatActivity {
                 boat1.setTextColor(originalColor);
                 boat2.setTextColor(originalColor);
                 boat3.setTextColor(originalColor);
-                boat4.setTextColor(Color.BLACK);
+                boat4.setTextColor(getColor(R.color.gray));
 
             } else if (v == horizontal) {
                 orientation = 0;
-                horizontal.setTextColor(Color.BLACK);
+                horizontal.setTextColor(getColor(R.color.gray));
                 vertical.setTextColor(originalColor);
+
             } else if (v == vertical) {
                 orientation = 1;
                 horizontal.setTextColor(originalColor);
-                vertical.setTextColor(Color.BLACK);
+                vertical.setTextColor(getColor(R.color.gray));
+
             } else if (v == confirm) {
                 if (numBoats1 == 3 && numBoats2 == 2 && numBoats3 == 3 && numBoats4 == 2){
                     Bundle extras = getIntent().getExtras();
@@ -210,8 +212,9 @@ public class CreateBoardActivity extends AppCompatActivity {
         vertical.setOnClickListener(optionsClickListener);
         confirm.setOnClickListener(optionsClickListener);
 
-        boat1.setTextColor(Color.BLACK);
-        horizontal.setTextColor(Color.BLACK);
+        boat1.setTextColor(getColor(R.color.gray));
+        horizontal.setTextColor(getColor(R.color.gray));
+
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
