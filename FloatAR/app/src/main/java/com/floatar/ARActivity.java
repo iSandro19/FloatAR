@@ -24,6 +24,7 @@ import com.google.ar.sceneform.ArSceneView;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.SceneView;
 import com.google.ar.sceneform.Sceneform;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
@@ -93,7 +94,7 @@ public class ARActivity extends AppCompatActivity implements
     public void loadModels() {
         WeakReference<ARActivity> weakActivity = new WeakReference<>(this);
         ModelRenderable.builder()
-                .setSource(this, Uri.parse("res/raw/battleship.glb"))
+                .setSource(this, R.raw.battleship)
                 .setIsFilamentGltf(true)
                 .setAsyncLoadEnabled(true)
                 .build()
@@ -108,6 +109,7 @@ public class ARActivity extends AppCompatActivity implements
                             this, "Unable to load model", Toast.LENGTH_LONG).show();
                     return null;
                 });
+        /*
         ViewRenderable.builder()
                 .setView(this, R.layout.view_model_title)
                 .build()
@@ -121,12 +123,13 @@ public class ARActivity extends AppCompatActivity implements
                     Toast.makeText(this, "Unable to load model", Toast.LENGTH_LONG).show();
                     return null;
                 });
+         */
     }
 
     @Override
     public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
-        if (model == null || viewRenderable == null) {
-            Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
+        if (model == null) {
+            Toast.makeText(this, "Model not found, loading...", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -145,6 +148,8 @@ public class ARActivity extends AppCompatActivity implements
         Node titleNode = new Node();
         titleNode.setParent(model);
         titleNode.setEnabled(false);
+        //titleNode.setLocalScale(new Vector3(0.01f, 0.01f, 0.01f));
+        titleNode.setLocalRotation(Quaternion.axisAngle(new Vector3(0.0f, 1.0f, 0.0f), 180.0f));
         titleNode.setLocalPosition(new Vector3(0.0f, 1.0f, 0.0f));
         titleNode.setRenderable(viewRenderable);
         titleNode.setEnabled(true);
