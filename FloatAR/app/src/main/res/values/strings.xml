@@ -35,7 +35,7 @@
     <string name="boats_left_4"> de tamaño 4</string>
 
     <!-- Strings related to the single player activity -->
-    <string name="player_board">Tablero del jugador</string>
+    <string name="player_board">Tu tablero</string>
     <string name="opponent_board">Tablero del oponente</string>
 
     <!-- Strings related to the settings activity -->
