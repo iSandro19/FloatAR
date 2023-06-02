@@ -394,6 +394,11 @@ public class CreateBoardActivity extends AppCompatActivity {
                     // Cambiar el color del botón pulsado
                     v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.black));
 
+                    // Play melody
+                    melody.get(index).seekTo(0);
+                    melody.get(index).start();
+                    index++;
+
                     sumBoat();  //Sumamos el tipo de barco
                 } else {
                     Toast.makeText(CreateBoardActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
