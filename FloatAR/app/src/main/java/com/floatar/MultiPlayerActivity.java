@@ -506,6 +506,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
 
