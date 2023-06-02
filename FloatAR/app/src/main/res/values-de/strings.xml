@@ -34,7 +34,6 @@
     <string name="boats_left_3"> der Größe 3\n</string>
     <string name="boats_left_4"> der Größe 4</string>
 
-
     <!-- Strings related to the single player activity -->
     <string name="player_board">Spielfeld des Spielers</string>
     <string name="opponent_board">Spielfeld des Gegners</string>
@@ -52,51 +51,20 @@
     <string name="help_title">Hilfe zu FloatAR</string>
     <string name="help_text_title">Willkommen zum FloatAR-Hilfebildschirm!</string>
     <string name="help_text_content">
-        FloatAR ist eine Augmented Reality-Anwendung zum Spielen des beliebten Spiels "Schiffe versenken".
-        Die App ermöglicht es dir, Schiffe auf einem virtuellen Spielfeld zu platzieren und dich in Echtzeit
-        mit anderen Spielern zu messen. Hier sind einige wichtige Funktionen der App:\n\n
+        FloatAR ist eine Anwendung, die es ermöglicht, Schiffe versenken im Einzelspielermodus gegen eine KI und im Echtzeit-Mehrspielermodus über Räume online zu spielen. Es beinhaltet auch eine Demo, in der man eines der Schiffe der Flotte sehen und ein einfaches und intuitives Platzierungssystem für Schiffe auf dem Spielfeld nutzen kann. Hier sind die Funktionen genauer beschrieben:\n\n
 
-        \t\t - Augmented Reality-Spielfeld: Die App verwendet Augmented Reality-Technologie, um ein
-        Spielfeld in Echtzeit zu simulieren. Um das Spiel zu starten, zeige einfach dein Gerät auf
-        eine flache Oberfläche und folge den Anweisungen auf dem Bildschirm, um das Spielfeld zu kalibrieren.\n\n
+        Einzelspielermodus: Um alleine zu spielen, kann man den Einzelspielermodus aufrufen, in dem man gegen eine einfache KI antritt. Dazu muss man nach dem Zugriff auf diesen Modus seine Flotte im Ersteller entwerfen. Der Vorgang ist einfach, denn durch Auswahl von Schiffstyp und Ausrichtung mittels Knöpfen kann man die Position der Schiffe festlegen. Mit einem Klick auf das Spielfeld fügt man ein Schiff hinzu, und je nachdem, ob man sich im vertikalen oder horizontalen Modus befindet, wird das Schiff nach unten oder nach rechts platziert. Um das Spiel zu starten, nachdem man das Spielbrett bestätigt hat, muss man nur auf das neue Spielfeld klicken, das angezeigt wird, um den Gegner anzugreifen. Das kleinere Spielfeld oben gehört dem Gegner, und man kann den Spielverlauf verfolgen. Es ist wichtig zu beachten, dass blaue Blöcke die eigenen Schiffe repräsentieren, graue Blöcke Wasserangriffe darstellen und rote Blöcke Schiffsangriffe sind. Nach Spielende gelangt man zu einem neuen Bildschirm mit einer Sieges- oder Niederlagsmeldung und einem Button zur Rückkehr zum Hauptbildschirm.\n\n
 
-        \t\t - Platzierung von Schiffen per Gestensteuerung: Sobald das Spielfeld eingerichtet ist,
-        kannst du deine Schiffe auf dem virtuellen Spielfeld per Gestensteuerung platzieren. Ziehe
-        und lasse die Schiffe an der gewünschten Position los und benutze Pinch-Gesten, um sie zu drehen
-        und ihre Größe anzupassen.\n\n
+        Mehrspielermodus: Im Zugriff auf diesen Modus hat man die Möglichkeit, einen neuen Raum zu erstellen oder einem bereits bestehenden Raum beizutreten. Die Räume bieten Platz für 2 Spieler, und sobald das Spiel endet oder die Spieler den Raum verlassen, werden alle Informationen des Spiels vom Server gelöscht. Der Prozess zur Erstellung des Spielbretts ist identisch zum Einzelspielermodus, ebenso wie das Gameplay. Der einzige Unterschied besteht in der Festlegung der Spielreihenfolge und einer Inaktivitätszeit, die zur Löschung des Raums führen kann. Nach Spielende wird der Raum gelöscht und das Ergebnis für jeden Spieler (Sieg oder Niederlage) angezeigt.\n\n
 
-        \t\t - Kollisionsdetektion: Die App verfügt über ein Kollisionserkennungssystem, um sicherzustellen,
-        dass die Schiffe sich nicht auf dem virtuellen Spielfeld überlappen. Wenn du versuchst,
-        ein Schiff an einer ungültigen Position zu platzieren, wird die App dich benachrichtigen und
-        dich auffordern, es zu verschieben.\n\n
+        Augmented Reality-Demonstration: Aus zeitlichen Gründen konnten wir keinen Spielmodus entwickeln, der diese Technologie nutzt, daher haben wir uns für ein kleines Beispiel entschieden. Beim Zugriff auf diesen Modus kann man ein Kriegsschiff aus der Flotte auf einer Oberfläche platzieren, das über das mobile Gerät sichtbar wird.\n\n
 
-        \t\t - Spielmechanik: Sobald beide Spieler ihre Schiffe platziert haben, kann das Spiel beginnen.
-        Klicke auf die Felder des Spielfelds, um auf die Schiffe deines Gegners zu schießen, und nutze
-        die Anzeigen der App, um zu sehen, ob du getroffen hast oder nicht. Dein Gegner kann auch
-        auf deine Schiffe schießen, also sorge dafür, dass du sie gut verteidigst.\n\n
-
-        \t\t - Erkennung von Siegen und Niederlagen: Die App verfügt über ein System zur Erkennung von
-        Siegen und Niederlagen. Der erste Spieler, der alle Schiffe seines Gegners versenkt, gewinnt das Spiel.\n\n
-
-        \t\t - Echtzeit-Punktzahl und Spielstatus: Die App zeigt die Punktzahl und den Spielstatus
-        in Echtzeit für beide Spieler an. Nutze diese Anzeigen, um deine Züge zu planen und den
-        Fortschritt des Spiels im Auge zu behalten.\n\n
-
-        \t\t - Explosionen und Raketen-Animationen: Die App enthält Animationen, um das Versenken der Schiffe
-        und den Abschuss von Raketen darzustellen. Diese Animationen verleihen dem Spiel Leben und
-        machen es spannender.\n\n
-
-        \t\t - Anpassung der Schiffe: Die App ermöglicht es dir, das Aussehen deiner Schiffe anzupassen,
-        um sie deinem Stil anzupassen. Ändere Farbe und Form deiner Schiffe, um sie einzigartig und
-        wiedererkennbar zu machen.\n\n
-
-        Wir hoffen, dass dir dieser Hilfebildschirm bei der Nutzung von FloatAR geholfen hat.
-        Viel Spaß beim Spielen mit FloatAR!
+        Wir hoffen, dass Ihnen dieser Hilfetext nützlich war. Viel Spaß beim Spielen mit FloatAR!
     </string>
 
-        <!-- Strings related to the about activity -->
-        <string name="version_number">0.1</string>
-        <string name="developers_name">
+    <!-- Strings related to the about activity -->
+    <string name="version_number">0.1</string>
+    <string name="developers_name">
         Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
     </string>
         <string name="developers_email">

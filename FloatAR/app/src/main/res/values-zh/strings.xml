@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to the app -->
+    <string name="app_name">FloatAR</string>
+    <string name="todo">ToDo</string>
+    <string name="floatar_logo">FloatAR标志</string>
+
+    <!-- Strings related to the main menu -->
+    <string name="settings">设置</string>
+    <string name="help">帮助</string>
+    <string name="about">关于应用</string>
+
+    <!-- Strings related to the game -->
+    <string name="player_turn">1</string>
+    <string name="computer_turn">2</string>
+    <string name="score_format">分数</string>
+
+    <!-- Strings related to the main activity -->
+    <string name="single_player">单人游戏</string>
+    <string name="exit_game">退出</string>
+    <string name="multi_player">多人游戏</string>
+
+    <!-- Strings related to the create board activity -->
+    <string name="but_boat_s1">船只 1</string>
+    <string name="but_boat_s2">船只 2</string>
+    <string name="but_boat_s3">船只 3</string>
+    <string name="but_boat_s4">船只 4</string>
+    <string name="but_horizontal_boat">横向</string>
+    <string name="but_vertical_boat">纵向</string>
+    <string name="create_board">创建棋盘</string>
+    <string name="boats_left">待放置船只:\n</string>
+    <string name="boats_left_1"> 长度为 1\n</string>
+    <string name="boats_left_2"> 长度为 2\n</string>
+    <string name="boats_left_3"> 长度为 3\n</string>
+    <string name="boats_left_4"> 长度为 4</string>
+
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">玩家棋盘</string>
+    <string name="opponent_board">对手棋盘</string>
+
+    <!-- Strings related to the settings activity -->
+    <string name="settings_title">设置</string>
+    <string name="notifications_title">通知</string>
+    <string name="theme_title">暗黑主题</string>
+    <string name="volume_title">音量</string>
+    <string name="sava_changes_title">保存更改</string>
+    <string name="settings_language">语言</string>
+    <string name="language_selector">语言选择器</string>
+
+    <!-- Strings related to the help activity -->
+    <string name="help_title">使用FloatAR</string>
+    <string name="help_text_title">欢迎使用FloatAR帮助屏幕！</string>
+    <string name="help_text_content">
+        FloatAR是一个允许您在单人模式中对抗简单人工智能或通过在线多人实时房间进行多人游戏的应用程序。此外，它还包括一个演示，您可以在其中看到舰队中的一艘船，并且具有简单直观的棋盘船只放置系统。以下是更详细的功能介绍：\n\n
+
+        单人模式：要进行单人游戏，您可以进入单人模式，与简单的人工智能对战。在进入此模式后，您需要在创建者中设计您的舰队。操作很简单，通过选择船只类型和方向的按钮，我们可以选择船只的位置。只需在棋盘上点击即可添加一艘船只，根据我们选择的垂直或水平模式，船只将向下或向右放置。确认游戏棋盘后，只需点击出现的新棋盘以攻击对手。上方较小的棋盘是对手的棋盘，您可以看到游戏的进展情况。请注意，蓝色方块是对手的船只，灰色方块是水面上的击中，红色方块是击中船只。游戏结束后，将跳转到一个新的屏幕，显示胜利或失败的消息，并显示返回主屏幕的按钮。\n\n
+
+        多人模式：进入此模式后，您可以创建新房间或加入现有房间。房间可容纳2名玩家，一旦游戏结束或玩家离开，服务器上的所有房间信息将被删除。创建棋盘的过程与单人模式相同，游戏的进行也相似。唯一的区别是轮次的设定和无活动时间可能会导致房间被删除。游戏结束后，房间将被删除，并为每个玩家显示结果（胜利或失败）。\n\n
+
+        增强现实演示：由于时间限制，我们无法开发使用增强现实技术的游戏模式，因此我们选择了制作一个小示例。进入此模式后，我们可以在表面上放置一艘舰队中的战舰，并通过移动设备观看它。\n\n
+
+        希望这个帮助屏幕对您有所帮助。尽情享受FloatAR的游戏！
+    </string>
+
+    <!-- Strings related to the about activity -->
+    <string name="version_number">0.1</string>
+    <string name="developers_name">
+        Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
+    </string>
+    <string name="developers_email">
+        antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
+    </string>
+
+    <!-- Strings related to the game over activity -->
+    <string name="you_won">你赢了！</string>
+    <string name="you_lost">你输了</string>
+    <string name="play_again">重新开始游戏</string>
+    <string name="game_over">游戏结束</string>
+
+    <!-- Strings related to the lobby activity -->
+    <string name="create_lobby">创建大厅</string>
+    <string name="open_lobbies">可用大厅：</string>
+    <string name="lobby_name">大厅名称</string>
+    <string name="join_lobby">加入大厅</string>
+    <string name="your_name">你的名字</string>
+    <string name="lobby">大厅</string>
+
+    <!-- Other strings -->
+    <string name="not_implemented_yet">尚未实现</string>
+    <string name="not_implemented_yet_description">此活动正在建设中。</string>
+    <string name="info_logo">info_logo</string>
+    <string name="show_info">显示信息</string>
+
+    <!-- Strings related to the database -->
+    <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">确认</string>
+    <string name="demo_ar">增强现实演示</string>
+    <string name="depth_api">深度 API</string>
+    <string name="instant_placement">即时放置</string>
+    <string name="battleship">战舰</string>
+    <string name="AR_demo">增强现实演示</string>
+    <string name="turn">回合</string>
+
+</resources>

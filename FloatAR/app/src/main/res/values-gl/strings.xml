@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to the app -->
+    <string name="app_name">FloatAR</string>
+    <string name="todo">Por facer</string>
+    <string name="floatar_logo">Logotipo de FloatAR</string>
+
+    <!-- Strings related to the main menu -->
+    <string name="settings">Axustes</string>
+    <string name="help">Axuda</string>
+    <string name="about">Sobre a aplicación</string>
+
+    <!-- Strings related to the game -->
+    <string name="player_turn">1</string>
+    <string name="computer_turn">2</string>
+    <string name="score_format">Puntuación</string>
+
+    <!-- Strings related to the main activity -->
+    <string name="single_player">Un xogador</string>
+    <string name="exit_game">Saír</string>
+    <string name="multi_player">Multixogador</string>
+
+    <!-- Strings related to the create board activity -->
+    <string name="but_boat_s1">Barco 1</string>
+    <string name="but_boat_s2">Barco 2</string>
+    <string name="but_boat_s3">Barco 3</string>
+    <string name="but_boat_s4">Barco 4</string>
+    <string name="but_horizontal_boat">Horizontal</string>
+    <string name="but_vertical_boat">Vertical</string>
+    <string name="create_board">Crear taboleiro</string>
+    <string name="boats_left">Barcos por colocar:\n</string>
+    <string name="boats_left_1"> de tamaño 1\n</string>
+    <string name="boats_left_2"> de tamaño 2\n</string>
+    <string name="boats_left_3"> de tamaño 3\n</string>
+    <string name="boats_left_4"> de tamaño 4</string>
+
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">Taboleiro do xogador</string>
+    <string name="opponent_board">Taboleiro do adversario</string>
+
+    <!-- Strings related to the settings activity -->
+    <string name="settings_title">Configuración</string>
+    <string name="notifications_title">Notificacións</string>
+    <string name="theme_title">Tema escuro</string>
+    <string name="volume_title">Volumen</string>
+    <string name="sava_changes_title">Gardar cambios</string>
+    <string name="settings_language">Idioma</string>
+    <string name="language_selector">Selector de idioma</string>
+
+    <!-- Strings related to the help activity -->
+    <string name="help_title">Uso de FloatAR</string>
+    <string name="help_text_title">Benvido á pantalla de axuda de FloatAR!</string>
+    <string name="help_text_content">
+        FloatAR é unha aplicación que permite xogar ao Afunde a Flota en modo un xogador contra a
+        IA e en modo multixogador en liña en tempo real a través de salas. Tamén conta cunha demostración
+        onde se pode ver un dos barcos da flota e un sistema de colocación de barcos no taboleiro sinxelo e intuitivo.
+        Aquí presentamos as funcionalidades de forma máis precisa:\n\n
+
+        Modo un xogador: para xogar so, podes acceder ao modo para un xogador onde
+        enfrontarás a unha IA sinxela. Para facelo, terás que deseñar a túa flota no
+        creador unha vez accedes a este modo. O procedemento é sinxelo, xa que, a través de
+        botóns para seleccionar o tipo de barco e orientación, podemos elixir a posición dos
+        barcos. Só con facer clic no taboleiro engadiremos un barco e, dependendo de se estamos en modo
+        vertical ou horizontal, o barco establecerase cara abaixo ou á dereita. Para comezar
+        a xogar unha vez confirmamos o taboleiro de xogo, só teremos que facer clic no novo
+        taboleiro que aparecerá para atacar ao rival. O taboleiro máis pequeno que aparece enriba
+        será o do rival, onde poderemos ver como se está desenvolvendo a partida. É importante destacar que
+        os bloques azuis son os seus barcos, os grises son impactos na auga e os vermellos son
+        impactos en barcos. Ao rematar a partida, aparecerá unha nova pantalla co
+        mensaxe de vitoria ou derrota e un botón para volver á pantalla principal.\n\n
+
+        Modo multixogador: ao acceder a este modo, teremos a posibilidade de crear unha nova sala
+        ou unirnos a unha xá creada. As salas teñen espazo para 2 xogadores e, unha vez remata
+        a partida ou os xogadores saen, borrarase toda a información da sala do servidor.
+        O proceso para crear o taboleiro é igual ao do modo de un xogador e o desenvolvemento da
+        partida tamén. A única diferenza é o establecemento de turnos e de tempo de
+        inactividade que pode chegar a eliminar a sala. Unha vez remata a partida, elimínase a
+        sala e amósase o resultado para cada xogador (vitoria ou derrota).\n\n
+
+        Demostración de Realidade Aumentada: por motivos de tempo, non puideron desenvolver un modo de
+        xogo que use esta tecnoloxía, polo que apostaron por facer un pequeno exemplo. Ao acceder
+        a este modo, podemos situar nunha superficie un buque de guerra da flota que se verá
+        a través do dispositivo móbil.\n\n
+
+        Esperamos que esta pantalla de axuda sexa de utilidade. Divírtete xogando con FloatAR!
+    </string>
+
+    <!-- Strings related to the about activity -->
+    <string name="version_number">0.1</string>
+    <string name="developers_name">
+        Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
+    </string>
+    <string name="developers_email">
+        antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
+    </string>
+
+    <!-- Strings related to the game over activity -->
+    <string name="you_won">¡Gañaches!</string>
+    <string name="you_lost">Perdiches</string>
+    <string name="play_again">Xogar de novo</string>
+    <string name="game_over">Fin do xogo</string>
+
+    <!-- Strings related to the lobby activity -->
+    <string name="create_lobby">Crear sala</string>
+    <string name="open_lobbies">Salas dispoñibles:</string>
+    <string name="lobby_name">Nome da sala</string>
+    <string name="join_lobby">Unirse á sala</string>
+    <string name="your_name">O teu nome</string>
+    <string name="lobby">Salas</string>
+
+    <!-- Other strings -->
+    <string name="not_implemented_yet">Aínda sen implementar</string>
+    <string name="not_implemented_yet_description">Esta actividade está en proceso de construción.</string>
+    <string name="info_logo">info_logo</string>
+    <string name="show_info">Amosar información</string>
+
+    <!-- Strings related to the database -->
+    <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">Confirmar</string>
+    <string name="demo_ar">Demo de RA</string>
+    <string name="depth_api">API de profundidade</string>
+    <string name="instant_placement">Colocación instantánea</string>
+    <string name="battleship">Buque de guerra</string>
+    <string name="AR_demo">Demo de RA</string>
+    <string name="turn">Turno de</string>
+
+</resources>

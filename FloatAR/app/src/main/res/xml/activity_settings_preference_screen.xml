@@ -21,7 +21,7 @@
         <SeekBarPreference
             app:key="VOLUME"
             app:title="@string/volume_title"
-            app:defaultValue="50"
+            app:defaultValue="80"
             />
 
     </PreferenceCategory>

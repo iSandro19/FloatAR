@@ -34,7 +34,6 @@
     <string name="boats_left_3"> de taille 3\n</string>
     <string name="boats_left_4"> de taille 4</string>
 
-
     <!-- Strings related to the single player activity -->
     <string name="player_board">Tableau du joueur</string>
     <string name="opponent_board">Tableau de l`adversaire</string>
@@ -52,44 +51,15 @@
     <string name="help_title">Utilisation de FloatAR</string>
     <string name="help_text_title">Bienvenue sur l`écran d`aide de FloatAR !</string>
     <string name="help_text_content">
-        FloatAR est une application de réalité augmentée pour jouer au célèbre jeu "Bataille navale".
-        L`application vous permet de placer des bateaux sur un tableau virtuel et de jouer en temps réel
-        contre d`autres joueurs. Voici quelques fonctionnalités clés de l`application :\n\n
+        FloatAR est une application qui permet de jouer à la Bataille navale en mode solo contre lIA et en mode multijoueur en ligne en temps réel grâce aux salles. Elle propose également une démonstration où vous pouvez voir lun des navires de la flotte et un système de placement de navires simple et intuitif sur la grille. Voici les fonctionnalités de manière plus précise :\n\n
 
-        \t\t - Tableau en réalité augmentée : L`application utilise la technologie de réalité augmentée
-        pour simuler un tableau en temps réel. Pour commencer à jouer, pointez simplement votre appareil
-        vers une surface plane et suivez les instructions à l`écran pour calibrer la position du tableau.\n\n
+        Mode solo : pour jouer seul, vous pouvez accéder au mode solo où vous affronterez une IA simple. Pour ce faire, vous devrez concevoir votre flotte dans le créateur une fois que vous aurez accédé à ce mode. La procédure est simple, car à travers des boutons pour sélectionner le type de navire et son orientation, nous pouvons choisir la position des navires. En cliquant sur la grille, nous en ajouterons un et, selon que nous sommes en mode vertical ou horizontal, le navire sera orienté vers le bas ou vers la droite. Pour commencer à jouer une fois que nous avons confirmé la grille de jeu, il suffit de cliquer sur la nouvelle grille qui apparaîtra pour attaquer ladversaire. La plus petite grille qui apparaît en haut est la leur, et nous pouvons voir comment la partie se déroule. Il est important de noter que les blocs bleus représentent leurs navires, les blocs gris représentent les tirs dans leau, et les blocs rouges représentent les tirs sur les navires. À la fin de la partie, on passe à un nouvel écran avec le message de victoire ou de défaite et un bouton pour revenir à lécran principal.\n\n
 
-        \t\t - Placement des bateaux par des gestes : Une fois que le tableau est configuré, vous pouvez
-        placer vos bateaux sur le tableau virtuel en utilisant des gestes à l`écran. Faites glisser et
-        déposez les bateaux à l`endroit souhaité et utilisez des gestes de pincement pour les faire
-        pivoter et ajuster leur taille.\n\n
+        Mode multijoueur : en accédant à ce mode, vous aurez la possibilité de créer une nouvelle salle ou de rejoindre une salle existante. Les salles peuvent accueillir 2 joueurs et, une fois la partie terminée ou que les joueurs quittent, toutes les informations de la partie sont supprimées du serveur. Le processus de création de la grille est identique au mode solo, de même que le déroulement de la partie. La seule différence réside dans détablissement des tours et dune limite dinactivité qui peut entraîner la suppression de la salle. Une fois la partie terminée, la salle est supprimée et le résultat est affiché pour chaque joueur (victoire ou défaite).\n\n
 
-        \t\t - Détection des collisions : L`application dispose d`un système de détection des collisions
-        pour garantir que les bateaux ne se chevauchent pas sur le tableau virtuel. Si vous essayez de
-        placer un bateau dans une position invalide, l`application vous alerte et vous demande de le déplacer.\n\n
+        Démonstration de réalité augmentée : en raison de contraintes de temps, nous navons pas pu développer un mode de jeu utilisant cette technologie, nous avons donc opté pour un petit exemple. En accédant à ce mode, vous pouvez placer un navire de guerre de la flotte sur une surface, qui sera visible à travers le dispositif mobile.\n\n
 
-        \t\t - Système de jeu : Une fois que les deux joueurs ont placé leurs bateaux, le jeu peut commencer.
-        Tirez sur les bateaux de l`adversaire en cliquant sur les cases du tableau et utilisez les
-        indicateurs de l`application pour voir si vous avez touché ou non. Votre adversaire peut également
-        tirer sur vos bateaux, alors assurez-vous de bien les protéger.\n\n
-
-        \t\t - Détection des victoires et des défaites : L`application dispose d`un système pour détecter
-        les victoires et les défaites. Le premier joueur à couler tous les bateaux de l`adversaire remporte la partie.\n\n
-
-        \t\t - Score et état du jeu en temps réel : L`application affiche le score et l`état du jeu en temps réel
-        pour les deux joueurs. Utilisez ces indicateurs pour planifier vos mouvements et suivre les
-        progrès du jeu.\n\n
-
-        \t\t - Animations d`explosion et de lancement de missiles : L`application propose des animations pour
-        montrer l`explosion des bateaux et le lancement de missiles d`un côté à l`autre. Ces animations
-        donnent vie au jeu et le rendent plus excitant.\n\n
-
-        \t\t - Personnalisation des bateaux : L`application vous permet de personnaliser l`apparence de vos bateaux
-        pour qu`ils correspondent à votre style. Modifiez la couleur et la forme de vos bateaux pour les
-        rendre uniques et reconnaissables.\n\n
-
-        Nous espérons que cet écran d`aide vous a été utile. Amusez-vous bien avec FloatAR !
+        Nous espérons que cet écran daide vous a été utile. Amusez-vous bien en jouant avec FloatAR !
     </string>
 
     <!-- Strings related to the about activity -->

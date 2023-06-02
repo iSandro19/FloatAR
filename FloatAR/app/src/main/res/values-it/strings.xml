@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to the app -->
+    <string name="app_name">FloatAR</string>
+    <string name="todo">Da fare</string>
+    <string name="floatar_logo">Logo FloatAR</string>
+
+    <!-- Strings related to the main menu -->
+    <string name="settings">Impostazioni</string>
+    <string name="help">Aiuto</string>
+    <string name="about">Informazioni sullapp</string>
+
+    <!-- Strings related to the game -->
+    <string name="player_turn">1</string>
+    <string name="computer_turn">2</string>
+    <string name="score_format">Punteggio</string>
+
+    <!-- Strings related to the main activity -->
+    <string name="single_player">Singolo giocatore</string>
+    <string name="exit_game">Esci</string>
+    <string name="multi_player">Multigiocatore</string>
+
+    <!-- Strings related to the create board activity -->
+    <string name="but_boat_s1">Barca 1</string>
+    <string name="but_boat_s2">Barca 2</string>
+    <string name="but_boat_s3">Barca 3</string>
+    <string name="but_boat_s4">Barca 4</string>
+    <string name="but_horizontal_boat">Orizzontale</string>
+    <string name="but_vertical_boat">Verticale</string>
+    <string name="create_board">Crea tabellone</string>
+    <string name="boats_left">Barche rimanenti:\n</string>
+    <string name="boats_left_1"> di dimensione 1\n</string>
+    <string name="boats_left_2"> di dimensione 2\n</string>
+    <string name="boats_left_3"> di dimensione 3\n</string>
+    <string name="boats_left_4"> di dimensione 4</string>
+
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">Tabellone del giocatore</string>
+    <string name="opponent_board">Tabellone dellavversario</string>
+
+    <!-- Strings related to the settings activity -->
+    <string name="settings_title">Impostazioni</string>
+    <string name="notifications_title">Notifiche</string>
+    <string name="theme_title">Tema scuro</string>
+    <string name="volume_title">Volume</string>
+    <string name="sava_changes_title">Salva modifiche</string>
+    <string name="settings_language">Lingua</string>
+    <string name="language_selector">Selettore di lingua</string>
+
+    <!-- Strings related to the help activity -->
+    <string name="help_title">Utilizzo di FloatAR</string>
+    <string name="help_text_title">Benvenuto nella schermata di aiuto di FloatAR!</string>
+    <string name="help_text_content">
+        FloatAR è unapplicazione che consente di giocare a "Affonda la flotta" in modalità
+        singolo giocatore contro lintelligenza artificiale (IA) e in modalità multigiocatore
+        online in tempo reale tramite le stanze. Inoltre, offre anche una demo in cui è possibile
+        vedere una delle navi della flotta e un sistema intuitivo e semplice per posizionare le
+        navi sulla tavola di gioco. Ecco una descrizione più dettagliata delle funzionalità:\n\n
+
+        Modalità singolo giocatore: per giocare da soli, puoi accedere alla modalità per singolo
+        giocatore in cui affronterai una semplice IA. Per fare ciò, dovrai progettare la tua flotta
+        nel creatore una volta entrato in questa modalità. La procedura è semplice: utilizzando i
+        pulsanti per selezionare il tipo di nave e lorientamento, puoi scegliere la posizione delle
+        navi. Aggiungerai una nave semplicemente cliccando sulla tavola e, a seconda se sei in modalità
+        verticale o orizzontale, la nave verrà posizionata verso il basso o verso destra. Per iniziare
+        a giocare dopo aver confermato la tavola di gioco, dovrai semplicemente fare clic sulla nuova
+        tavola che apparirà per attaccare lavversario. La tavola più piccola visualizzata sopra sarà
+        quella dellavversario, dove potrai vedere lo svolgimento del gioco. È importante notare che
+        i blocchi blu rappresentano le navi avversarie, i blocchi grigi rappresentano i colpi nellacqua
+        e i blocchi rossi rappresentano i colpi a segno sulle navi. Alla fine del gioco, verrai reindirizzato
+        a una nuova schermata con il messaggio di vittoria o sconfitta e un pulsante per tornare alla schermata principale.\n\n
+
+        Modalità multigiocatore: accedendo a questa modalità, avrai la possibilità di creare una nuova
+        stanza o unirti a una già esistente. Le stanze possono ospitare 2 giocatori e, una volta terminata
+        la partita o se i giocatori escono, tutte le informazioni relative alla partita vengono cancellate
+        dal server. Il processo per creare il tabellone è identico a quello della modalità singolo giocatore
+        e lo svolgimento del gioco è simile. Lunica differenza riguarda il turno di gioco e il tempo di inattività,
+        che potrebbe portare alla chiusura della stanza. Al termine della partita, la stanza viene eliminata
+        e viene mostrato il risultato per ogni giocatore (vittoria o sconfitta).\n\n
+
+        Dimostrazione di Realtà Aumentata: a causa di limitazioni di tempo, non siamo riusciti a sviluppare una
+        modalità di gioco che sfrutti questa tecnologia, quindi abbiamo optato per un piccolo esempio. Accedendo
+        a questa modalità, puoi posizionare su una superficie una nave da guerra della flotta che verrà visualizzata
+        attraverso il tuo dispositivo mobile.\n\n
+
+        Speriamo che questa schermata di aiuto ti sia stata utile. Divertiti a giocare con FloatAR!
+
+    </string>
+
+    <!-- Strings related to the about activity -->
+    <string name="version_number">0.1</string>
+    <string name="developers_name">
+        Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
+    </string>
+    <string name="developers_email">
+        antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
+    </string>
+
+    <!-- Strings related to the game over activity -->
+    <string name="you_won">Hai vinto!</string>
+    <string name="you_lost">Hai perso</string>
+    <string name="play_again">Gioca di nuovo</string>
+    <string name="game_over">Fine del gioco</string>
+
+    <!-- Strings related to the lobby activity -->
+    <string name="create_lobby">Crea lobby</string>
+    <string name="open_lobbies">Lobby disponibili:</string>
+    <string name="lobby_name">Nome della lobby</string>
+    <string name="join_lobby">Unisciti alla lobby</string>
+    <string name="your_name">Il tuo nome</string>
+    <string name="lobby">Sale</string>
+
+    <!-- Other strings -->
+    <string name="not_implemented_yet">Non ancora implementato</string>
+    <string name="not_implemented_yet_description">Questa attività è ancora in fase di costruzione.</string>
+    <string name="info_logo">info_logo</string>
+    <string name="show_info">Mostra informazioni</string>
+
+    <!-- Strings related to the database -->
+    <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">Conferma</string>
+    <string name="demo_ar">Demo RA</string>
+    <string name="depth_api">API di profondità</string>
+    <string name="instant_placement">Posizionamento istantaneo</string>
+    <string name="battleship">Nave da guerra</string>
+    <string name="AR_demo">Demo di AR</string>
+    <string name="turn">Turno di</string>
+
+</resources>
