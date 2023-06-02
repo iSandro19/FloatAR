@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -133,6 +134,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 .child(playerId)
                 .child("ready")
                 .setValue("true");
+
+        database.getReference("lobbies")
+                .child(lobbyKey)
+                .child("timer")
+                .setValue("0");
 
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
@@ -373,6 +379,27 @@ public class MultiPlayerActivity extends AppCompatActivity {
      * @param col Columna del botón pulsado
      */
     private void playerTurn(View v, int row, int col) {
+
+        // Iniciar el contador de tiempo de 30 segundos
+        new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                // El tiempo está en progreso (se llama cada segundo)
+                long secondsRemaining = millisUntilFinished / 1000;
+                String message = "Tiempo restante: " + secondsRemaining + " segundos";
+                Log.d("Countdown", message);
+
+
+            }
+
+            public void onFinish() {
+                // El tiempo ha terminado (se llama después de 30 segundos)
+                String message = "El tiempo ha expirado";
+                Log.d("Countdown", message);
+
+
+            }
+        }.start();
+
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
