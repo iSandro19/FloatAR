@@ -38,11 +38,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     private MediaPlayer settingsSound;
     private MediaPlayer aboutHelpSound;
-    private MediaPlayer pianoD;
-    private MediaPlayer pianoE;
-    private MediaPlayer pianoF;
-    private MediaPlayer pianoG;
-    private MediaPlayer pianoA;
+    private MediaPlayer pianoD, pianoE, pianoF, pianoA, pianoG;
 
     private List<MediaPlayer> melody = new ArrayList<>();
     private int index;
@@ -375,6 +371,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
                     sumBoat();  //Sumamos el tipo de barco
                     // Play melody
+                    melody.get(index).seekTo(0);
                     melody.get(index).start();
                     index++;
                 } else {
