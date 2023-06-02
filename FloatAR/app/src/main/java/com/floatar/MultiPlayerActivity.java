@@ -104,10 +104,31 @@ public class MultiPlayerActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent intent = new Intent(this, LobbyActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+        // Verificar si el jugador está en una sala
+        if (Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
+                .child(lobbyKey)
+                .child("players")
+                .child(opponentId)
+                .child("ready")
+                .setValue("true")))){
+            database.getReference("lobbies")
+                    .child(lobbyKey)
+                    .child("players")
+                    .child(playerId)
+                    .child("ready")
+                    .setValue("false");
+
+            Intent intent = new Intent(this, LobbyActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+
+        } else {
+            Intent intent = new Intent(this, LobbyActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
     }
 
 
@@ -193,7 +214,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                             checkFirst = true;
                                         }
 
-                                        Log.d("isOpponentReady0000000000000000", String.valueOf(isOpponentReady));
 
                                         if (isOpponentReady) {
                                             opponentId = playerId;
@@ -208,7 +228,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                             }
                                         }
 
-                                        Log.d("isOpponentReady222222222222222", String.valueOf(isOpponentReady));
                                     }
                                 } catch (NullPointerException ignored) {
                                     Log.d("NullPointerException", "Tablero del rival sin inicializar");
@@ -240,7 +259,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             }
                             else if (opponentName == null){
                                 isPlayerTurn = true;
-                                turnTextView.setText("Tu turno");
+                                turnTextView.setText("Esperando al rival...");
                             } else {
                                 String turnName = getString(R.string.turn) + " " + opponentName;
                                 turnTextView.setText(turnName);
@@ -478,6 +497,21 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             .child("timer")
                             .setValue(String.valueOf(innerTimer));
                 }
+
+                if(Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
+                        .child(lobbyKey)
+                        .child("players")
+                        .child(opponentId)
+                        .child("ready")
+                        .setValue("false")))) {
+                    Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                    this.cancel();
+                }
             }
 
 
@@ -485,8 +519,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 String message = "El tiempo ha expirado";
                 Log.d("Countdown", message);
 
-                //PERDERRRRRRRRRRRR
-                Log.d("Pierdooooooooooooooooo yoooooooooo", "pierdo");
+
 
             }
         };
@@ -498,6 +531,22 @@ public class MultiPlayerActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 Log.d("opponentSecondsRemaining", String.valueOf(opponentSecondsRemaining));
                 Log.d("turnTimer", String.valueOf(turnTimer));
+                if (Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
+                        .child(lobbyKey)
+                        .child("players")
+                        .child(opponentId)
+                        .child("timer").setValue("0")))) {
+                    if (lobbyKey != null && playerId != null) {
+                        // Eliminar  la sala
+                        database.getReference("lobbies")
+                                .child(lobbyKey)
+                                .removeValue();
+                    }
+
+                    Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
+                    intent.putExtra("winner", "player");
+                    startActivity(intent);
+                }
                 if(opponentSecondsRemaining == turnTimer || Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
                         .child(lobbyKey)
                         .child("players")
