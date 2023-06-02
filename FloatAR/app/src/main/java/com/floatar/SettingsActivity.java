@@ -26,7 +26,6 @@ import androidx.preference.SwitchPreference;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
-
     Button confirmButton;
     MediaPlayer settingsOut;
     static SharedPreferences sharedPreferences;
@@ -61,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        //Sonidos
+        // Sonidos
         settingsOut = MediaPlayer.create(this, R.raw.settings_out);
 
         confirmButton = findViewById(R.id.button_confirm);
@@ -168,7 +167,8 @@ public class SettingsActivity extends AppCompatActivity {
             assert listPreference != null;
             String selectedValue = listPreference.getValue();
             if (selectedValue == null){
-                listPreference.setValue("es");
+                String defaultLanguage = Locale.getDefault().getLanguage();
+                listPreference.setValue(defaultLanguage);
             }
             listPreference.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
             listPreference.setOnPreferenceChangeListener((preference, newValue) ->{
