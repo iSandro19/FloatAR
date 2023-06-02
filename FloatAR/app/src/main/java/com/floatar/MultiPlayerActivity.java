@@ -168,7 +168,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
                                 try {
                                     opponentSecondsRemaining = Integer.parseInt(Objects.requireNonNull(playerSnapshot.child("timer").getValue(String.class)));
-                                    String newString = R.string.opponent_board + " ("+ opponentSecondsRemaining + ")";
+                                    String newString = getString(R.string.opponent_board) + " ("+ opponentSecondsRemaining + ")";
                                     oponenteText.setText(newString);
                                 } catch (NullPointerException ignored) {
                                     Log.d("NullPointerException", "Contador del rival sin inicializar");
@@ -429,7 +429,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 Log.d("Countdown", message);
 
                 innerTimer = (int) secondsRemaining;
-                String newString = R.string.player_board + "(" + innerTimer + ")";
+                String newString = getString(R.string.player_board) + "(" + innerTimer + ")";
                 jugadorText.setText(newString);
 
                 database.getReference("lobbies")
