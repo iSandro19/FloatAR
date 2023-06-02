@@ -417,6 +417,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
             // Contador del rival
             opponentTimer = createCheckOpponentTimer();
+            opponentTimer.start();
         }
     }
 
@@ -429,7 +430,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 Log.d("Countdown", message);
 
                 innerTimer = (int) secondsRemaining;
-                String newString = getString(R.string.player_board) + "(" + innerTimer + ")";
+                String newString = getString(R.string.player_board) + " (" + innerTimer + ")";
                 jugadorText.setText(newString);
 
                 database.getReference("lobbies")
