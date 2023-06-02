@@ -42,6 +42,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private boolean isPlayerTurn;
     private boolean isPlayerTurnSet = false;
     private boolean isOpponentReady = false;
+    private boolean firstTurn = true;
 
 
 
@@ -188,13 +189,23 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                         if (readyValue != null) {
                                             isOpponentReady = Boolean.parseBoolean(readyValue.toString());
                                         }
+
+                                        Log.d("isOpponentReady0000000000000000", String.valueOf(isOpponentReady));
+
                                         if (isOpponentReady) {
                                             opponentId = playerId;
                                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
                                             Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
                                             assert value != null;
                                             updateOpponentBoard(value);
+
+                                            if (firstTurn) {
+                                                myTimer = createMyTimer(innerTimer);
+                                                myTimer.start();
+                                            }
                                         }
+
+                                        Log.d("isOpponentReady222222222222222", String.valueOf(isOpponentReady));
                                     }
                                 } catch (NullPointerException ignored) {
                                     Log.d("NullPointerException", "Tablero del rival sin inicializar");
@@ -251,6 +262,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
 
             // Ejecutar la lógica del juego correspondiente
+            Log.d("isOpponentReady3333333333333333333333", String.valueOf(isOpponentReady));
             if (!buttonType.equals("playerbutton") && isPlayerTurn && isOpponentReady) {
                 playerTurn(v, row, col);
             }
@@ -384,6 +396,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
      */
     private void playerTurn(View v, int row, int col) {
 
+        firstTurn = false;
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
@@ -457,12 +470,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
         return new CountDownTimer(360000, 5000) {
             int turnTimer = 0;
             public void onTick(long millisUntilFinished) {
-
+                Log.d("opponentSecondsRemaining", String.valueOf(opponentSecondsRemaining));
+                Log.d("turnTimer", String.valueOf(turnTimer));
                 if(opponentSecondsRemaining == turnTimer) {
                     //GANASSSSSSSSSSS
                     Log.d("GANAAAAAAAAAAAAAAAAAAAS", "CNHDSJOCBHJDSAKCJDSAC");
                     this.cancel();
                 } else {
+                    Log.d("else del opponent", "aquiiiiiiiiiiiiiiiiiiiii");
                     turnTimer = opponentSecondsRemaining;
                 }
             }
