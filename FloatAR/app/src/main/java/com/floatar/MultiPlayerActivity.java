@@ -130,37 +130,46 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         String playerId = playerSnapshot.getKey();
                         assert playerId != null;
                         if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
-                            Log.d("Entro en actualizar rival", "entro si entro");
+                            try {
+                                if (!Arrays.deepEquals(opponentBoard,
+                                        convertStringBoardToArrayBoard(playerSnapshot.
+                                                child("playerBoard").
+                                                getValue(String.class)))) {
+                                    Log.d("Entro en actualizar rival", "entro si entro");
 
-                            Object readyValue = playerSnapshot.child("ready").getValue(String.class);
-                            if (readyValue != null) {
-                                isOpponentReady = Boolean.parseBoolean(readyValue.toString());
+                                    Object readyValue = playerSnapshot.child("ready").getValue(String.class);
+                                    if (readyValue != null) {
+                                        isOpponentReady = Boolean.parseBoolean(readyValue.toString());
+                                    }
+                                    Log.d("isOpponentReady", String.valueOf(isOpponentReady));
+                                    if (isOpponentReady) {
+                                        opponentId = playerId;
+                                        String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                                        Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
+                                        assert value != null;
+                                        updateOpponentBoard(value);
+                                    }
+                                }
+                            } catch (NullPointerException ignored) {
+                                Log.d("NullPointerException", "Tablero del rival sin inicializar");
                             }
-                            Log.d("isOpponentReady", String.valueOf(isOpponentReady));
-                            if (isOpponentReady) {
-                                opponentId = playerId;
-                                String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                                Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
-                                assert value != null;
-                                updateOpponentBoard(value);
-
-
-
-                            }
-                        } else {
+                        }
+                        else if (!Arrays.deepEquals(playerBoard,
+                                        convertStringBoardToArrayBoard(playerSnapshot
+                                                .child("playerBoard")
+                                                .getValue(String.class)))
+                                ) {
                             Log.d("Entro en actualizar mi tablero", "entro si entro");
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
 
                             assert value != null;
                             updatePlayerBoard(value);
 
-
                             Log.d("isPlayerReady", String.valueOf(isOpponentReady));
                             Log.d("Entrooooooooooooooooo actualizar", "cdsbcudsbchsjkacbhsjckdajcdkacd");
                             Log.d("Pruba actualizar", String.valueOf(isPlayerTurn));
 
                             isPlayerTurn = true;
-
                         }
                     }
                     if(!isPlayerTurnSet){
