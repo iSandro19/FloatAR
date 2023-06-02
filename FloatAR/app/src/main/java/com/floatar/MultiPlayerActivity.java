@@ -55,7 +55,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private int[][] playerBoard = new int[10][10];
     private int[][] opponentBoard = new int[10][10];
 
-    private TextView turnTextView;
+    private TextView turnTextView, jugadorText, oponenteText;
 
     private Context mContext;
 
@@ -118,6 +118,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multi_player);
 
         turnTextView = findViewById(R.id.text_view_turn);
+        jugadorText = findViewById(R.id.layout_multiplayer_jugador);
+        oponenteText = findViewById(R.id.layout_multiplayer_oponente);
 
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
         aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
@@ -166,6 +168,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
                                 try {
                                     opponentSecondsRemaining = Integer.parseInt(Objects.requireNonNull(playerSnapshot.child("timer").getValue(String.class)));
+                                    String newString = getString(R.string.opponent_board) + " ("+ opponentSecondsRemaining + ")";
+                                    oponenteText.setText(newString);
                                 } catch (NullPointerException ignored) {
                                     Log.d("NullPointerException", "Contador del rival sin inicializar");
                                 }
@@ -173,7 +177,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                     if (!Arrays.deepEquals(opponentBoard,
                                             convertStringBoardToArrayBoard(playerSnapshot.
                                                     child("playerBoard").
-                                                    getValue(String.class)))) {
+                                                    getValue(String.class))) && myTimer == null) {
 
                                         Object readyValue = playerSnapshot.child("ready").getValue(String.class);
                                         opponentName = playerSnapshot.child("name").getValue(String.class);
@@ -232,6 +236,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
                     }
                 });
+
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -400,6 +405,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             String turnName = getString(R.string.turn) + " " + opponentName;
             turnTextView.setText(turnName);
 
+
             // Actualizar tablero en la BD
             database.getReference("lobbies")
                     .child(lobbyKey)
@@ -408,8 +414,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     .child("playerBoard")
                     .setValue(Arrays.deepToString(opponentBoard));
 
+
             // Contador del rival
             opponentTimer = createCheckOpponentTimer();
+            opponentTimer.start();
         }
     }
 
@@ -422,6 +430,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 Log.d("Countdown", message);
 
                 innerTimer = (int) secondsRemaining;
+                String newString = getString(R.string.player_board) + " (" + innerTimer + ")";
+                jugadorText.setText(newString);
 
                 database.getReference("lobbies")
                         .child(lobbyKey)
