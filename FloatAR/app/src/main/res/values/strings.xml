@@ -130,5 +130,6 @@
     <string name="instant_placement">Instant Placement</string>
     <string name="battleship">Buque de guerra</string>
     <string name="AR_demo">Demo de RA</string>
+    <string name="turn">Turno de</string>
 
 </resources>

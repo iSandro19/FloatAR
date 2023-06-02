@@ -131,4 +131,5 @@
     <string name="instant_placement">Placement instantané</string>
     <string name="battleship">Bateau de guerre</string>
     <string name="AR_demo">Démo RA</string>
+    <string name="turn">Tour de</string>
 </resources>

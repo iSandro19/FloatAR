@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class MultiPlayerActivity extends AppCompatActivity {
     private final Button[][] playerButtonGrid = new Button[10][10];
@@ -33,6 +33,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private String lobbyKey;
     private String playerId;
     private String opponentId;
+    private String opponentName;
 
     private boolean isPlayerTurn;
     private boolean isPlayerTurnSet = false;
@@ -42,6 +43,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
     private int[][] playerBoard = new int[10][10];
     private int[][] opponentBoard = new int[10][10];
+
+    private TextView turnTextView;
 
     private Context mContext;
 
@@ -96,8 +99,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_player);
 
+        turnTextView = findViewById(R.id.text_view_turn);
+
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
         aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
+
+        turnTextView.setText("Esperando al rival...");
 
         GridLayout playerGridLayout = findViewById(R.id.grid_layout_player_board_multi_player);
         GridLayout opponentGridLayout = findViewById(R.id.grid_layout_opponent_board_multi_player);
@@ -120,94 +127,97 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
-            .child(lobbyKey)
-            .child("players")
-            .addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    playerCount = (int) dataSnapshot.getChildrenCount();
-                    for (DataSnapshot playerSnapshot : dataSnapshot.getChildren()) {
-                        String playerId = playerSnapshot.getKey();
-                        assert playerId != null;
-                        if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
-                            try {
-                                if (!Arrays.deepEquals(opponentBoard,
-                                        convertStringBoardToArrayBoard(playerSnapshot.
-                                                child("playerBoard").
-                                                getValue(String.class)))) {
-                                    Log.d("Entro en actualizar rival", "entro si entro");
+                .child(lobbyKey)
+                .child("players")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        playerCount = (int) dataSnapshot.getChildrenCount();
+                        for (DataSnapshot playerSnapshot : dataSnapshot.getChildren()) {
+                            String playerId = playerSnapshot.getKey();
+                            assert playerId != null;
+                            if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
+                                try {
+                                    if (!Arrays.deepEquals(opponentBoard,
+                                            convertStringBoardToArrayBoard(playerSnapshot.
+                                                    child("playerBoard").
+                                                    getValue(String.class)))) {
 
-                                    Object readyValue = playerSnapshot.child("ready").getValue(String.class);
-                                    if (readyValue != null) {
-                                        isOpponentReady = Boolean.parseBoolean(readyValue.toString());
+                                        Object readyValue = playerSnapshot.child("ready").getValue(String.class);
+                                        opponentName = playerSnapshot.child("name").getValue(String.class);
+
+                                        if (isPlayerTurn)
+                                            turnTextView.setText("Tu turno");
+
+                                        if (readyValue != null) {
+                                            isOpponentReady = Boolean.parseBoolean(readyValue.toString());
+                                        }
+                                        if (isOpponentReady) {
+                                            opponentId = playerId;
+                                            String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                                            Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
+                                            assert value != null;
+                                            updateOpponentBoard(value);
+                                        }
                                     }
-                                    Log.d("isOpponentReady", String.valueOf(isOpponentReady));
-                                    if (isOpponentReady) {
-                                        opponentId = playerId;
-                                        String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                                        Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
-                                        assert value != null;
-                                        updateOpponentBoard(value);
-                                    }
+                                } catch (NullPointerException ignored) {
+                                    Log.d("NullPointerException", "Tablero del rival sin inicializar");
                                 }
-                            } catch (NullPointerException ignored) {
-                                Log.d("NullPointerException", "Tablero del rival sin inicializar");
+                            }
+                            else if (!Arrays.deepEquals(playerBoard,
+                                    convertStringBoardToArrayBoard(playerSnapshot
+                                            .child("playerBoard")
+                                            .getValue(String.class)))
+                            ) {
+                                String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                                turnTextView.setText("Tu turno");
+
+                                assert value != null;
+                                updatePlayerBoard(value);
+
+                                isPlayerTurn = true;
                             }
                         }
-                        else if (!Arrays.deepEquals(playerBoard,
-                                        convertStringBoardToArrayBoard(playerSnapshot
-                                                .child("playerBoard")
-                                                .getValue(String.class)))
-                                ) {
-                            Log.d("Entro en actualizar mi tablero", "entro si entro");
-                            String value = playerSnapshot.child("playerBoard").getValue(String.class);
-
-                            assert value != null;
-                            updatePlayerBoard(value);
-
-                            Log.d("isPlayerReady", String.valueOf(isOpponentReady));
-                            Log.d("Entrooooooooooooooooo actualizar", "cdsbcudsbchsjkacbhsjckdajcdkacd");
-                            Log.d("Pruba actualizar", String.valueOf(isPlayerTurn));
-
-                            isPlayerTurn = true;
+                        if(!isPlayerTurnSet) {
+                            if (playerCount == 1) {
+                                isPlayerTurn = true;
+                            }
+                            else {
+                                String turnName = getString(R.string.turn) + " " + opponentName;
+                                turnTextView.setText(turnName);
+                            }
+                            isPlayerTurnSet = true;
                         }
                     }
-                    if(!isPlayerTurnSet){
-                        isPlayerTurn = playerCount == 1;
-                        Log.d("Entrooooooooooooooooo primer turno", "cdsbcudsbchsjkacbhsjckdajcdkacd");
-                        Log.d("Pruba primer turno", String.valueOf(isPlayerTurn));
-                        isPlayerTurnSet = true;
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
-                }
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
+                    }
+                });
 
         database.getReference("lobbies")
-            .child(lobbyKey)
-            .addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    // Verificar si la sala ha sido eliminada
-                    if (!dataSnapshot.exists()) {
-                        // Salir de la actividad
-                        Intent intent = new Intent(MultiPlayerActivity.this, LobbyActivity.class);
-                        startActivity(intent);
-                        finish();
+                .child(lobbyKey)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // Verificar si la sala ha sido eliminada
+                        if (!dataSnapshot.exists()) {
+                            // Salir de la actividad
+                            Intent intent = new Intent(MultiPlayerActivity.this, LobbyActivity.class);
+                            startActivity(intent);
+                            finish();
 
-                        // Mostrar Toast indicando que la sala ha sido eliminada
-                        Toast.makeText(MultiPlayerActivity.this, "La sala ha sido eliminada", Toast.LENGTH_SHORT).show();
+                            // Mostrar Toast indicando que la sala ha sido eliminada
+                            Toast.makeText(MultiPlayerActivity.this, "La sala ha sido eliminada", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Manejar el error de base de datos si es necesario
-                }
-            });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Manejar el error de base de datos si es necesario
+                    }
+                });
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -335,7 +345,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 int cellValue = playerBoard[i][j];
                 if (cellValue == 1) {
                     button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.blue));
-                } else {
+                } else if (cellValue == 2) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red));
+                } else if (cellValue == -1) {
+                    button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray));
+                }
+                else {
                     button.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_brown));
                 }
             }
@@ -349,20 +364,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
      * @param col Columna del botón pulsado
      */
     private void playerTurn(View v, int row, int col) {
-        Log.d("Tablero", Arrays.deepToString(opponentBoard));
-        Log.d("Casilla valor", String.valueOf(opponentBoard[row][col]));
-
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
-
-            database.getReference("lobbies")
-                    .child("games")
-                    .child(lobbyKey)
-                    .child("players")
-                    .child(opponentId)
-                    .child("playerBoard")
-                    .setValue((Arrays.deepToString(opponentBoard)));
 
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.red)); // Cambiar el color del botón a rojo
             checkGameOver();
@@ -375,7 +379,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
 
             isPlayerTurn = false;
-            Log.d("Pruba falloooooooooooooooo", String.valueOf(isPlayerTurn));
+
+            String turnName = getString(R.string.turn) + " " + opponentName;
+            turnTextView.setText(turnName);
 
             // Actualizar tablero en la BD
             database.getReference("lobbies")
@@ -384,8 +390,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     .child(opponentId)
                     .child("playerBoard")
                     .setValue(Arrays.deepToString(opponentBoard));
-
-
         }
     }
 
@@ -471,7 +475,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
         }
 
         // Devolver el tablero
-        Log.d("Tablero", Arrays.deepToString(board));
         return board;
     }
 }

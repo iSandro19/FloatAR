@@ -131,5 +131,6 @@
     <string name="instant_placement">Instant Placement</string>
     <string name="battleship">Battleship</string>
     <string name="AR_demo">AR Demo</string>
+    <string name="turn">Turn of</string>
 
 </resources>
