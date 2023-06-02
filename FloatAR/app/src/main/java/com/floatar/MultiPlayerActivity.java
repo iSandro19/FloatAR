@@ -463,11 +463,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 String newString = getString(R.string.player_board) + " (" + innerTimer + ")";
                 jugadorText.setText(newString);
 
-                Log.d("111111111", String.valueOf(database.getReference("lobbies")
-                        .child(lobbyKey)));
-                Log.d("222222222", String.valueOf(database.getReference("lobbies")
-                        .child(lobbyKey).getKey()));
-
                 if (database.getReference("lobbies")
                         .child(lobbyKey).getKey() != null){
                     database.getReference("lobbies")
