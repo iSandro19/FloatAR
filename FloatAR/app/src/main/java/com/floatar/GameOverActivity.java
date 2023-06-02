@@ -31,6 +31,7 @@ public class GameOverActivity extends AppCompatActivity {
 
         restartButton.setOnClickListener(v -> {
             Intent intent = new Intent(GameOverActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
 

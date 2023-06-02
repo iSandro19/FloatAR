@@ -78,10 +78,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // Aquí puedes realizar las acciones necesarias cuando el usuario presione el botón de retroceso
 
-        // Por ejemplo, puedes eliminar al jugador de la base de datos y finalizar la actividad
-        //finish();
+        Intent intent = new Intent(this, LobbyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -107,7 +108,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             lobbyKey = bundle.getString("lobbyKey");
             playerId = bundle.getString("playerId");
         }
-
 
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
@@ -141,11 +141,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (playerCount == 1 && !isPlayerTurnSet) {
-                        isPlayerTurn = true;
-                    } else {
-                        isPlayerTurn = false;
-                    }
+                    isPlayerTurn = playerCount == 1 && !isPlayerTurnSet;
                     isPlayerTurnSet = true;
                 }
 
@@ -155,6 +151,28 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 }
             });
 
+        database.getReference("lobbies")
+            .child(lobbyKey)
+            .addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    // Verificar si la sala ha sido eliminada
+                    if (!dataSnapshot.exists()) {
+                        // Salir de la actividad
+                        Intent intent = new Intent(MultiPlayerActivity.this, LobbyActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                        // Mostrar Toast indicando que la sala ha sido eliminada
+                        Toast.makeText(MultiPlayerActivity.this, "La sala ha sido eliminada", Toast.LENGTH_SHORT).show();;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Manejar el error de base de datos si es necesario
+                }
+            });
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -217,6 +235,19 @@ public class MultiPlayerActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle(R.string.multi_player);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Verificar si el jugador está en una sala
+        if (lobbyKey != null && playerId != null) {
+            // Eliminar la sala
+            database.getReference("lobbies")
+                    .child(lobbyKey)
+                    .removeValue();
         }
     }
 
@@ -327,6 +358,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     check = false; break;
                 }
         if (check) {
+            // Verificar si el jugador está en una sala
+            if (lobbyKey != null && playerId != null) {
+                // Eliminar la sala
+                database.getReference("lobbies")
+                        .child(lobbyKey)
+                        .removeValue();
+            }
+
             Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "opponent");
             startActivity(intent);
@@ -340,6 +379,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     check = false; break;
                 }
         if (check) {
+            // Verificar si el jugador está en una sala
+            if (lobbyKey != null && playerId != null) {
+                // Eliminar  la sala
+                database.getReference("lobbies")
+                        .child(lobbyKey)
+                        .removeValue();
+            }
+
             Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "player");
             startActivity(intent);

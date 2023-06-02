@@ -30,8 +30,55 @@ public class SinglePlayerActivity extends AppCompatActivity {
 
     ArrayList<Integer> availablePositions = new ArrayList<>();
 
+    private MediaPlayer settingsSound, aboutHelpSound, hitSound, missSound;
 
-    private MediaPlayer settingsSound, abouthelpSound, hitSound, missSound;
+    // Métodos públicos ----------------------------------------------------------------------------
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.layout_menu_main_help:
+                aboutHelpSound.start();
+                Intent intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_settings:
+                settingsSound.start();
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.layout_menu_main_about:
+                aboutHelpSound.start();
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +92,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         hitSound = MediaPlayer.create(this, R.raw.hit);
         missSound = MediaPlayer.create(this, R.raw.miss);
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
-        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
+        aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
 
         // Obtener el tablero del jugador
         Intent intent = getIntent();
@@ -122,6 +169,21 @@ public class SinglePlayerActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (settingsSound != null) {
+            settingsSound.release();
+            settingsSound = null;
+        }
+        if (aboutHelpSound != null) {
+            aboutHelpSound.release();
+            aboutHelpSound = null;
+        }
+    }
+
+    // Métodos privados ----------------------------------------------------------------------------
 
     // Ejecutar la lógica del jugador
     private void playerTurn(View v, int row, int col) {
@@ -230,61 +292,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.layout_menu_main_help:
-                abouthelpSound.start();
-                Intent intent = new Intent(this, HelpActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_settings:
-                settingsSound.start();
-                intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.layout_menu_main_about:
-                abouthelpSound.start();
-                intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (settingsSound != null) {
-            settingsSound.release();
-            settingsSound = null;
-        }
-        if (abouthelpSound != null) {
-            abouthelpSound.release();
-            abouthelpSound = null;
-        }
-    }
-
     private int getScreenWidth() {
         return getResources().getDisplayMetrics().widthPixels;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent backPress = new Intent(SinglePlayerActivity.this, MainActivity.class);
-        startActivity(backPress);
     }
 }

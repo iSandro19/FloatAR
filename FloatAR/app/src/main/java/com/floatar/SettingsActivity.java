@@ -1,6 +1,7 @@
 package com.floatar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -30,6 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
     MediaPlayer settingsOut;
     static SharedPreferences sharedPreferences;
 
+    // Métodos públicos ----------------------------------------------------------------------------
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -40,6 +43,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +114,8 @@ public class SettingsActivity extends AppCompatActivity {
             settingsOut = null;
         }
     }
+
+    // Fragmento donde están Notificaciones, Tema, Idioma y volumen --------------------------------
 
     // Fragmento donde están Notificaciones, Tema, Idioma y volumen
     public static class SettingsFragment extends PreferenceFragmentCompat {

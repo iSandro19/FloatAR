@@ -1,5 +1,6 @@
 package com.floatar;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -43,30 +44,7 @@ public class ARActivity extends AppCompatActivity implements
     private Renderable model;
     private ViewRenderable viewRenderable;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.AR_demo);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        setContentView(R.layout.activity_ar);
-        getSupportFragmentManager().addFragmentOnAttachListener(this);
-
-        if (savedInstanceState == null) {
-            if (Sceneform.isSupported(this)) {
-                getSupportFragmentManager().beginTransaction()
-                    .add(R.id.arFragment, ArFragment.class, null)
-                    .commit();
-            }
-        }
-
-        loadModels();
-    }
+    // Métodos públicos ----------------------------------------------------------------------------
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -76,6 +54,16 @@ public class ARActivity extends AppCompatActivity implements
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -160,5 +148,32 @@ public class ARActivity extends AppCompatActivity implements
         titleNode.setLocalPosition(new Vector3(0.0f, 1.0f, 0.0f));
         titleNode.setRenderable(viewRenderable);
         titleNode.setEnabled(true);
+    }
+
+    // Métodos protegidos --------------------------------------------------------------------------
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.AR_demo);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        setContentView(R.layout.activity_ar);
+        getSupportFragmentManager().addFragmentOnAttachListener(this);
+
+        if (savedInstanceState == null) {
+            if (Sceneform.isSupported(this)) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.arFragment, ArFragment.class, null)
+                        .commit();
+            }
+        }
+
+        loadModels();
     }
 }

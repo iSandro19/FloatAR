@@ -35,7 +35,7 @@ public class LobbyActivity extends AppCompatActivity {
 
     // Sounds
     private MediaPlayer settingsSound;
-    private  MediaPlayer abouthelpSound;
+    private  MediaPlayer aboutHelpSound;
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ public class LobbyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
             case R.id.layout_menu_main_help:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 Intent intent = new Intent(this, HelpActivity.class);
                 startActivity(intent);
                 return true;
@@ -54,7 +54,7 @@ public class LobbyActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.layout_menu_main_about:
-                abouthelpSound.start();
+                aboutHelpSound.start();
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
                 return true;
@@ -64,6 +64,16 @@ public class LobbyActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     /**
@@ -117,9 +127,9 @@ public class LobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        //Sounds
+        // Sounds
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
-        abouthelpSound = MediaPlayer.create(this, R.raw.about_help);
+        aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
 
         ListView lobbyList = findViewById(R.id.lobby_list);
 
@@ -198,9 +208,9 @@ public class LobbyActivity extends AppCompatActivity {
             settingsSound.release();
             settingsSound = null;
         }
-        if (abouthelpSound != null) {
-            abouthelpSound.release();
-            abouthelpSound = null;
+        if (aboutHelpSound != null) {
+            aboutHelpSound.release();
+            aboutHelpSound = null;
         }
     }
 
