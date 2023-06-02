@@ -243,6 +243,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         }
                     }
 
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
