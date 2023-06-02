@@ -130,6 +130,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         String playerId = playerSnapshot.getKey();
                         assert playerId != null;
                         if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
+                            Log.d("Entro en actualizar rival", "entro si entro");
 
                             Object readyValue = playerSnapshot.child("ready").getValue(String.class);
                             if (readyValue != null) {
@@ -142,18 +143,30 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                 Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
                                 assert value != null;
                                 updateOpponentBoard(value);
+
+
+
                             }
                         } else {
+                            Log.d("Entro en actualizar mi tablero", "entro si entro");
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
 
                             assert value != null;
                             updatePlayerBoard(value);
 
+
+                            Log.d("isPlayerReady", String.valueOf(isOpponentReady));
+                            Log.d("Entrooooooooooooooooo actualizar", "cdsbcudsbchsjkacbhsjckdajcdkacd");
+                            Log.d("Pruba actualizar", String.valueOf(isPlayerTurn));
+
                             isPlayerTurn = true;
+
                         }
                     }
                     if(!isPlayerTurnSet){
                         isPlayerTurn = playerCount == 1;
+                        Log.d("Entrooooooooooooooooo primer turno", "cdsbcudsbchsjkacbhsjckdajcdkacd");
+                        Log.d("Pruba primer turno", String.valueOf(isPlayerTurn));
                         isPlayerTurnSet = true;
                     }
                 }
@@ -353,6 +366,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
 
             isPlayerTurn = false;
+            Log.d("Pruba falloooooooooooooooo", String.valueOf(isPlayerTurn));
 
             // Actualizar tablero en la BD
             database.getReference("lobbies")
