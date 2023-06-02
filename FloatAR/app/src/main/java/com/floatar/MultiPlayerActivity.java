@@ -427,7 +427,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         .child("players")
                         .child(playerId)
                         .child("timer")
-                        .setValue((int) secondsRemaining);
+                        .setValue(String.valueOf(innerTimer));
 
             }
 
