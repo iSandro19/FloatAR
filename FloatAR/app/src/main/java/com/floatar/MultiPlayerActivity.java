@@ -126,13 +126,16 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     playerCount = (int) dataSnapshot.getChildrenCount();
-                    Log.d("playercount11111111111111111111111111111", String.valueOf(playerCount));
                     for (DataSnapshot playerSnapshot : dataSnapshot.getChildren()) {
                         String playerId = playerSnapshot.getKey();
                         assert playerId != null;
                         if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
-                            isOpponentReady = Boolean.parseBoolean(
-                                    Objects.requireNonNull(playerSnapshot.child("ready").getValue(String.class)));
+
+                            Object readyValue = playerSnapshot.child("ready").getValue(String.class);
+                            if (readyValue != null) {
+                                isOpponentReady = Boolean.parseBoolean(readyValue.toString());
+                            }
+                            Log.d("isOpponentReady", String.valueOf(isOpponentReady));
                             if (isOpponentReady) {
                                 opponentId = playerId;
                                 String value = playerSnapshot.child("playerBoard").getValue(String.class);
@@ -150,9 +153,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             updatePlayerBoard(value);
                         }
                     }
-
-                    isPlayerTurn = playerCount == 1 && !isPlayerTurnSet;
-                    isPlayerTurnSet = true;
+                    if(!isPlayerTurnSet){
+                        isPlayerTurn = playerCount == 1;
+                        isPlayerTurnSet = true;
+                    }
                 }
 
                 @Override
@@ -195,11 +199,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
             String buttonType = String.valueOf(tag.split("_")[0]);
 
-            Log.d("playerturnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", String.valueOf(isPlayerTurn));
 
             // Ejecutar la lógica del juego correspondiente
-            Log.d("playercountDAtosssssssssssss", String.valueOf(playerCount));
-
             if (!buttonType.equals("playerbutton") && isPlayerTurn && isOpponentReady) {
                 playerTurn(v, row, col);
             }
@@ -351,6 +352,15 @@ public class MultiPlayerActivity extends AppCompatActivity {
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
+
+            // Actualizar tablero en la BD
+            database.getReference("lobbies")
+                    .child(lobbyKey)
+                    .child("players")
+                    .child(playerId)
+                    .child("playerBoard")
+                    .setValue(Arrays.deepToString(playerBoard));
+
             isPlayerTurn = false;
         }
     }
