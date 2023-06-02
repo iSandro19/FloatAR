@@ -42,7 +42,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private boolean isPlayerTurn;
     private boolean isPlayerTurnSet = false;
     private boolean isOpponentReady = false;
-    private boolean firstTurn = true;
+    private boolean firstTurn = false;
 
 
 
@@ -233,6 +233,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         if(!isPlayerTurnSet) {
                             if (playerCount == 1) {
                                 isPlayerTurn = true;
+                                firstTurn = true;
                             }
                             else {
                                 String turnName = getString(R.string.turn) + " " + opponentName;
