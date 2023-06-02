@@ -233,6 +233,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     }
                 });
 
+
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
             // Obtener la etiqueta del botón
