@@ -173,7 +173,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                     if (!Arrays.deepEquals(opponentBoard,
                                             convertStringBoardToArrayBoard(playerSnapshot.
                                                     child("playerBoard").
-                                                    getValue(String.class)))) {
+                                                    getValue(String.class))) && myTimer == null) {
 
                                         Object readyValue = playerSnapshot.child("ready").getValue(String.class);
                                         opponentName = playerSnapshot.child("name").getValue(String.class);
@@ -400,6 +400,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             String turnName = getString(R.string.turn) + " " + opponentName;
             turnTextView.setText(turnName);
 
+
             // Actualizar tablero en la BD
             database.getReference("lobbies")
                     .child(lobbyKey)
@@ -407,6 +408,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     .child(opponentId)
                     .child("playerBoard")
                     .setValue(Arrays.deepToString(opponentBoard));
+
 
             // Contador del rival
             opponentTimer = createCheckOpponentTimer();
