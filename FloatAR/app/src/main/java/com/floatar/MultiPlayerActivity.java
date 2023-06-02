@@ -357,9 +357,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
             database.getReference("lobbies")
                     .child(lobbyKey)
                     .child("players")
-                    .child(playerId)
+                    .child(opponentId)
                     .child("playerBoard")
-                    .setValue(Arrays.deepToString(playerBoard));
+                    .setValue(Arrays.deepToString(opponentBoard));
 
             isPlayerTurn = false;
         }
