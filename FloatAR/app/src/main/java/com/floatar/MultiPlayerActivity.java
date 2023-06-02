@@ -43,6 +43,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private boolean isPlayerTurnSet = false;
     private boolean isOpponentReady = false;
     private boolean firstTurn = false;
+    private boolean checkFirst = false;
 
 
 
@@ -188,6 +189,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
                                         if (readyValue != null) {
                                             isOpponentReady = Boolean.parseBoolean(readyValue.toString());
+                                        } else {
+                                            checkFirst = true;
                                         }
 
                                         Log.d("isOpponentReady0000000000000000", String.valueOf(isOpponentReady));
@@ -235,7 +238,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                 isPlayerTurn = true;
                                 firstTurn = true;
                             }
-                            else {
+                            else if (opponentName == null){
+                                isPlayerTurn = true;
+                                turnTextView.setText("Tu turno");
+                            } else {
                                 String turnName = getString(R.string.turn) + " " + opponentName;
                                 turnTextView.setText(turnName);
                             }
