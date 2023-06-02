@@ -142,15 +142,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                 Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
                                 assert value != null;
                                 updateOpponentBoard(value);
-
-                                Log.d("isPlayerReady", String.valueOf(isOpponentReady));
-                                isPlayerTurn = true;
                             }
                         } else {
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
 
                             assert value != null;
                             updatePlayerBoard(value);
+
+                            isPlayerTurn = true;
                         }
                     }
                     if(!isPlayerTurnSet){
