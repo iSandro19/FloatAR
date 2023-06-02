@@ -318,12 +318,27 @@ public class MultiPlayerActivity extends AppCompatActivity {
         super.onPause();
 
         // Verificar si el jugador está en una sala
-        if (lobbyKey != null && playerId != null) {
-            // Eliminar la sala
+        if (Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
+                .child(lobbyKey)
+                .child("players")
+                .child(opponentId)
+                .child("ready")
+                .setValue("true")))){
             database.getReference("lobbies")
                     .child(lobbyKey)
-                    .removeValue();
+                    .child("players")
+                    .child(playerId)
+                    .child("ready")
+                    .setValue("false");
+        } else {
+            if (lobbyKey != null && playerId != null) {
+                // Eliminar la sala
+                database.getReference("lobbies")
+                        .child(lobbyKey)
+                        .removeValue();
+            }
         }
+
     }
 
     @Override
@@ -448,8 +463,13 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 String newString = getString(R.string.player_board) + " (" + innerTimer + ")";
                 jugadorText.setText(newString);
 
+                Log.d("111111111", String.valueOf(database.getReference("lobbies")
+                        .child(lobbyKey)));
+                Log.d("222222222", String.valueOf(database.getReference("lobbies")
+                        .child(lobbyKey).getKey()));
+
                 if (database.getReference("lobbies")
-                        .child(lobbyKey).getKey() == null){
+                        .child(lobbyKey).getKey() != null){
                     database.getReference("lobbies")
                             .child(lobbyKey)
                             .child("players")
@@ -477,7 +497,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 Log.d("opponentSecondsRemaining", String.valueOf(opponentSecondsRemaining));
                 Log.d("turnTimer", String.valueOf(turnTimer));
-                if(opponentSecondsRemaining == turnTimer) {
+                if(opponentSecondsRemaining == turnTimer || Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
+                        .child(lobbyKey)
+                        .child("players")
+                        .child(opponentId)
+                        .child("ready")
+                        .setValue("false")))) {
                     Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
