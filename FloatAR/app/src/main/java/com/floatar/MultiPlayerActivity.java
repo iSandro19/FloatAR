@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class MultiPlayerActivity extends AppCompatActivity {
     private final Button[][] playerButtonGrid = new Button[10][10];
@@ -42,7 +43,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private boolean isPlayerTurnSet = false;
     private boolean isOpponentReady = false;
 
+
+
     private int playerCount = -1;
+
+    private CountDownTimer myTimer;
+    private CountDownTimer opponentTimer;
+    private int innerTimer;
+    private int opponentSecondsRemaining;
 
     private int[][] playerBoard = new int[10][10];
     private int[][] opponentBoard = new int[10][10];
@@ -137,8 +145,10 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         database.getReference("lobbies")
                 .child(lobbyKey)
+                .child("players")
+                .child(playerId)
                 .child("timer")
-                .setValue("0");
+                .setValue("300");
 
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
@@ -152,6 +162,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             String playerId = playerSnapshot.getKey();
                             assert playerId != null;
                             if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
+                                try {
+                                    opponentSecondsRemaining = Integer.parseInt(Objects.requireNonNull(playerSnapshot.child("timer").getValue(String.class)));
+                                } catch (NullPointerException ignored) {
+                                    Log.d("NullPointerException", "Contador del rival sin inicializar");
+                                }
                                 try {
                                     if (!Arrays.deepEquals(opponentBoard,
                                             convertStringBoardToArrayBoard(playerSnapshot.
@@ -208,29 +223,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
-                    }
-                });
-
-        database.getReference("lobbies")
-                .child(lobbyKey)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Verificar si la sala ha sido eliminada
-                        if (!dataSnapshot.exists()) {
-                            // Salir de la actividad
-                            Intent intent = new Intent(MultiPlayerActivity.this, LobbyActivity.class);
-                            startActivity(intent);
-                            finish();
-
-                            // Mostrar Toast indicando que la sala ha sido eliminada
-                            Toast.makeText(MultiPlayerActivity.this, "La sala ha sido eliminada", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Manejar el error de base de datos si es necesario
                     }
                 });
 
@@ -380,25 +372,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
      */
     private void playerTurn(View v, int row, int col) {
 
-        // Iniciar el contador de tiempo de 30 segundos
-        new CountDownTimer(30000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                // El tiempo está en progreso (se llama cada segundo)
-                long secondsRemaining = millisUntilFinished / 1000;
-                String message = "Tiempo restante: " + secondsRemaining + " segundos";
-                Log.d("Countdown", message);
+        // Iniciar el contador de tiempo
+        if (opponentTimer != null)
+            opponentTimer.cancel();
+        myTimer = createMyTimer(innerTimer);
+        myTimer.start();
 
-
-            }
-
-            public void onFinish() {
-                // El tiempo ha terminado (se llama después de 30 segundos)
-                String message = "El tiempo ha expirado";
-                Log.d("Countdown", message);
-
-
-            }
-        }.start();
 
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
@@ -414,6 +393,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
 
+            myTimer.cancel();
             isPlayerTurn = false;
 
             String turnName = getString(R.string.turn) + " " + opponentName;
@@ -426,7 +406,66 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     .child(opponentId)
                     .child("playerBoard")
                     .setValue(Arrays.deepToString(opponentBoard));
+
+            // Contador del rival
+            opponentTimer = createCheckOpponentTimer();
         }
+    }
+
+    private CountDownTimer createMyTimer(int finishSeconds){
+        return new CountDownTimer(finishSeconds * 1000L, 1000) {
+            public void onTick(long millisUntilFinished) {
+                // El tiempo está en progreso (se llama cada segundo)
+                long secondsRemaining = millisUntilFinished / 1000;
+                String message = "Tiempo restante: " + secondsRemaining + " segundos";
+                Log.d("Countdown", message);
+
+                innerTimer = (int) secondsRemaining;
+
+                database.getReference("lobbies")
+                        .child(lobbyKey)
+                        .child("players")
+                        .child(playerId)
+                        .child("timer")
+                        .setValue((int) secondsRemaining);
+
+            }
+
+            public void onFinish() {
+                String message = "El tiempo ha expirado";
+                Log.d("Countdown", message);
+
+                //PERDERRRRRRRRRRRR
+                Log.d("Pierdooooooooooooooooo yoooooooooo", "pierdo");
+
+            }
+        };
+    }
+
+    private CountDownTimer createCheckOpponentTimer(){
+        return new CountDownTimer(360000, 5000) {
+            int turnTimer = 0;
+            public void onTick(long millisUntilFinished) {
+
+                if(opponentSecondsRemaining == turnTimer) {
+                    //GANASSSSSSSSSSS
+                    Log.d("GANAAAAAAAAAAAAAAAAAAAS", "CNHDSJOCBHJDSAKCJDSAC");
+                    this.cancel();
+                } else {
+                    turnTimer = opponentSecondsRemaining;
+                }
+            }
+
+            public void onFinish() {
+                String message = "El tiempo ha expirado";
+                Log.d("Countdown", message);
+
+                //GANASSSSSSSSSSS
+                //No se llega jamás
+                Log.d("GANAAAAAAAAAAAAAAAAAAAS", "CNHDSJOCBHJDSAKCJDSAC");
+
+            }
+        };
     }
 
     /**
