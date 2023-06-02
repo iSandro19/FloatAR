@@ -208,6 +208,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                 updatePlayerBoard(value);
 
                                 isPlayerTurn = true;
+                                // Iniciar el contador de tiempo
+                                if (opponentTimer != null)
+                                    opponentTimer.cancel();
+                                myTimer = createMyTimer(innerTimer);
+                                myTimer.start();
                             }
                         }
                         if(!isPlayerTurnSet) {
@@ -373,13 +378,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
      * @param col Columna del botón pulsado
      */
     private void playerTurn(View v, int row, int col) {
-
-        // Iniciar el contador de tiempo
-        if (opponentTimer != null)
-            opponentTimer.cancel();
-        myTimer = createMyTimer(innerTimer);
-        myTimer.start();
-
 
         if (opponentBoard[row][col] == 1) {
             // El jugador ha acertado
