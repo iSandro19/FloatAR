@@ -34,7 +34,6 @@
     <string name="boats_left_3"> de tamanho 3\n</string>
     <string name="boats_left_4"> de tamanho 4</string>
 
-
     <!-- Strings related to the single player activity -->
     <string name="player_board">Tabuleiro do jogador</string>
     <string name="opponent_board">Tabuleiro do oponente</string>
@@ -52,44 +51,15 @@
     <string name="help_title">Uso do FloatAR</string>
     <string name="help_text_title">Bem-vindo à tela de ajuda do FloatAR!</string>
     <string name="help_text_content">
-        O FloatAR é um aplicativo de realidade aumentada para jogar o popular jogo Batalha Naval.
-        O aplicativo permite que você posicione navios em um tabuleiro virtual e enfrente outros jogadores
-        em tempo real. Aqui estão algumas funcionalidades-chave do aplicativo:\n\n
+        FloatAR é um aplicativo que permite jogar Batalha Naval no modo de um jogador contra a IA e no modo multiplayer online em tempo real através de salas. Ele também inclui uma demonstração onde é possível ver um dos navios da frota e um sistema simples e intuitivo de colocação de navios no tabuleiro. Aqui estão as funcionalidades de forma mais precisa:\n\n
 
-        \t\t - Tabuleiro em realidade aumentada: O aplicativo utiliza tecnologia de realidade aumentada para
-        simular um tabuleiro em tempo real. Para começar a jogar, aponte seu dispositivo
-        para uma superfície plana e siga as instruções na tela para calibrar a posição
-        do tabuleiro.\n\n
+        Modo de um jogador: para jogar sozinho, você pode acessar o modo de um jogador onde enfrentará uma IA simples. Para fazer isso, você terá que projetar sua frota no criador assim que acessar esse modo. O procedimento é simples, pois através de botões para selecionar o tipo de navio e orientação, você pode escolher a posição dos navios. Basta clicar no tabuleiro para adicionar um navio, e dependendo se você estiver no modo vertical ou horizontal, o navio será posicionado para baixo ou para a direita. Para começar a jogar após confirmar o tabuleiro do jogo, basta clicar no novo tabuleiro que aparecerá para atacar o oponente. O tabuleiro menor acima será o dele, e você pode ver como o jogo está se desenvolvendo. É importante destacar que os blocos azuis são seus navios, os cinzas são impactos na água e os vermelhos são impactos em navios. Ao final do jogo, será exibida uma nova tela com a mensagem de vitória ou derrota e um botão para voltar à tela principal.\n\n
 
-        \t\t - Posicionamento de navios por meio de gestos: Depois de configurar o tabuleiro, você pode posicionar seus
-        navios no tabuleiro virtual usando gestos na tela. Arraste e solte os navios na
-        posição desejada e use gestos de pinça para girá-los e ajustar seu tamanho.\n\n
+        Modo multiplayer: ao acessar esse modo, você terá a possibilidade de criar uma nova sala ou entrar em uma já existente. As salas têm espaço para 2 jogadores e, uma vez que o jogo termina ou os jogadores saem, todas as informações do jogo serão apagadas do servidor. O processo para criar o tabuleiro é idêntico ao do modo de um jogador, assim como o desenvolvimento do jogo. A única diferença é o estabelecimento de turnos e um temporizador de inatividade que pode levar à eliminação da sala. Ao final do jogo, a sala é excluída e o resultado é exibido para cada jogador (vitória ou derrota).\n\n
 
-        \t\t - Detecção de colisões: O aplicativo possui um sistema de detecção de colisões para
-        garantir que os navios não se sobreponham no tabuleiro virtual. Se você tentar posicionar um navio
-        em uma posição inválida, o aplicativo irá alertá-lo e pedir que você o mova.\n\n
+        Demonstração de Realidade Aumentada: devido a restrições de tempo, não foi possível desenvolver um modo de jogo que utilize essa tecnologia, por isso optamos por criar um pequeno exemplo. Ao acessar esse modo, você pode colocar um navio de guerra da frota em uma superfície, que será visualizado através do dispositivo móvel.\n\n
 
-        \t\t - Sistema de jogo: Depois que ambos os jogadores posicionarem seus navios, o jogo pode
-        começar. Atire nos navios do adversário clicando nas células do tabuleiro e
-        use os indicadores do aplicativo para ver se acertou ou errou. Seu adversário também
-        pode atirar nos seus navios, então certifique-se de protegê-los bem.\n\n
-
-        \t\t - Detectar vitórias e derrotas: O aplicativo possui um sistema para detectar vitórias
-        e derrotas. O primeiro jogador a afundar todos os navios do adversário vence o jogo.\n\n
-
-        \t\t - Pontuação e estado do jogo em tempo real: O aplicativo exibe a pontuação e o
-        estado do jogo em tempo real para ambos os jogadores. Use esses indicadores para
-        planejar seus movimentos e acompanhar o progresso do jogo.\n\n
-
-        \t\t - Animações de explosão e lançamento de mísseis: O aplicativo possui animações
-        para mostrar a explosão dos navios e o lançamento de mísseis de um lado para o outro.
-        Essas animações dão vida ao jogo e o tornam mais emocionante.\n
-
-        \t\t - Personalização dos navios: O aplicativo permite que você personalize a aparência dos seus
-        navios para que combinem com seu estilo. Mude a cor e a forma dos seus navios para
-        torná-los únicos e reconhecíveis.\n\n
-
-        Esperamos que esta tela de ajuda tenha sido útil. Divirta-se jogando com o FloatAR!
+        Esperamos que esta tela de ajuda tenha sido útil para você. Divirta-se jogando com o FloatAR!
     </string>
 
     <!-- Strings related to the about activity -->

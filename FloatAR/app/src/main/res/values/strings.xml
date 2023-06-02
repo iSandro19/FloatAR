@@ -51,44 +51,39 @@
     <string name="help_title">Uso de FloatAR</string>
     <string name="help_text_title">¡Bienvenido a la pantalla de ayuda de FloatAR!</string>
     <string name="help_text_content">
-        FloatAR es una aplicación de realidad aumentada para jugar el popular juego Hundir la Flota.
-        La aplicación te permite colocar barcos en un tablero virtual y enfrentarte a otros jugadores
-        en tiempo real. Aquí te presentamos algunas funcionalidades clave de la aplicación:\n\n
+        FloatAR es una aplicación que permite jugar a Hundir la flota en modo un jugador contra la
+        IA y en modo multijugador online en tiempo real a través de salas. A mayores también cuenta
+        con una demo donde se puede ver uno de los barcos de la flota y un sistema de colocación de
+        barcos en el tablero sencilla e intuitiva. Aquí te presentamos las funcionalidades de forma
+        más precisa:\n\n
 
-        \t\t - Tablero en realidad aumentada: La aplicación utiliza tecnología de realidad aumentada para
-        simular un tablero en tiempo real. Para empezar a jugar, simplemente apunta tu dispositivo
-        hacia una superficie plana y sigue las instrucciones en pantalla para calibrar la posición
-        del tablero.\n\n
+        Modo de un jugador: para poder jugar solo, puedes acceder al modo para un jugador en donde
+        te enfrentarás a una sencilla IA. Para hacer esto, tendrás que diseñar tu flota en el
+        creador una vez accedes a este modo. El procedimiento es sencillo, ya que, a través de
+        botones para seleccionar tipo de barco y orientación, podemos elegir la posición de los
+        barcos. Solo con clicar en el tablero añadiremos uno y, dependiendo de si estamos en modo
+        vertical u horizontal, el barco se establecerá hacia abajo o hacia la derecha. Para empezar
+        a jugar una vez confirmamos el tablero de juego, solo tendremos que clicar en el nuevo
+        tablero que aparecerá para atacar al rival. El tablero más pequeño que aparece encima
+        será el suyo, pudiendo ver como se está desarrollando la partida. Es importante destacar que
+        los bloques azules son sus barcos, los grises son impactos contra el agua, y los rojos son
+        impactos contra barcos. Al finalizarse la partida, se pasará a una nueva pantalla con el
+        mensaje de victoria o derrota y un botón para volver a la pantalla principal.\n\n
 
-        \t\t - Colocar barcos mediante gestos: Una vez que el tablero esté configurado, puedes colocar tus
-        barcos en el tablero virtual mediante gestos en pantalla. Arrastra y suelta los barcos en la
-        posición deseada, y utiliza gestos de pellizco para rotarlos y ajustar su tamaño.\n\n
+        Modo multijugador: al acceder a este modo, tendremos la posibilidad de crear una nueva sala
+        o de unirse a una ya creada. Las salas tienen espacio para 2 jugadores y, una vez se acaba
+        la partida o los jugadores salen, se borrará toda la información de la misma del servidor.
+        El proceso para crear el tablero es idéntico al del modo de un jugador y el desarrollo de la
+        partida también. La única diferencia es el establecimiento de turnos y de tiempo de
+        inactividad que puede llegar a eliminar la sala. Una vez se acaba la partida se elimina la
+        sala y se muestra el resultado para cada jugador (victoria o derrota).\n\n
 
-        \t\t - Detección de colisiones: La aplicación cuenta con un sistema de detección de colisiones para
-        asegurar que los barcos no se superpongan en el tablero virtual. Si intentas colocar un barco
-        en una posición inválida, la aplicación te alertará y te pedirá que lo muevas.\n\n
+        Demostración de Realidad Aumentada: por motivos de tiempo, no pudimos desarrollar un modo de
+        juego que use esta tecnología, por lo que apostamos por hacer un pequeño ejemplo. Al acceder
+        a este modo, podemos situar en una superficie un buque de guerra de la flota que será visto
+        a través del dispositivo móvil.\n\n
 
-        \t\t - Sistema de juego: Una vez que ambos jugadores hayan colocado sus barcos, el juego puede
-        comenzar. Dispara a los barcos del adversario haciendo clic en los cuadros del tablero, y
-        utiliza los indicadores de la aplicación para ver si acertaste o no. Tu adversario también
-        puede disparar a tus barcos, así que asegúrate de protegerlos bien.\n\n
-
-        \t\t - Detectar victorias y derrotas: La aplicación cuenta con un sistema para detectar victorias
-        y derrotas. El primer jugador en hundir todos los barcos del adversario gana el juego.\n\n
-
-        \t\t - Puntuación y estado del juego en tiempo real: La aplicación muestra la puntuación y el
-        estado del juego en tiempo real para ambos jugadores. Utiliza estos indicadores para
-        planificar tus movimientos y mantenerte al tanto del progreso del juego.\n\n
-
-        \t\t - Animaciones de explosiones y lanzamiento de misiles: La aplicación cuenta con animaciones
-        para mostrar la explosión de los barcos y el lanzamiento de misiles de un lado a otro.
-        Estas animaciones le dan vida al juego y hacen que sea más emocionante.\n
-
-        \t\t - Personalización de los barcos: La aplicación te permite personalizar el aspecto de tus
-        barcos para que se adapten a tu estilo. Cambia el color y la forma de tus barcos para
-        hacerlos únicos y reconocibles.\n\n
-
-        Esperamos que esta pantalla de ayuda te haya sido útil. ¡Diviértete jugando con FloatAR!
+        Esperamos que esta pantalla de ayuda te haya sido útil. ¡Diviértase jugando con FloatAR!
     </string>
 
     <!-- Strings related to the about activity -->

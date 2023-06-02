@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Strings related to the app -->
+    <string name="app_name">FloatAR</string>
+    <string name="todo">ToDo</string>
+    <string name="floatar_logo">FloatAR ロゴ</string>
+
+    <!-- Strings related to the main menu -->
+    <string name="settings">設定</string>
+    <string name="help">ヘルプ</string>
+    <string name="about">アプリについて</string>
+
+    <!-- Strings related to the game -->
+    <string name="player_turn">1</string>
+    <string name="computer_turn">2</string>
+    <string name="score_format">スコア</string>
+
+    <!-- Strings related to the main activity -->
+    <string name="single_player">一人でプレイ</string>
+    <string name="exit_game">終了</string>
+    <string name="multi_player">マルチプレイヤー</string>
+
+    <!-- Strings related to the create board activity -->
+    <string name="but_boat_s1">船 1</string>
+    <string name="but_boat_s2">船 2</string>
+    <string name="but_boat_s3">船 3</string>
+    <string name="but_boat_s4">船 4</string>
+    <string name="but_horizontal_boat">水平</string>
+    <string name="but_vertical_boat">垂直</string>
+    <string name="create_board">ボード作成</string>
+    <string name="boats_left">配置待ちの船: \n</string>
+    <string name="boats_left_1">サイズ 1 の船: \n</string>
+    <string name="boats_left_2">サイズ 2 の船: \n</string>
+    <string name="boats_left_3">サイズ 3 の船: \n</string>
+    <string name="boats_left_4">サイズ 4 の船: </string>
+
+    <!-- Strings related to the single player activity -->
+    <string name="player_board">プレイヤーボード</string>
+    <string name="opponent_board">相手ボード</string>
+
+    <!-- Strings related to the settings activity -->
+    <string name="settings_title">設定</string>
+    <string name="notifications_title">通知</string>
+    <string name="theme_title">ダークモード</string>
+    <string name="volume_title">音量</string>
+    <string name="sava_changes_title">変更を保存</string>
+    <string name="settings_language">言語</string>
+    <string name="language_selector">言語の選択</string>
+
+    <!-- Strings related to the help activity -->
+    <string name="help_title">FloatAR の使用方法</string>
+    <string name="help_text_title">FloatAR のヘルプ画面へようこそ！</string>
+    <string name="help_text_content">
+        FloatAR は、シングルプレイヤーモードでのシンプルな AI と、リアルタイムのオンラインマルチプレイヤーモードでの Hundir la flota のプレイが可能なアプリです。さらに、フロートの船のデモやシンプルで直感的なボード配置システムも提供しています。以下では、各機能について詳しく説明します：\n\n
+
+        シングルプレイヤーモード: シングルプレイヤーモードに入ると、シンプルな AI と対戦することができます。このモードでは、最初にボードを作成する必要があります。ボード作成モードに入ると、船の種類や方向を選択するボタンが表示されます。ボードに船を配置するには、ボード上でクリックするだけで船が追加されます。垂直モードと水平モードに応じて、船は下方向または右方向に配置されます。ゲームを開始するには、ボードの確認後に表示される新しいボードをクリックして相手に攻撃します。上部に表示される小さなボードは相手のボードで、ゲームの進行状況が表示されます。青色のブロックは相手の船、灰色のブロックは水中への攻撃、赤色のブロックは船への攻撃を表します。ゲームが終了すると、勝利または敗北のメッセージが表示され、メイン画面に戻るためのボタンが表示されます。\n\n
+
+        マルチプレイヤーモード: このモードでは、新しいロビーの作成または既存のロビーへの参加ができます。ロビーには2人のプレイヤーが入ることができ、ゲームが終了するかプレイヤーが退出すると、サーバー上のロビー情報が削除されます。ボードの作成方法はシングルプレイヤーモードと同じで、ゲームの進行も同じです。唯一の違いは、ターンの順番や非アクティブ時のタイムアウト処理です。ゲームが終了すると、ロビーが削除され、各プレイヤーの結果（勝利または敗北）が表示されます。\n\n
+
+        拡張現実デモ: 時間の制約のため、この技術を使用したゲームモードは開発できませんでした。代わりに、フロートの船をデバイスのカメラを通して見ることができるデモを用意しました。\n\n
+
+        FloatAR のヘルプ画面が役に立つことを願っています。FloatAR で楽しい時間をお過ごしください！
+    </string>
+
+    <!-- Strings related to the about activity -->
+    <string name="version_number">0.1</string>
+    <string name="developers_name">
+        Antonio Vila Leis\nHugo Sanjiao Varela\nBreogán Fernández Moreira\nÓscar Alejandro Manteiga Seoane
+    </string>
+    <string name="developers_email">
+        antonio.vila@udc.es\nh.sanjiao@udc.es\nbreogan.fernandez@udc.es\noscar.manteiga@udc.es
+    </string>
+
+    <!-- Strings related to the game over activity -->
+    <string name="you_won">勝利しました！</string>
+    <string name="you_lost">敗北しました</string>
+    <string name="play_again">もう一度プレイする</string>
+    <string name="game_over">ゲーム終了</string>
+
+    <!-- Strings related to the lobby activity -->
+    <string name="create_lobby">ロビー作成</string>
+    <string name="open_lobbies">利用可能なロビー:</string>
+    <string name="lobby_name">ロビー名</string>
+    <string name="join_lobby">ロビーに参加</string>
+    <string name="your_name">あなたの名前</string>
+    <string name="lobby">ロビー</string>
+
+    <!-- Other strings -->
+    <string name="not_implemented_yet">未実装</string>
+    <string name="not_implemented_yet_description">この機能はまだ開発中です。</string>
+    <string name="info_logo">情報ロゴ</string>
+    <string name="show_info">情報を表示</string>
+
+    <!-- Strings related to the database -->
+    <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
+    <!-- To-classify Strings -->
+    <string name="confirm">確認</string>
+    <string name="demo_ar">AR デモ</string>
+    <string name="depth_api">デプス API</string>
+    <string name="instant_placement">インスタント配置</string>
+    <string name="battleship">戦艦</string>
+    <string name="AR_demo">AR デモ</string>
+    <string name="turn">ターン:</string>
+
+</resources>

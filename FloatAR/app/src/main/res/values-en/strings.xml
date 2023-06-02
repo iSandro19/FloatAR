@@ -52,42 +52,13 @@
     <string name="help_title">Using FloatAR</string>
     <string name="help_text_title">Welcome to the FloatAR Help Screen!</string>
     <string name="help_text_content">
-        FloatAR is an augmented reality application to play the popular game Battleship.
-        The application allows you to place ships on a virtual board and compete against other players
-        in real-time. Here are some key features of the application:\n\n
+        FloatAR is an application that allows you to play Battleship in single-player mode against AI and in real-time online multiplayer mode through rooms. It also includes a demo where you can see one of the fleet ships and a simple and intuitive ship placement system on the board. Here are the functionalities in a more precise way:\n\n
 
-        \t\t - Augmented Reality Board: The application utilizes augmented reality technology to
-        simulate a real-time board. To start playing, simply point your device
-        towards a flat surface and follow the on-screen instructions to calibrate the boards position.\n\n
+        Single-player mode: To play alone, you can access the single-player mode where you will face a simple AI. To do this, you will have to design your fleet in the creator once you access this mode. The procedure is simple, as we can choose the position of the ships through buttons to select the ship type and orientation. By clicking on the board, we will add a ship, and depending on whether we are in vertical or horizontal mode, the ship will be placed downwards or to the right. To start playing once we confirm the game board, we just have to click on the new board that will appear to attack the opponent. The smaller board on top will be theirs, and we can see how the game is progressing. It is important to note that blue blocks represent their ships, gray blocks represent water hits, and red blocks represent hits on ships. At the end of the game, a new screen will appear with the victory or defeat message and a button to return to the main screen.\n\n
 
-        \t\t - Gesture-Based Ship Placement: Once the board is set up, you can place your ships on the
-        virtual board using on-screen gestures. Drag and drop the ships to the desired position,
-        and use pinch gestures to rotate and resize them.\n\n
-        and use pinch gestures to rotate and resize them.\n\n
+        Multiplayer mode: By accessing this mode, you will have the possibility to create a new room or join an existing one. The rooms have space for 2 players, and once the game ends or the players leave, all the information of the game will be deleted from the server. The process to create the board is identical to the single-player mode, as well as the gameplay. The only difference is the establishment of turns and an inactivity timer that can lead to the elimination of the room. Once the game ends, the room is deleted, and the result is displayed for each player (victory or defeat).\n\n
 
-        \t\t - Collision Detection: The application features a collision detection system to ensure that
-        ships do not overlap on the virtual board. If you try to place a ship in an invalid position,
-        the application will alert you and prompt you to move it.\n\n
-
-        \t\t - Gameplay System: Once both players have placed their ships, the game can begin.
-        Fire at your opponents ships by clicking on the squares of the board, and
-        use the applications indicators to see if you hit or miss. Your opponent can also
-        fire at your ships, so make sure to protect them well.\n\n
-
-        \t\t - Detecting Wins and Losses: The application includes a system to detect wins
-        and losses. The first player to sink all of the opponents ships wins the game.\n\n
-
-        \t\t - Real-Time Scoring and Game Status: The application displays real-time scoring and
-        game status for both players. Use these indicators to plan your moves and
-        stay updated on the progress of the game.\n\n
-
-        \t\t - Explosion and Missile Launch Animations: The application features animations
-        to show ship explosions and missile launches from one side to another.
-        These animations bring the game to life and make it more exciting.\n\n
-
-        \t\t - Ship Customization: The application allows you to customize the appearance of your
-        ships to suit your style. Change the color and shape of your ships to
-        make them unique and recognizable.\n\n
+        Augmented Reality Demonstration: Due to time constraints, we could not develop a game mode that uses this technology, so we opted to create a small example. By accessing this mode, you can place a warship from the fleet on a surface, which will be seen through the mobile device.\n\n
 
         We hope this help screen has been useful to you. Have fun playing with FloatAR!
     </string>
