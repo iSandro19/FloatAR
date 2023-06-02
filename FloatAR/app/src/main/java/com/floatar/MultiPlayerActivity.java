@@ -150,6 +150,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 .child("timer")
                 .setValue("300");
 
+        innerTimer = 300;
+
         // Obtener el tablero del oponente de la base de datos
         database.getReference("lobbies")
                 .child(lobbyKey)
