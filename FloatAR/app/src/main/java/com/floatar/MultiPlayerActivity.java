@@ -353,6 +353,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
 
+            isPlayerTurn = false;
+
             // Actualizar tablero en la BD
             database.getReference("lobbies")
                     .child(lobbyKey)
@@ -361,7 +363,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     .child("playerBoard")
                     .setValue(Arrays.deepToString(opponentBoard));
 
-            isPlayerTurn = false;
+
         }
     }
 
