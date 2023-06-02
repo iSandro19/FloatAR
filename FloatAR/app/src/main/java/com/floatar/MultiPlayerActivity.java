@@ -393,7 +393,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
 
-            myTimer.cancel();
+            if(myTimer != null)
+                myTimer.cancel();
             isPlayerTurn = false;
 
             String turnName = getString(R.string.turn) + " " + opponentName;
