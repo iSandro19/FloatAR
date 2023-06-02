@@ -122,7 +122,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
         database.getReference("lobbies")
             .child(lobbyKey)
             .child("players")
-            .addListenerForSingleValueEvent(new ValueEventListener() {
+            .addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     playerCount = (int) dataSnapshot.getChildrenCount();
@@ -131,24 +131,23 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         String playerId = playerSnapshot.getKey();
                         assert playerId != null;
                         if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
-                            opponentId = playerId;
-                            String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                            assert value != null;
-                            updateOpponentBoard(value);
-                            isPlayerTurn = true;
+                            isOpponentReady = Boolean.parseBoolean(
+                                    Objects.requireNonNull(playerSnapshot.child("ready").getValue(String.class)));
+                            if (isOpponentReady) {
+                                opponentId = playerId;
+                                String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                                Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
+                                assert value != null;
+                                updateOpponentBoard(value);
 
-                            System.out.println(opponentId);
-                            System.out.println(value);
+                                Log.d("isPlayerReady", String.valueOf(isOpponentReady));
+                                isPlayerTurn = true;
+                            }
                         } else {
                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                            isOpponentReady = Boolean.parseBoolean(Objects.requireNonNull(playerSnapshot.child("ready").getValue(String.class)));
-                            Log.d("isPlayerReady", String.valueOf(isOpponentReady));
 
                             assert value != null;
                             updatePlayerBoard(value);
-
-                            System.out.println(playerId);
-                            System.out.println(value);
                         }
                     }
 
