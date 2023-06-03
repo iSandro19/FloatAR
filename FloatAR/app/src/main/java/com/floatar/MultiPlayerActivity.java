@@ -44,8 +44,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private boolean isOpponentReady = false;
     private boolean firstTurn = false;
 
-
-
     private int playerCount = -1;
 
     private CountDownTimer myTimer;
@@ -126,7 +124,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 
     // Métodos protegidos ----------------------------------------------------------------------------
 
@@ -222,13 +219,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                                 myTimer.start();
                                             }
                                         }
-
                                     }
                                 } catch (NullPointerException ignored) {
                                     Log.d("NullPointerException", "Jugador no iniciado");
                                 }
-                            }
-                            else {
+                            } else {
                                 try {
                                     if (!Arrays.deepEquals(playerBoard,
                                             convertStringBoardToArrayBoard(playerSnapshot
@@ -258,17 +253,15 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                                 .removeValue();
                                     }
 
-                                    if (opponentTimer != null){
+                                    if (opponentTimer != null)
                                         opponentTimer.cancel();
-                                    }
-                                    if (opponentConnectionTimer != null){
-                                        opponentConnectionTimer.cancel();
-                                    }
-                                    if (myTimer != null){
-                                        myTimer.cancel();
-                                    }
 
-                                    // Necesito salir de la clase MultiplayerActivity aqui y regresar a la LobbyActivity
+                                    if (opponentConnectionTimer != null)
+                                        opponentConnectionTimer.cancel();
+
+                                    if (myTimer != null)
+                                        myTimer.cancel();
+
                                     Intent intent = new Intent(mContext, LobbyActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
@@ -294,13 +287,11 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         }
                     }
 
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.w(".MultiPlayerActivity", "onCancelled", databaseError.toException());
                     }
                 });
-
 
         // OnClickListener para los botones del tablero
         View.OnClickListener buttonClickListener = v -> {
@@ -312,7 +303,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             int col = Integer.parseInt(tag.split("_")[2]);
 
             String buttonType = String.valueOf(tag.split("_")[0]);
-
 
             // Ejecutar la lógica del juego correspondiente
             if (!buttonType.equals("playerbutton") && isPlayerTurn && isOpponentReady) {
@@ -402,15 +392,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
             aboutHelpSound = null;
         }
 
-        if (opponentTimer != null){
+        if (opponentTimer != null)
             opponentTimer.cancel();
-        }
-        if (opponentConnectionTimer != null){
+
+        if (opponentConnectionTimer != null)
             opponentConnectionTimer.cancel();
-        }
-        if (myTimer != null){
+
+        if (myTimer != null)
             myTimer.cancel();
-        }
     }
 
     // Métodos privados ----------------------------------------------------------------------------
@@ -494,7 +483,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             String turnName = getString(R.string.turn) + " " + opponentName;
             turnTextView.setText(turnName);
 
-
             // Actualizar tablero en la BD
             database.getReference("lobbies")
                     .child(lobbyKey)
@@ -502,7 +490,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     .child(opponentId)
                     .child("playerBoard")
                     .setValue(Arrays.deepToString(opponentBoard));
-
 
             // Contador de comprobacion de conexion rival
             opponentConnectionTimer = createCheckOpponentConnection();
@@ -535,7 +522,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             .setValue(String.valueOf(innerTimer));
                 }
 
-                if(!isOpponentReady) {
+                if (!isOpponentReady) {
                     Toast.makeText(MultiPlayerActivity.this, String.valueOf(getString(R.string.lost_connection)), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
@@ -545,7 +532,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     this.cancel();
                 }
             }
-
 
             public void onFinish() {
                 Intent intent = new Intent(mContext, LobbyActivity.class);
@@ -562,7 +548,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 // Empty
             }
-
 
             public void onFinish() {
                 if (lobbyKey != null && playerId != null) {
@@ -635,7 +620,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     check = false; break;
                 }
         if (check) {
-
             Toast.makeText(mContext, String.valueOf(getString(R.string.won)), Toast.LENGTH_SHORT).show();
 
             // Verificar si el jugador está en una sala
@@ -646,15 +630,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         .removeValue();
             }
 
-            if (opponentTimer != null){
+            if (opponentTimer != null)
                 opponentTimer.cancel();
-            }
-            if (opponentConnectionTimer != null){
+
+            if (opponentConnectionTimer != null)
                 opponentConnectionTimer.cancel();
-            }
-            if (myTimer != null){
+
+            if (myTimer != null)
                 myTimer.cancel();
-            }
         }
     }
 
