@@ -1,7 +1,6 @@
 package com.floatar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -46,11 +45,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        /*Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();*/
     }
 
     // Métodos protegidos --------------------------------------------------------------------------
@@ -67,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(v -> {
             settingsOut.start();
             // Guardar cambios en SharedPreferences o en una base de datos
-            Toast.makeText(SettingsActivity.this, "Cambios guardados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingsActivity.this, String.valueOf(getString(R.string.save_changes)), Toast.LENGTH_SHORT).show();
 
             String selectedLanguage = sharedPreferences.getString("language", "es");
             Locale locale = new Locale(selectedLanguage);
@@ -116,7 +110,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     // Fragmento donde están Notificaciones, Tema, Idioma y volumen --------------------------------
 
-    // Fragmento donde están Notificaciones, Tema, Idioma y volumen
     public static class SettingsFragment extends PreferenceFragmentCompat {
         SwitchPreference switchPreferenceNotification, switchPreferenceTheme;
         ListPreference listPreference;

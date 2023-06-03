@@ -198,7 +198,7 @@ public class SinglePlayerActivity extends AppCompatActivity {
             Log.d(".SinglePlayer", "El jugador ha acertado, matiene el turno");
 
         } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
-            Toast.makeText(SinglePlayerActivity.this, "Casilla no válida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SinglePlayerActivity.this, String.valueOf(getString(R.string.invalid_placement)), Toast.LENGTH_SHORT).show();
         } else {
             // El jugador ha fallado
             missSound.seekTo(0);
@@ -224,7 +224,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
                 if (playerBoard[row][col] == 1) {
                     // El oponente ha acertado
                     availablePositions.remove(Integer.valueOf(position));
-                    //Log.d("elimina: ", String.valueOf(availablePositions.remove(randomIndex)));
 
                     playerBoard[row][col] = 2; // Actualizar la matriz "playerBoard"
                     Button button = playerButtonGrid[row][col]; // Obtener el botón correspondiente
@@ -273,7 +272,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "opponent");
-            System.out.println("Gana la IA");
             startActivity(intent);
         }
 
@@ -287,7 +285,6 @@ public class SinglePlayerActivity extends AppCompatActivity {
         if (check) {
             Intent intent = new Intent(SinglePlayerActivity.this, GameOverActivity.class);
             intent.putExtra("winner", "player");
-            System.out.println("Gana el jugador");
             startActivity(intent);
         }
     }

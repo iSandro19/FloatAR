@@ -1,7 +1,6 @@
 package com.floatar;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,7 +27,6 @@ import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
-import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.BaseArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
@@ -43,7 +41,6 @@ public class ARActivity extends AppCompatActivity implements
 
     private ArFragment arFragment;
     private Renderable model;
-    private ViewRenderable viewRenderable;
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -106,30 +103,15 @@ public class ARActivity extends AppCompatActivity implements
                 })
                 .exceptionally(throwable -> {
                     Toast.makeText(
-                            this, "Unable to load model", Toast.LENGTH_LONG).show();
+                            this, String.valueOf(getString(R.string.load_model_failed)), Toast.LENGTH_LONG).show();
                     return null;
                 });
-        /*
-        ViewRenderable.builder()
-                .setView(this, R.layout.view_model_title)
-                .build()
-                .thenAccept(viewRenderer -> {
-                    ARActivity activity = weakActivity.get();
-                    if (activity != null) {
-                        activity.viewRenderable = viewRenderer;
-                    }
-                })
-                .exceptionally(throwable -> {
-                    Toast.makeText(this, "Unable to load model", Toast.LENGTH_LONG).show();
-                    return null;
-                });
-         */
     }
 
     @Override
     public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
         if (model == null) {
-            Toast.makeText(this, "Model not found, loading...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(getString(R.string.model_not_found)), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -148,10 +130,8 @@ public class ARActivity extends AppCompatActivity implements
         Node titleNode = new Node();
         titleNode.setParent(model);
         titleNode.setEnabled(false);
-        //titleNode.setLocalScale(new Vector3(0.01f, 0.01f, 0.01f));
         titleNode.setLocalRotation(Quaternion.axisAngle(new Vector3(0.0f, 1.0f, 0.0f), 180.0f));
         titleNode.setLocalPosition(new Vector3(0.0f, 1.0f, 0.0f));
-        titleNode.setRenderable(viewRenderable);
         titleNode.setEnabled(true);
     }
 

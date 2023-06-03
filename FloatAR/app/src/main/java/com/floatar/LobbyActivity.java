@@ -95,7 +95,7 @@ public class LobbyActivity extends AppCompatActivity {
             String lobbyName = lobbyNameEditText.getText().toString().trim();
 
             if (TextUtils.isEmpty(lobbyName)) {
-                Toast.makeText(this, "El nombre de la lobby no puede estar vacío", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.valueOf(getString(R.string.invalid_name)), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -112,7 +112,7 @@ public class LobbyActivity extends AppCompatActivity {
             playersRef.child(creatorKey).setValue(getIntent().getStringExtra("playerName"));
 
             // Mostrar un mensaje de éxito
-            Toast.makeText(this, "Lobby creada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(getString(R.string.lobby_created)), Toast.LENGTH_SHORT).show();
         });
 
         builder.setNegativeButton("Cancelar", null);
@@ -243,13 +243,13 @@ public class LobbyActivity extends AppCompatActivity {
 
                         if (playerName.isEmpty()) {
                             // Si el nombre del jugador está vacío, mostrar un mensaje de error
-                            Toast.makeText(LobbyActivity.this, "Por favor ingrese su nombre", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LobbyActivity.this, String.valueOf(getString(R.string.invalid_name)), Toast.LENGTH_SHORT).show();
                         } else {
                             // Agregar el jugador a la lista de jugadores de la lobby
                             String key = playersRef.push().getKey();
                             if (key == null) {
                                 // Si no se pudo obtener una clave, mostrar un mensaje de error
-                                Toast.makeText(LobbyActivity.this, "No se pudo unir a la lobby", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LobbyActivity.this, String.valueOf(getString(R.string.lobby_joined_failed)), Toast.LENGTH_SHORT).show();
                             } else {
                                 playersRef.child(key).child("name").setValue(playerName);
                                 playersRef.child(key).child("key").setValue(key);
@@ -270,7 +270,7 @@ public class LobbyActivity extends AppCompatActivity {
                     builder.show();
                 } else {
                     // Mostrar un mensaje de error si ya hay dos jugadores en la sala
-                    Toast.makeText(LobbyActivity.this, "La sala está llena. No se puede unir más jugadores.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LobbyActivity.this, String.valueOf(getString(R.string.lobby_full)), Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -1,8 +1,5 @@
 package com.floatar;
 
-import android.util.Log;
-import android.widget.GridLayout;
-
 import java.util.Random;
 
 public class IACreateBoard {

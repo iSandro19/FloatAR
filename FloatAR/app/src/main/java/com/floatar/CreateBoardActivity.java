@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,7 +39,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     private MediaPlayer aboutHelpSound;
     private MediaPlayer pianoD, pianoE, pianoF, pianoA, pianoG;
 
-    private List<MediaPlayer> melody = new ArrayList<>();
+    private final List<MediaPlayer> melody = new ArrayList<>();
     private int index;
     private ColorStateList originalColor;
 
@@ -233,7 +232,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 } else if (sizeBoat == 4 && numBoats4 < 2){
                     createBoat(v, row, col);
                 } else {
-                    Toast.makeText(CreateBoardActivity.this, "No puedes colocar más barcos de este tamaño", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBoardActivity.this, String.valueOf(getString(R.string.not_more_boats)), Toast.LENGTH_SHORT).show();
                 }
             } else if (playerBoard[row][col] == 1) {
                 index--;
@@ -376,10 +375,10 @@ public class CreateBoardActivity extends AppCompatActivity {
                     melody.get(index).start();
                     index++;
                 } else {
-                    Toast.makeText(CreateBoardActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBoardActivity.this, String.valueOf(getString(R.string.not_space)), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(CreateBoardActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateBoardActivity.this, String.valueOf(getString(R.string.could_not_create_boat)), Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -401,10 +400,10 @@ public class CreateBoardActivity extends AppCompatActivity {
 
                     sumBoat();  //Sumamos el tipo de barco
                 } else {
-                    Toast.makeText(CreateBoardActivity.this, "Espacio insuficiente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateBoardActivity.this, String.valueOf(getString(R.string.not_space)), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(CreateBoardActivity.this, "Imposible crear barco", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateBoardActivity.this, String.valueOf(getString(R.string.could_not_create_boat)), Toast.LENGTH_SHORT).show();
             }
         }
 
