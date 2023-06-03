@@ -43,7 +43,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private boolean isPlayerTurnSet = false;
     private boolean isOpponentReady = false;
     private boolean firstTurn = false;
-    private boolean checkFirst = false;
 
 
 
@@ -139,6 +138,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         turnTextView = findViewById(R.id.text_view_turn);
         jugadorText = findViewById(R.id.layout_multiplayer_jugador);
+        String newString = getString(R.string.player_board) + " (300)";
+        jugadorText.setText(newString);
         oponenteText = findViewById(R.id.layout_multiplayer_oponente);
 
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
@@ -186,7 +187,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             String playerId = playerSnapshot.getKey();
                             assert playerId != null;
                             if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
-                                Log.d("Actualizaoooooooooooooooooooooooooooooooo\n\n\n\nooooooooooooooo", "llllllllllooooo\nloooooooooooooo");
                                 try {
                                     opponentSecondsRemaining = Integer.parseInt(Objects.requireNonNull(playerSnapshot.child("timer").getValue(String.class)));
                                     String newString = getString(R.string.opponent_board) + " ("+ opponentSecondsRemaining + ")";
@@ -208,18 +208,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
                                         if (readyValue != null) {
                                             isOpponentReady = Boolean.parseBoolean(readyValue.toString());
-                                            Log.d("Me actualiceeeeeeeeeeeeee", "sisisisisisisiisisisi");
-                                        } else {
-                                            checkFirst = true;
                                         }
-
 
                                         if (isOpponentReady) {
                                             opponentId = playerId;
                                             String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                                            Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
                                             assert value != null;
                                             updateOpponentBoard(value);
+
 
                                             if (firstTurn) {
                                                 myTimer = createMyTimer(innerTimer);
@@ -288,6 +284,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             }
                             else if (opponentName == null){
                                 isPlayerTurn = true;
+                                firstTurn = true;
                                 turnTextView.setText("Esperando al rival...");
                             } else {
                                 String turnName = getString(R.string.turn) + " " + opponentName;
@@ -318,7 +315,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
 
             // Ejecutar la lógica del juego correspondiente
-            Log.d("isOpponentReady3333333333333333333333", String.valueOf(isOpponentReady));
             if (!buttonType.equals("playerbutton") && isPlayerTurn && isOpponentReady) {
                 playerTurn(v, row, col);
             }
@@ -540,7 +536,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             .setValue(String.valueOf(innerTimer));
                 }
 
-                Log.d("isOpponentReadyyyyyyyyy en reloj", String.valueOf(isOpponentReady));
                 if(!isOpponentReady) {
                     Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
 
@@ -556,6 +551,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
             public void onFinish() {
                 String message = "El tiempo ha expirado";
                 Log.d("Countdown", message);
+
+                Intent intent = new Intent(mContext, LobbyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
             }
         };
     }
@@ -574,16 +575,15 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 Log.d("Countdown", message);
 
                 if (lobbyKey != null && playerId != null) {
-                    // Eliminar  la sala
+                    // Eliminar la sala
                     database.getReference("lobbies")
                             .child(lobbyKey)
                             .removeValue();
                 }
-
-                Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
-                intent.putExtra("winner", "player");
+                Intent intent = new Intent(mContext, LobbyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                
+                finish();
             }
         };
     }
@@ -617,10 +617,16 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
                 Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
+                if (lobbyKey != null && playerId != null) {
+                    // Eliminar la sala
+                    database.getReference("lobbies")
+                            .child(lobbyKey)
+                            .removeValue();
+                }
+                Intent intent = new Intent(mContext, LobbyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
-
             }
         };
     }
@@ -631,26 +637,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
     private void checkGameOver() {
         boolean check = true;
 
-        // Gana la IA
-        for (int[] row : playerBoard)
-            for (int cell : row)
-                if (cell == 1) {
-                    check = false; break;
-                }
-        if (check) {
-            // Verificar si el jugador está en una sala
-            if (lobbyKey != null && playerId != null) {
-                // Eliminar la sala
-                database.getReference("lobbies")
-                        .child(lobbyKey)
-                        .removeValue();
-            }
-
-            Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
-            intent.putExtra("winner", "opponent");
-            startActivity(intent);
-        }
-
         // Gana el jugador
         check = true;
         for (int[] row : opponentBoard)
@@ -659,6 +645,9 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     check = false; break;
                 }
         if (check) {
+
+            Toast.makeText(mContext, "Ganaste", Toast.LENGTH_SHORT).show();
+
             // Verificar si el jugador está en una sala
             if (lobbyKey != null && playerId != null) {
                 // Eliminar  la sala
@@ -667,9 +656,15 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         .removeValue();
             }
 
-            Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
-            intent.putExtra("winner", "player");
-            startActivity(intent);
+            if (opponentTimer != null){
+                opponentTimer.cancel();
+            }
+            if (opponentConnectionTimer != null){
+                opponentConnectionTimer.cancel();
+            }
+            if (myTimer != null){
+                myTimer.cancel();
+            }
         }
     }
 
