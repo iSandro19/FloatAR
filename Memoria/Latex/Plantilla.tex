@@ -56,7 +56,7 @@ PROGRAMACIÓN DE SISTEMAS 22/23 Q2\\
 
 \vspace{1in}
 
-\textbf{Fecha:}\textit{ A Coruña, 12 Mayo 2023}\\
+\textbf{Fecha:}\textit{ A Coruña, 2 Junio 2023}\\
 \end{large}
 
 \end{center}
@@ -91,6 +91,7 @@ Versión & Fecha & Autor \\
 2 & 18 de abril de 2023 & Antonio | Hugo | Breogán | Óscar\\ \hline \hline
 3 & 9 de mayo de 2023 & Antonio | Hugo | Breogán | Óscar \\ \hline
 4 & 12 de mayo de 2023 & Antonio | Hugo | Breogán | Óscar \\ \hline
+5 & 2 de junio de 2023 & Antonio | Hugo | Breogán | Óscar \\ \hline
 \end{tabular}
 
 \end{center}
@@ -226,7 +227,7 @@ En este tercera entrega, no hemos podido completar el hito marcado, ya que el mo
 %%
 \subsection{Incidencias}
 Posibles incidencias y planes de contingencia:
-En caso de problemas genéricos durante el desarrollo, se realizarán pruebas (tests) durante la implementación para intentar corregirlos antes de cada entrega. En caso de encontrarlos, se buscarán alternativas y soluciones en conjunto con todo el equipo. El desarrollo del juego básico lo sabemos hacer, por los que los principales inconvenientes se pueden generar con la implementación de la realidad aumentada, la sincronización online de jugadores y la sincronización de la realidad aumentada.
+En caso de problemas genéricos durante el desarrollo, se realizarán pruebas (tests) durante la implementación para intentar corregirlos antes de cada entrega. En caso de encontrarlos, se buscarán alternativas y soluciones en conjunto con todo el equipo. Poseemos los conocimientos necesarios para el desarrollo del juego base, por los que los principales inconvenientes se pueden generar con la implementación de la realidad aumentada, la sincronización online de jugadores y la sincronización de la realidad aumentada.
 
 En el caso de la implementación de la realidad aumentada en el proyecto, si no conseguimos un correcto funcionamiento de esta tecnología, se pasará a desarrollar una aplicación de juegos de mesa online. Los juegos que incorporemos serán varios y distintos entre si para incrementar la complejidad del proyecto.
 
@@ -238,16 +239,28 @@ En cuanto a la sincronización de la realidad aumentada, también pueden surgir 
 
 Otro posible problema es la incompatibilidad de la aplicación con ciertos dispositivos móviles. Para evitar esto, se investigará y se tendrán en cuenta las especificaciones y requisitos de hardware de los dispositivos móviles más utilizados y se realizarán pruebas de compatibilidad antes del lanzamiento.
 
+\section{Observaciones}
+En el proceso de desarrollo del proyecto, hemos encontrado ciertas dificultades y desafíos que han afectado nuestra planificación inicial. Algunas de las observaciones y comentarios relevantes son:
+
+\begin{itemize}
+  \item En un principio el rendimiento del modo un jugador, multijugador y creación de tablero era completamente nefasto, ya que la creación de tablero se hacía en el xml correspondiente. Finalmente decidimos hacerlo dinámicamente mediante el código en los java mejorando mucho el rendimiento de la aplicación.
+  \item Durante la implementación de la funcionalidad de sincronización online de jugadores, nos encontramos con problemas de latencia y retraso en la comunicación, lo que afectó la fluidez del juego. Tuvimos que realizar ajustes y optimizaciones adicionales para mejorar esta parte, sobre todo reduciendo el número de elementos que se envían y reciben.
+  \item La implementación de la realidad aumentada resultó ser más compleja de lo esperado. Tuvimos que invertir más tiempo en investigar y comprender la API ARCore, lo que retrasó la integración de esta funcionalidad en el proyecto.
+  \item A pesar de nuestros esfuerzos, no pudimos completar el desarrollo del modo multijugador en línea en el tiempo previsto. Decidimos priorizarlo y ofrecer únicamente una pequeña demostración de su uso en lugar de tener un modo de realidad aumentada completamente funcional.
+\end{itemize}
+
+Estas observaciones y dificultades nos han enseñado la importancia de adaptar y ajustar nuestras expectativas y planificación durante el desarrollo de un proyecto. Aunque enfrentamos desafíos, pudimos superarlos y lograr resultados satisfactorios en la mayoría de las áreas del proyecto.
+
 %%%%%%%
 %%%%%%%
 \section{Diseño}
 \subsection{Elementos utilizados}
 \begin{itemize}
-    \item Botones: obviamente, este elemento tiene que estar en cualquier aplicación donde el usuario pueda interaccionar con la misma. Los usamos a lo largo de todas las vistas, pero donde más relevancia tienen son en los tableros. Cuando desarrollamos el código para poder jugar en modo local teníamos los tableros rellenados con un botón por cada casilla en el .xml correspondiente. Esto nos daba muchos problemas de rendimiento e intentamos migrar de los botones a otros elementos sin éxito. Al final, la solución que usamos es la generación de esos botones de los tableros en el .java.
+    \item Botones: obviamente, este elemento debe estar presente en cualquier aplicación donde el usuario pueda interaccionar con la misma. Los usamos a lo largo de todas las vistas, pero donde más relevancia tienen son en los tableros. Cuando desarrollamos el código para poder jugar en modo local teníamos los tableros rellenados con un botón por cada casilla en el .xml correspondiente. Esto nos daba muchos problemas de rendimiento e intentamos migrar de los botones a otros elementos sin éxito. Al final, la solución que usamos es la generación de esos botones de los tableros en el .java.
     \item Imagen: la utilizamos para mostrar el logo de la aplicación tanto en la actividad principal como en la de información de la aplicación.
-    \item Switch: para activar o desactivar las notificaciones y activar o desactivar el modo oscuro utilizamos 2 switches en la actividad de los ajustos. Decidimos que era la mejor idea, ya que es un elemento al que el usuario está familizarizado y facilita la implementación.
-    \item SeekBar: para controlar el volumen usamos un slider. Es la mejor opción, ya que el propio Android lo usa también.
-    \item Spinner: en la última entrega incorporaremos traducciones de la aplicación, por lo que el uso de este spinner faciltará la elección de idioma que quiera el usuario.
+    \item SwitchPreference: para activar o desactivar las notificaciones y activar o desactivar el modo oscuro utilizamos 2 switches en la actividad de los ajustes. Decidimos que era la mejor idea, ya que es un elemento al que el usuario está familizarizado y facilita la implementación.
+    \item SeekBarPreference: para controlar el volumen usamos un slider. Consideramos esta la mejor opción ya que el propio Android lo usa también.
+    \item ListPreference: en la última entrega incorporaremos traducciones de la aplicación, por lo que el uso de este ListPreference facilitará la elección de idioma que quiera el usuario.
     \item LinearLayout: usaremos esta disposición en la mayoría de actividades de la aplicación por su sencillez y facilidad de organizar los elementos en la pantalla.
     \item RelativeLayout: lo usamos en la actividad de información de la aplicación por su típico uso en estos casos. De esta forma queda todo centrado en la pantalla sin dificultad ninguna.
     \item ScrollView: en la actividad de ayuda usamos una scroll view para que el usuario pueda leer todo el texto haciendo un simple e intuitivo scroll de la pantalla.
@@ -261,16 +274,16 @@ La arquitectura de la aplicación se basará en la utilización de diferentes co
         \begin{enumerate}
             \item Activity de inicio: se ejecutará cuando se inicie la aplicación y mostrará la pantalla de inicio con opciones para iniciar un nuevo juego, cargar un juego guardado (sin confirmar esta funcionalidad) o ver las opciones de configuración.
             \item Activity de creación del tablero: mostrará una pantalla donde el usuario podrá colocar sus barcos sobre su tablero, en esta actividad también se crea el tablero del rival para el modo de un jugador.
-            \item Activity de juego "singleplayer": mostrará el tablero del jugador y permitirá jugar contra la computadora.
-            \item Activity de juego "multiplayer": mostrará una lista de las puntuaciones más altas de los jugadores.
-            \item Activity de configuración: permitirá a los usuarios personalizar la configuración de la aplicación, como cambiar el idioma, el nivel de dificultad (sin confirmar esta funcionalidad), la configuración de sonido, etc.
+            \item Activity de juego "singleplayer": mostrará el tablero del jugador y la IA, permitiendo jugar contra ella.
+            \item Activity de juego "multiplayer": mostrará el tablero de jugador y el del oponente, permitiendo jugar contra el.
+            \item Activity de Realidad Aumentada: mostrará una pequeña demostración de uso de la Realidad Aumentada.
+            \item Activity de configuración: permitirá a los usuarios personalizar la configuración de la aplicación, como cambiar el idioma, la configuración de sonido, las notificaciones y el modo oscuro.
             \item Activity de ayuda: mostrará información de ayuda y tutorial para los nuevos usuarios.
             \item Activity de información: proporcionará información de la aplicación y de los autores de la misma.
             \item Activity de lobby: mostrará una serie de salas a las que el usuario puede unirse para conectarse a un juego multijugador, así como la posibilidad de crear una nueva sala.
             \item Activity de fin del juego: mostrará el resultado de la partida (si se ha ganado o perdido) y un botón para regresar a la activity de inicio.
         \end{enumerate}
     \item Servicios: para poder jugar online, usamos Firebase Realtime Database como servicio para sincronizar los arrays de los tableros de ambos jugadores, las salas de juego y el almacenamiento de datos que puedan ser útiles en un futuro (nombre de jugador, resultado de la partida...). Para acceder a esto, fue necesario registrarse en Firebase, crear una aplicación en su consola, descargar unos ajustes para poder funcionar con la aplicación de Android Studio y crear una Realtime Database donde guardar los datos.
-    \item Broadcast receivers: se utilizarán broadcast receivers para gestionar las notificaciones push que se envíen al usuario.
 \end{itemize}
 
 \subsection{Persistencia}
@@ -285,13 +298,52 @@ La aplicación contará con varias actividades y fragmentos que permitirán al u
 \end{itemize}
 
 \subsection{Comunicaciones}
-Las comunicaciones con el servidor de Firebase se hará a través del enlace que nos proporciona esta herramienta para poder acceder a la base de datos. Queda pendiente para la última entrega, realizar una autenticación de usuarios e incremento de la seguridad, ya que actualmente la base de datos está abierta a posibles ataques y borrado de información.
+Las comunicaciones con el servidor de Firebase se hará a través del enlace que nos proporciona esta herramienta para poder acceder a la base de datos. No se puedo por falta de tiempo realizar una autenticación de usuarios e incremento de la seguridad, ya que actualmente la base de datos está abierta a posibles borrados de información.
 
 \subsection{Sensores}
-Los sensores utilizados serán gestionados con la API ARCore \cite{ARCore}, aunque no sabemos por ahora cuáles son, ya que su implementación se realizará en el último entregable.
+ARCore proporciona acceso a diversos sensores del dispositivo que son fundamentales para la realidad aumentada. Algunos de los sensores más comúnmente utilizados en la API ARCore son:
+
+\begin{itemize}
+  \item Sensor de movimiento: ARCore utiliza el acelerómetro y el giroscopio del dispositivo para detectar y rastrear los movimientos y cambios de orientación.
+  
+  \item Sensor de luz ambiental: Este sensor permite a ARCore medir la cantidad de luz ambiental en el entorno, lo que ayuda a que los objetos virtuales se integren mejor con el mundo real en términos de iluminación.
+  
+  \item Sensor de profundidad: Algunos dispositivos admiten sensores de profundidad, que permiten a ARCore capturar información tridimensional sobre la escena. Esto es especialmente útil para la detección precisa de planos y la colocación de objetos virtuales en el entorno.
+  
+  \item Sensor de cámara: La cámara del dispositivo se utiliza para capturar imágenes y videos del entorno. ARCore utiliza estas imágenes para realizar el seguimiento y la detección de características visuales, lo que permite superponer objetos virtuales de manera precisa.
+\end{itemize}
+
+Estos sensores son esenciales para brindar una experiencia de realidad aumentada fluida y precisa. ARCore se encarga de gestionar y utilizar estos sensores de manera eficiente para ofrecer un rendimiento óptimo en las aplicaciones de realidad aumentada.
 
 \subsection{Trabajo en background}
-Por ahora la aplicación no cuenta con trabajo en segundo plano, aunque se planea añadirlos para gestión de notificaciones en la última entrega.
+Las tareas en segundo plano en nuestra aplicación son relativas a la actividad de multijugador. La primera sería un Listener que se mantiene escuchando cualquier cambio en la base de datos, para así poder actualizar los tableros de los jugadores. La segunda serían los dos temporizadores con los8 que cuenta cada jugador: el que realiza la cuenta atrás del mismo y el que se asegura que el temporizador del rival se actualice (detectando así posibles caídas en la conexión).
+
+\section{Pruebas y Resultados finales}
+\subsection{Pruebas}
+Se han realizado numerosas pruebas durante el desarrollo y también varias pruebas una vez este fue finalizado y se ha comprobado que la aplicación funciona correctamente en todos los casos. Pueden ocurrir que en los ajustes no corresponda el switch del tema oscuro y el selector de idioma con el del dispositivo, pero con seleccionarlo una vez ya quedará bien establecido. Esto sucede por tenerlos puesto de forma manual, ya que no lo automatizamos (aunque si está el código), para comprobar más fácilmente si funcionan estas características.
+
+\subsection{Resultados Finales}
+Se ha conseguido hacer una aplicación multijugador online y con modo de un jugador contra la IA, incorporando también una prueba de realidad aumentada. No obstante, no se ha conseguido incorporar la RA al bucle de juego, elemento que dejaremos como trabajo futuro.
+
+\section{Conclusiones}
+Hemos conseguido realizar una aplicación basada en el juego de hundir la flota, con sus funcionalidades originales (crear tableros, atacar casillas, etc), y con la posibilidad de jugar contra la IA (singleplayer), o contra otros jugadores (multiplayer). Para el modo multijugador utilizamos una base de datos Firebase para el control de datos. Si bien la idea original era hacer que el juego se desarrollase completamente en realidad aumentada, nos encontramos con que la incorporación de esta tecnología es muy compleja. Aún así, hemos implementado una prueba de RA, en la que se puede ver el modelo de un barco.
+
+\section{Trabajo Futuro}
+En un futuro se buscará integrar la Realidad Aumentada al ciclo del juego, de forma que mediante esta se pueda representar el estado de los tableros de los jugadores. A mayores, podríamos mejorar la estética del juego añadiendo iconos de barcos en lugar de casillas de colores, personalización de los barcos, puntuaciones e incluso multijugador competitivo.
+
+\begin{enumerate}
+    \item Integración de Realidad Aumentada (RA): La integración de la Realidad Aumentada podría permitir a los jugadores ver visualmente el estado de los tableros de juego en sus entornos físicos. Por ejemplo, podrían colocar sus dispositivos móviles o utilizar dispositivos de RA especiales para ver los barcos, las casillas y los efectos visuales del juego superpuestos en tiempo real en su entorno real. Esto añadiría una capa adicional de inmersión y realismo al juego de Batalla Naval.
+    \item Mejoras estéticas: En lugar de las casillas de colores, se podrían utilizar iconos de barcos para representar las posiciones de los barcos en los tableros de juego. Esto permitiría una representación visual más intuitiva y atractiva del juego. Además, se podrían añadir efectos visuales y sonoros para destacar los impactos de los disparos y los hundimientos de los barcos.
+
+    \item Personalización de los barcos: Para añadir un elemento de personalización, se podría permitir a los jugadores personalizar sus propios barcos. Esto podría incluir opciones para cambiar el diseño, el color, la forma y otros aspectos visuales de los barcos. También se podrían desbloquear diseños especiales o skins a medida que los jugadores progresen en el juego.
+    
+    \item Puntuaciones y clasificación: Se podría implementar un sistema de puntuación para que los jugadores compitan por obtener la puntuación más alta en cada partida. Esto podría basarse en criterios como el número de barcos hundidos, el tiempo empleado en completar la partida o la precisión de los disparos. Además, se podría incluir una clasificación global para que los jugadores puedan comparar sus puntuaciones con las de otros jugadores de todo el mundo.
+    
+    \item Multijugador competitivo: Una adición emocionante sería la introducción de un modo multijugador competitivo en línea. Esto permitiría a los jugadores desafiar a sus amigos o a otros jugadores en partidas en tiempo real. Se podrían incluir características como la creación de salas personalizadas, el emparejamiento automático de jugadores de habilidades similares y tablas de clasificación para mostrar los mejores jugadores.
+    
+    \item Ampliación de la variedad de modos de juego: Además del modo clásico de Batalla Naval, se podrían añadir nuevos modos de juego para mantener el interés de los jugadores. Algunas ideas podrían ser modos de juego por equipos, modos de juego por tiempo, modos de juego con habilidades especiales o incluso modos de juego cooperativos donde los jugadores se unen para enfrentarse a desafiantes enemigos controlados por la inteligencia artificial.
+    
+\end{enumerate}
 
 \newpage
 
