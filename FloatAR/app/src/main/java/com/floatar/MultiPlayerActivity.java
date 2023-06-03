@@ -59,8 +59,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
     private Context mContext;
 
-    MediaPlayer settingsSound;
-    MediaPlayer aboutHelpSound;
+    private MediaPlayer settingsSound, aboutHelpSound, hitSound, missSound;
 
     // Métodos públicos ----------------------------------------------------------------------------
 
@@ -139,6 +138,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
         playerText.setText(newString);
         opponentText = findViewById(R.id.layout_multiplayer_oponente);
 
+        hitSound = MediaPlayer.create(this, R.raw.hit);
+        missSound = MediaPlayer.create(this, R.raw.miss);
         settingsSound = MediaPlayer.create(this, R.raw.settings_in);
         aboutHelpSound = MediaPlayer.create(this, R.raw.about_help);
 
@@ -447,6 +448,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
         firstTurn = false;
         if (opponentBoard[row][col] == 1) {
+            hitSound.seekTo(0);
+            hitSound.start();
             // El jugador ha acertado
             opponentBoard[row][col] = 2; // Actualizar la matriz "myBoard"
 
@@ -456,6 +459,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
         } else if (opponentBoard[row][col] == -1 || opponentBoard[row][col] == 2) {
             Toast.makeText(MultiPlayerActivity.this, String.valueOf(getString(R.string.invalid_placement)), Toast.LENGTH_SHORT).show();
         } else {
+            missSound.seekTo(0);
+            missSound.start();
             // El jugador ha fallado
             opponentBoard[row][col] = -1; // Actualizar la matriz "myBoard"
             v.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray)); // Cambiar el color del botón a gris
