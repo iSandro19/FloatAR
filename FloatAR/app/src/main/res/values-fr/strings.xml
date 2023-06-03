@@ -109,5 +109,15 @@
     <string name="invalid_placement">Placement invalide</string>
     <string name="lost_connection">Connexion perdue</string>
     <string name="won">Tu as gagné</string>
+    <string name="invalid_name">Le nom du lobby ne peut pas être vide</string>
+    <string name="lobby_created">Lobby créé</string>
+    <string name="lobby_joined_failed">Échec de la connexion au lobby</string>
+    <string name="lobby_full">Le lobby est complet</string>
+    <string name="load_model_failed">Échec du chargement du modèle</string>
+    <string name="model_not_found">Modèle introuvable</string>
+    <string name="not_more_boats">Impossible d\'ajouter plus de bateaux de cette taille</string>
+    <string name="not_space">Espace insuffisant</string>
+    <string name="could_not_create_boat">Impossible de créer le bateau</string>
+    <string name="save_changes">Modifications enregistrées</string>
 
 </resources>

@@ -109,5 +109,15 @@
     <string name="invalid_placement">Colocação inválida</string>
     <string name="lost_connection">Conexão perdida</string>
     <string name="won">Ganhaste</string>
+    <string name="invalid_name">O nome da sala não pode estar vazio</string>
+    <string name="lobby_created">Sala criada</string>
+    <string name="lobby_joined_failed">Falha ao entrar na sala</string>
+    <string name="lobby_full">A sala está cheia</string>
+    <string name="load_model_failed">Falha ao carregar o modelo</string>
+    <string name="model_not_found">Modelo não encontrado</string>
+    <string name="not_more_boats">Não é possível adicionar mais barcos deste tamanho</string>
+    <string name="not_space">Espaço insuficiente</string>
+    <string name="could_not_create_boat">Não foi possível criar o barco</string>
+    <string name="save_changes">Alterações guardadas</string>
 
 </resources>

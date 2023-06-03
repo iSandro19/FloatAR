@@ -109,5 +109,15 @@
     <string name="invalid_placement">无效的放置</string>
     <string name="lost_connection">连接已断开</string>
     <string name="won">你赢了</string>
+    <string name="invalid_name">ロビー名は空にできません</string>
+    <string name="lobby_created">ロビーが作成されました</string>
+    <string name="lobby_joined_failed">ロビーに参加できませんでした</string>
+    <string name="lobby_full">ロビーが満員です</string>
+    <string name="load_model_failed">モデルの読み込みに失敗しました</string>
+    <string name="model_not_found">モデルが見つかりません</string>
+    <string name="not_more_boats">このサイズのボートを追加できません</string>
+    <string name="not_space">スペースが不足しています</string>
+    <string name="could_not_create_boat">ボートを作成できませんでした</string>
+    <string name="save_changes">変更が保存されました</string>
 
 </resources>

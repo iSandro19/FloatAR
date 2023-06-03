@@ -110,5 +110,15 @@
     <string name="invalid_placement">Invalid placement</string>
     <string name="lost_connection">Lost connection</string>
     <string name="won">You won</string>
+    <string name="invalid_name">The lobby name cannot be empty</string>
+    <string name="lobby_created">Lobby created</string>
+    <string name="lobby_joined_failed">Failed to join the lobby</string>
+    <string name="lobby_full">The lobby is full</string>
+    <string name="load_model_failed">Failed to load model successfully</string>
+    <string name="model_not_found">Model not found</string>
+    <string name="not_more_boats">Unable to add more boats of this size</string>
+    <string name="not_space">Insufficient space</string>
+    <string name="could_not_create_boat">Unable to create boat</string>
+    <string name="save_changes">Changes saved</string>
 
 </resources>

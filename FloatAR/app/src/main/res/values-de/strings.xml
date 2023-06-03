@@ -109,5 +109,15 @@
     <string name="invalid_placement">Ungültige Platzierung</string>
     <string name="lost_connection">Verbindung verloren</string>
     <string name="won">Du hast gewonnen</string>
+    <string name="invalid_name">Der Lobby-Name darf nicht leer sein</string>
+    <string name="lobby_created">Lobby erstellt</string>
+    <string name="lobby_joined_failed">Beitritt zur Lobby fehlgeschlagen</string>
+    <string name="lobby_full">Die Lobby ist voll</string>
+    <string name="load_model_failed">Modell konnte nicht erfolgreich geladen werden</string>
+    <string name="model_not_found">Modell nicht gefunden</string>
+    <string name="not_more_boats">Es können keine weiteren Boote dieser Größe hinzugefügt werden</string>
+    <string name="not_space">Nicht genügend Platz</string>
+    <string name="could_not_create_boat">Boot konnte nicht erstellt werden</string>
+    <string name="save_changes">Änderungen gespeichert</string>
 
 </resources>

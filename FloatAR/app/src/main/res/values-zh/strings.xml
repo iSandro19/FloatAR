@@ -109,5 +109,15 @@
     <string name="invalid_placement">无效的放置</string>
     <string name="lost_connection">连接已断开</string>
     <string name="won">你赢了</string>
+    <string name="invalid_name">大厅名称不能为空</string>
+    <string name="lobby_created">创建大厅</string>
+    <string name="lobby_joined_failed">无法加入大厅</string>
+    <string name="lobby_full">大厅已满</string>
+    <string name="load_model_failed">模型加载失败</string>
+    <string name="model_not_found">找不到模型</string>
+    <string name="not_more_boats">无法添加更多此尺寸的船只</string>
+    <string name="not_space">空间不足</string>
+    <string name="could_not_create_boat">无法创建船只</string>
+    <string name="save_changes">保存更改</string>
 
 </resources>

@@ -132,5 +132,15 @@
     <string name="invalid_placement">Cadro non válido</string>
     <string name="lost_connection">Conexión perdida</string>
     <string name="won">Gañaches</string>
+    <string name="invalid_name">O nome da sala non pode estar baleiro</string>
+    <string name="lobby_created">Sala creada</string>
+    <string name="lobby_joined_failed">Non se puido unir á sala</string>
+    <string name="lobby_full">A sala está chea</string>
+    <string name="load_model_failed">Modelo non cargado correctamente</string>
+    <string name="model_not_found">Modelo non encontrado</string>
+    <string name="not_more_boats">Non é posible engadir máis barcos deste tamaño</string>
+    <string name="not_space">Espazo insuficiente</string>
+    <string name="could_not_create_boat">Non se puido crear o barco</string>
+    <string name="save_changes">Cambios gardados</string>
 
 </resources>
