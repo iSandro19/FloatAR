@@ -128,4 +128,11 @@
     <string name="AR_demo">Demo di AR</string>
     <string name="turn">Turno di</string>
 
+    <!-- Toasts -->
+    <string name="waiting_for_opponent">In attesa dell\'avversario…</string>
+    <string name="your_turn">Il tuo turno</string>
+    <string name="invalid_placement">Posizione non valida</string>
+    <string name="lost_connection">Connessione persa</string>
+    <string name="won">Hai vinto</string>
+
 </resources>

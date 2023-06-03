@@ -95,7 +95,7 @@
     <!-- Strings related to the database -->
     <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
 
-    <!-- To-classify Strings -->
+    <!-- Other -->
     <string name="confirm">Confirm</string>
     <string name="demo_ar">AR Demo</string>
     <string name="depth_api">Depth API</string>
@@ -103,5 +103,12 @@
     <string name="battleship">Battleship</string>
     <string name="AR_demo">AR Demo</string>
     <string name="turn">Turn of</string>
+
+    <!-- Toasts -->
+    <string name="waiting_for_opponent">Waiting for opponent…</string>
+    <string name="your_turn">Your turn</string>
+    <string name="invalid_placement">Invalid placement</string>
+    <string name="lost_connection">Lost connection</string>
+    <string name="won">You won</string>
 
 </resources>

@@ -94,7 +94,7 @@
     <!-- Strings related to the database -->
     <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
 
-    <!-- To-classify Strings -->
+    <!-- Other -->
     <string name="confirm">确认</string>
     <string name="demo_ar">增强现实演示</string>
     <string name="depth_api">深度 API</string>
@@ -102,5 +102,12 @@
     <string name="battleship">战舰</string>
     <string name="AR_demo">增强现实演示</string>
     <string name="turn">回合</string>
+
+    <!-- Toasts -->
+    <string name="waiting_for_opponent">等待对手…</string>
+    <string name="your_turn">轮到你了</string>
+    <string name="invalid_placement">无效的放置</string>
+    <string name="lost_connection">连接已断开</string>
+    <string name="won">你赢了</string>
 
 </resources>

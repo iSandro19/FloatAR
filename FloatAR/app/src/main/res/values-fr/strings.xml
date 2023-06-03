@@ -94,7 +94,7 @@
     <!-- Strings related to the database -->
     <string name="database">https://ps-floatar-default-rtdb.europe-west1.firebasedatabase.app/</string>
 
-    <!-- To-classify Strings -->
+    <!-- Other -->
     <string name="confirm">Confirmer</string>
     <string name="demo_ar">Démo de RA</string>
     <string name="depth_api">API de profondeur</string>
@@ -102,4 +102,12 @@
     <string name="battleship">Bateau de guerre</string>
     <string name="AR_demo">Démo RA</string>
     <string name="turn">Tour de</string>
+
+    <!-- Toasts -->
+    <string name="waiting_for_opponent">En attente de ladversaire…</string>
+    <string name="your_turn">Ton tour</string>
+    <string name="invalid_placement">Placement invalide</string>
+    <string name="lost_connection">Connexion perdue</string>
+    <string name="won">Tu as gagné</string>
+
 </resources>
