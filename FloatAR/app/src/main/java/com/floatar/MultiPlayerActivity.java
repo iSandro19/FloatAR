@@ -119,7 +119,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
             myTimer.cancel();
         }
 
-        Intent intent = new Intent(this, LobbyActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
@@ -262,10 +262,12 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                     if (myTimer != null)
                                         myTimer.cancel();
 
-                                    Intent intent = new Intent(mContext, LobbyActivity.class);
+                                    Intent intent = new Intent(mContext, MainActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                     finish();
+
+
 
                                 }
                             }
@@ -280,6 +282,15 @@ public class MultiPlayerActivity extends AppCompatActivity {
                                 firstTurn = true;
                                 turnTextView.setText(String.valueOf(getString(R.string.waiting_for_opponent)));
                             } else {
+
+                                // Contador de comprobacion de conexion rival
+                                opponentConnectionTimer = createCheckOpponentConnection();
+                                opponentConnectionTimer.start();
+
+                                // Contador del rival
+                                opponentTimer = createCheckOpponentTimer(opponentSecondsRemaining);
+                                opponentTimer.start();
+
                                 String turnName = getString(R.string.turn) + " " + opponentName;
                                 turnTextView.setText(turnName);
                             }
@@ -351,33 +362,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.multi_player);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (lobbyKey != null && playerId != null) {
-            // Eliminar la sala
-            database.getReference("lobbies")
-                    .child(lobbyKey)
-                    .removeValue();
-        }
-
-        if (opponentTimer != null){
-            opponentTimer.cancel();
-        }
-        if (opponentConnectionTimer != null){
-            opponentConnectionTimer.cancel();
-        }
-        if (myTimer != null){
-            myTimer.cancel();
-        }
-
-        Intent intent = new Intent(this, LobbyActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
     }
 
     @Override
@@ -496,7 +480,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             opponentConnectionTimer.start();
 
             // Contador del rival
-            Log.d("Segundos del rival restantes", String.valueOf(opponentSecondsRemaining));
             opponentTimer = createCheckOpponentTimer(opponentSecondsRemaining);
             opponentTimer.start();
         }
@@ -521,20 +504,19 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             .child("timer")
                             .setValue(String.valueOf(innerTimer));
                 }
-
-                if (!isOpponentReady) {
-                    Toast.makeText(MultiPlayerActivity.this, String.valueOf(getString(R.string.lost_connection)), Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
-                    this.cancel();
-                }
             }
 
             public void onFinish() {
-                Intent intent = new Intent(mContext, LobbyActivity.class);
+                if (lobbyKey != null && playerId != null) {
+                    // Eliminar la sala
+                    database.getReference("lobbies")
+                            .child(lobbyKey)
+                            .removeValue();
+                }
+
+                Toast.makeText(MultiPlayerActivity.this, String.valueOf(getString(R.string.lost_connection)), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(mContext, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -556,7 +538,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             .child(lobbyKey)
                             .removeValue();
                 }
-                Intent intent = new Intent(mContext, LobbyActivity.class);
+                Intent intent = new Intent(mContext, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -576,6 +558,14 @@ public class MultiPlayerActivity extends AppCompatActivity {
                         .setValue("false")))) {
                     Toast.makeText(MultiPlayerActivity.this, String.valueOf(getString(R.string.lost_connection)), Toast.LENGTH_SHORT).show();
 
+                    // Verificar si el jugador está en una sala
+                    if (lobbyKey != null && playerId != null) {
+                        // Eliminar  la sala
+                        database.getReference("lobbies")
+                                .child(lobbyKey)
+                                .removeValue();
+                    }
+
                     Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
@@ -588,9 +578,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                String message = "El tiempo ha expirado";
-                Log.d("Countdown", message);
-
                 Toast.makeText(MultiPlayerActivity.this, String.valueOf(getString(R.string.lost_connection)), Toast.LENGTH_SHORT).show();
 
                 if (lobbyKey != null && playerId != null) {
@@ -599,7 +586,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             .child(lobbyKey)
                             .removeValue();
                 }
-                Intent intent = new Intent(mContext, LobbyActivity.class);
+                Intent intent = new Intent(mContext, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
