@@ -16,10 +16,14 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -47,11 +51,33 @@ public class CreateBoardActivity extends AppCompatActivity {
     // Métodos públicos ----------------------------------------------------------------------------
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Log.d("Entro en backkkkkkkk", "sisisiisjisi");
+
+        Bundle extras = getIntent().getExtras();
+        if (extras.getString("lobbyKey") != null && extras.getString("playerId") != null) {
+
+            database.getReference("lobbies")
+                    .child(extras.getString("lobbyKey"))
+                    .child("players")
+                    .child(extras.getString("playerId"))
+                    .removeValue();
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @SuppressLint("NonConstantResourceId")
     @Override
