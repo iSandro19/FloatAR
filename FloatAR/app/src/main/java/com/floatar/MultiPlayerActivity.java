@@ -51,6 +51,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
     private CountDownTimer myTimer;
     private CountDownTimer opponentTimer;
+    private CountDownTimer opponentConnectionTimer;
     private int innerTimer;
     private int opponentSecondsRemaining;
 
@@ -104,31 +105,27 @@ public class MultiPlayerActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        // Verificar si el jugador está en una sala
-        if (Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
-                .child(lobbyKey)
-                .child("players")
-                .child(opponentId)
-                .child("ready")
-                .setValue("true")))){
+        if (lobbyKey != null && playerId != null) {
+            // Eliminar la sala
             database.getReference("lobbies")
                     .child(lobbyKey)
-                    .child("players")
-                    .child(playerId)
-                    .child("ready")
-                    .setValue("false");
-
-            Intent intent = new Intent(this, LobbyActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-
-        } else {
-            Intent intent = new Intent(this, LobbyActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+                    .removeValue();
         }
+
+        if (opponentTimer != null){
+            opponentTimer.cancel();
+        }
+        if (opponentConnectionTimer != null){
+            opponentConnectionTimer.cancel();
+        }
+        if (myTimer != null){
+            myTimer.cancel();
+        }
+
+        Intent intent = new Intent(this, LobbyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -189,6 +186,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             String playerId = playerSnapshot.getKey();
                             assert playerId != null;
                             if (!playerId.equals(MultiPlayerActivity.this.playerId)) {
+                                Log.d("Actualizaoooooooooooooooooooooooooooooooo\n\n\n\nooooooooooooooo", "llllllllllooooo\nloooooooooooooo");
                                 try {
                                     opponentSecondsRemaining = Integer.parseInt(Objects.requireNonNull(playerSnapshot.child("timer").getValue(String.class)));
                                     String newString = getString(R.string.opponent_board) + " ("+ opponentSecondsRemaining + ")";
@@ -210,6 +208,7 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
                                         if (readyValue != null) {
                                             isOpponentReady = Boolean.parseBoolean(readyValue.toString());
+                                            Log.d("Me actualiceeeeeeeeeeeeee", "sisisisisisisiisisisi");
                                         } else {
                                             checkFirst = true;
                                         }
@@ -230,26 +229,56 @@ public class MultiPlayerActivity extends AppCompatActivity {
 
                                     }
                                 } catch (NullPointerException ignored) {
-                                    Log.d("NullPointerException", "Tablero del rival sin inicializar");
+                                    Log.d("NullPointerException", "Jugador no iniciado");
                                 }
                             }
-                            else if (!Arrays.deepEquals(playerBoard,
-                                    convertStringBoardToArrayBoard(playerSnapshot
-                                            .child("playerBoard")
-                                            .getValue(String.class)))
-                            ) {
-                                String value = playerSnapshot.child("playerBoard").getValue(String.class);
-                                turnTextView.setText("Tu turno");
+                            else {
+                                try {
+                                    if (!Arrays.deepEquals(playerBoard,
+                                            convertStringBoardToArrayBoard(playerSnapshot
+                                                    .child("playerBoard")
+                                                    .getValue(String.class)))
+                                    ) {
+                                        String value = playerSnapshot.child("playerBoard").getValue(String.class);
+                                        turnTextView.setText("Tu turno");
 
-                                assert value != null;
-                                updatePlayerBoard(value);
+                                        assert value != null;
+                                        updatePlayerBoard(value);
 
-                                isPlayerTurn = true;
-                                // Iniciar el contador de tiempo
-                                if (opponentTimer != null)
-                                    opponentTimer.cancel();
-                                myTimer = createMyTimer(innerTimer);
-                                myTimer.start();
+                                        isPlayerTurn = true;
+                                        // Iniciar el contador de tiempo
+                                        if (opponentConnectionTimer != null)
+                                            opponentConnectionTimer.cancel();
+                                        if (opponentTimer != null)
+                                            opponentTimer.cancel();
+                                        myTimer = createMyTimer(innerTimer);
+                                        myTimer.start();
+                                    }
+                                } catch (Exception e){
+                                    if (lobbyKey != null) {
+                                        // Eliminar la sala
+                                        database.getReference("lobbies")
+                                                .child(lobbyKey)
+                                                .removeValue();
+                                    }
+
+                                    if (opponentTimer != null){
+                                        opponentTimer.cancel();
+                                    }
+                                    if (opponentConnectionTimer != null){
+                                        opponentConnectionTimer.cancel();
+                                    }
+                                    if (myTimer != null){
+                                        myTimer.cancel();
+                                    }
+
+                                    //Necesito salir de la clase MultiplayerActivity aqui y regresar a la LobbyActivity
+                                    Intent intent = new Intent(mContext, LobbyActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
                             }
                         }
                         if(!isPlayerTurnSet) {
@@ -342,28 +371,27 @@ public class MultiPlayerActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        // Verificar si el jugador está en una sala
-        if (Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
-                .child(lobbyKey)
-                .child("players")
-                .child(opponentId)
-                .child("ready")
-                .setValue("true")))){
+        if (lobbyKey != null && playerId != null) {
+            // Eliminar la sala
             database.getReference("lobbies")
                     .child(lobbyKey)
-                    .child("players")
-                    .child(playerId)
-                    .child("ready")
-                    .setValue("false");
-        } else {
-            if (lobbyKey != null && playerId != null) {
-                // Eliminar la sala
-                database.getReference("lobbies")
-                        .child(lobbyKey)
-                        .removeValue();
-            }
+                    .removeValue();
         }
 
+        if (opponentTimer != null){
+            opponentTimer.cancel();
+        }
+        if (opponentConnectionTimer != null){
+            opponentConnectionTimer.cancel();
+        }
+        if (myTimer != null){
+            myTimer.cancel();
+        }
+
+        Intent intent = new Intent(this, LobbyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -376,6 +404,16 @@ public class MultiPlayerActivity extends AppCompatActivity {
         if (aboutHelpSound != null) {
             aboutHelpSound.release();
             aboutHelpSound = null;
+        }
+
+        if (opponentTimer != null){
+            opponentTimer.cancel();
+        }
+        if (opponentConnectionTimer != null){
+            opponentConnectionTimer.cancel();
+        }
+        if (myTimer != null){
+            myTimer.cancel();
         }
     }
 
@@ -470,8 +508,13 @@ public class MultiPlayerActivity extends AppCompatActivity {
                     .setValue(Arrays.deepToString(opponentBoard));
 
 
+            // Contador de comprobacion de conexion rival
+            opponentConnectionTimer = createCheckOpponentConnection();
+            opponentConnectionTimer.start();
+
             // Contador del rival
-            opponentTimer = createCheckOpponentTimer();
+            Log.d("Segundos del rival restantes", String.valueOf(opponentSecondsRemaining));
+            opponentTimer = createCheckOpponentTimer(opponentSecondsRemaining);
             opponentTimer.start();
         }
     }
@@ -482,7 +525,6 @@ public class MultiPlayerActivity extends AppCompatActivity {
                 // El tiempo está en progreso (se llama cada segundo)
                 long secondsRemaining = millisUntilFinished / 1000;
                 String message = "Tiempo restante: " + secondsRemaining + " segundos";
-                Log.d("Countdown", message);
 
                 innerTimer = (int) secondsRemaining;
                 String newString = getString(R.string.player_board) + " (" + innerTimer + ")";
@@ -498,12 +540,8 @@ public class MultiPlayerActivity extends AppCompatActivity {
                             .setValue(String.valueOf(innerTimer));
                 }
 
-                if(Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
-                        .child(lobbyKey)
-                        .child("players")
-                        .child(opponentId)
-                        .child("ready")
-                        .setValue("false")))) {
+                Log.d("isOpponentReadyyyyyyyyy en reloj", String.valueOf(isOpponentReady));
+                if(!isOpponentReady) {
                     Toast.makeText(MultiPlayerActivity.this, "Conexión perdida", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(MultiPlayerActivity.this, MainActivity.class);
@@ -518,35 +556,42 @@ public class MultiPlayerActivity extends AppCompatActivity {
             public void onFinish() {
                 String message = "El tiempo ha expirado";
                 Log.d("Countdown", message);
-
-
-
             }
         };
     }
 
-    private CountDownTimer createCheckOpponentTimer(){
+    private CountDownTimer createCheckOpponentTimer(int finishSeconds){
+        return new CountDownTimer(finishSeconds * 1000L, 1000) {
+            public void onTick(long millisUntilFinished) {
+                // El tiempo está en progreso (se llama cada segundo)
+                long secondsRemaining = millisUntilFinished / 1000;
+                String message = "Tiempo restante: " + secondsRemaining + " segundos";
+            }
+
+
+            public void onFinish() {
+                String message = "El tiempo ha expirado";
+                Log.d("Countdown", message);
+
+                if (lobbyKey != null && playerId != null) {
+                    // Eliminar  la sala
+                    database.getReference("lobbies")
+                            .child(lobbyKey)
+                            .removeValue();
+                }
+
+                Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
+                intent.putExtra("winner", "player");
+                startActivity(intent);
+                
+            }
+        };
+    }
+
+    private CountDownTimer createCheckOpponentConnection(){
         return new CountDownTimer(360000, 5000) {
             int turnTimer = 0;
             public void onTick(long millisUntilFinished) {
-                Log.d("opponentSecondsRemaining", String.valueOf(opponentSecondsRemaining));
-                Log.d("turnTimer", String.valueOf(turnTimer));
-                if (Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
-                        .child(lobbyKey)
-                        .child("players")
-                        .child(opponentId)
-                        .child("timer").setValue("0")))) {
-                    if (lobbyKey != null && playerId != null) {
-                        // Eliminar  la sala
-                        database.getReference("lobbies")
-                                .child(lobbyKey)
-                                .removeValue();
-                    }
-
-                    Intent intent = new Intent(MultiPlayerActivity.this, GameOverActivity.class);
-                    intent.putExtra("winner", "player");
-                    startActivity(intent);
-                }
                 if(opponentSecondsRemaining == turnTimer || Boolean.parseBoolean(String.valueOf(database.getReference("lobbies")
                         .child(lobbyKey)
                         .child("players")
